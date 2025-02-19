@@ -6,9 +6,9 @@ const options: swaggerJSDoc.Options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "My API",
+      title: "MediConecta",
       version: "1.0.0",
-      description: "API documentation for my TypeScript project",
+      description: "Projeto da disciplina 'Programação para a Web II'",
     },
     servers: [
       {
