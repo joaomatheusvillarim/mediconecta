@@ -1,10 +1,6 @@
 import { Request, Response } from 'express';
 import UserService from '../service/UserService';
 
-/**
- * TODO: refatorar o código
-*/
-
 class UserController {
 
   async createUser(request: Request, response: Response): Promise<Response> {
@@ -19,8 +15,9 @@ class UserController {
   async getUserById(request: Request, response: Response): Promise<Response> {
     try {
       const user = await UserService.getUserById(parseInt(request.params.id));
-      if (!user) return response.status(404).json({ error: 'Usuário não encontrado' });
-      return response.json(user);
+      return !user 
+        ? response.status(404).json({ error: 'Usuário não encontrado' }) 
+        : response.status(200).json(user);
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao buscar usuário' });
     }
@@ -29,7 +26,7 @@ class UserController {
   async getAllUsers(response: Response): Promise<Response> {
     try {
       const users = await UserService.getAllUsers();
-      return response.json(users);
+      return response.status(200).json(users);
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao listar usuários' });
     }
@@ -38,8 +35,9 @@ class UserController {
   async updateUser(request: Request, response: Response): Promise<Response> {
     try {
       const user = await UserService.updateUser(parseInt(request.params.id), request.body);
-      if (!user) return response.status(404).json({ error: 'Usuário não encontrado' });
-      return response.json(user);
+      return !user
+        ? response.status(404).json({ error: 'Usuário não encontrado' })
+        : response.status(200).json(user);
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao atualizar usuário' });
     }
@@ -48,8 +46,9 @@ class UserController {
   async deleteUser(request: Request, response: Response): Promise<Response> {
     try {
       const success = await UserService.deleteUser(parseInt(request.params.id));
-      if (!success) return response.status(404).json({ error: 'Usuário não encontrado' });
-      return response.status(204).send();
+      return !success
+        ? response.status(404).json({ error: 'Usuário não encontrado' })
+        : response.status(204).send();
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao excluir usuário' });
     }
