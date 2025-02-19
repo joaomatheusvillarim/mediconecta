@@ -23,8 +23,14 @@ const options: swaggerJSDoc.Options = {
             name: {type:"string", example: "Joao Matheus"},
             email: {type:"string", example: "joaomatheus@gmail.com"},
             password: {type:"string", example: "joaomatheus123"},
+            cpf: {type: "string", example: "12345678900"},
+            birthdate: {type: "date", example: "01/01/2000"},
+            sex: {type: "string", example: "male"},
+            address: {type: "string", example: "Rua Aprigio Veloso, 880"},
+            phone: {type: "string", example: "83987654321"},
           },
-          required: ["name", "email", "password"],
+          required: ["name", "email", "password", "cpf", "birthdate", "sex",
+            "address", "phone"],
         },
         UserPutRequest: {
           type: "object",
@@ -32,6 +38,11 @@ const options: swaggerJSDoc.Options = {
             name: {type:"string", example: "Joao Matheus"},
             email: {type:"string", example: "joaomatheus@gmail.com"},
             password: {type:"string", example: "joaomatheus123"},
+            cpf: {type: "string", example: "12345678900"},
+            birthdate: {type: "date", example: "01/01/2000"},
+            sex: {type: "string", example: "male"},
+            address: {type: "string", example: "Rua Aprigio Veloso, 880"},
+            phone: {type: "string", example: "83987654321"},
           },
         },
         UserResponse: {
@@ -41,6 +52,11 @@ const options: swaggerJSDoc.Options = {
             name: {type:"string", example: "Joao Matheus"},
             email: {type:"string", example: "joaomatheus@gmail.com"},
             password: {type:"string", example: "joaomatheus123"},
+            cpf: {type: "string", example: "12345678900"},
+            birthdate: {type: "date", example: "01/01/2000"},
+            sex: {type: "string", example: "male"},
+            address: {type: "string", example: "Rua Aprigio Veloso, 880"},
+            phone: {type: "string", example: "83987654321"},
           }
         }
       }

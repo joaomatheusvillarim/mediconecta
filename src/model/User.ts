@@ -6,13 +6,11 @@ interface UserAttributes {
   name: string;
   email: string;
   password: string;
-  /*
   cpf: string;
   birthdate: Date;
   sex: string;
   address: string;
   phone: string;
-  */
 }
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> implements UserAttributes {
@@ -20,13 +18,11 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare name: string;
   declare email: string;
   declare password: string;
-  /*
-  public cpf: string;
-  public birthdate: Date;
-  public sex: string;
-  public address: string;
-  public phone: string;
-  */
+  declare cpf: string;
+  declare birthdate: Date;
+  declare sex: string;
+  declare address: string;
+  declare phone: string;
 }
 
 User.init(
@@ -49,7 +45,6 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    /*
     cpf: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -71,7 +66,6 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    */
   },
   {
     sequelize,
