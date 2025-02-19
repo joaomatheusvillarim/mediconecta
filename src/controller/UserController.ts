@@ -6,6 +6,7 @@ import UserService from '../service/UserService';
 */
 
 class UserController {
+
   async createUser(request: Request, response: Response): Promise<Response> {
     try {
       const user = await UserService.createUser(request.body);
