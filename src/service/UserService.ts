@@ -19,17 +19,13 @@ class UserService {
   }
 
   async updateUser(id: number, data: InferCreationAttributes<User>): Promise<User | null> {
-    const user = await User.findByPk(id);
-    if (!user) return null;
     return await userRepository.updateUser(id, data);
   }
 
   async deleteUser(id: number): Promise<boolean> {
-    const user = await User.findByPk(id);
-    if (!user) return false;
-    await userRepository.deleteUser(id);
-    return true;
+    return await userRepository.deleteUser(id);
   }
+  
 }
 
 export default new UserService();

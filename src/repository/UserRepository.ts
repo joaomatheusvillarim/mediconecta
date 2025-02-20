@@ -17,12 +17,19 @@ export class UserRepository {
 
   async updateUser(id: number, data: InferCreationAttributes<User>) {
     const user = await User.findByPk(id);
-    return await user!.update(data);
+    return user
+      ? await user!.update(data)
+      : null;
   }
 
   async deleteUser(id: number) {
-    const user = await User.findByPk(id);    
-    return await user!.destroy();
+    let resp = false;
+    const user = await User.findByPk(id);
+    if (user) {
+      await user!.destroy();
+      resp = true;
+    }
+    return resp;
   }
 
 }

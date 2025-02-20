@@ -17,12 +17,19 @@ export class PatientRepository {
   
     async updatePatient(id: number, data: InferCreationAttributes<Patient>) {
       const patient = await Patient.findByPk(id);
-      return await patient!.update(data);
+      return patient
+        ? await patient!.update(data)
+        : null;
     }
   
     async deletePatient(id: number) {
-      const patient = await Patient.findByPk(id);    
-      return await patient!.destroy();
+      let resp = false;
+      const patient = await Patient.findByPk(id);
+      if (patient) {
+        await patient!.destroy();
+        resp = true;
+      }
+      return resp;
     }
 
 }
