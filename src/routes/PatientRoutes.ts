@@ -1,26 +1,26 @@
 import { Router } from 'express';
-import UserController from '../controller/UserController';
+import PatientController from '../controller/PatientController';
 
 /**
  * @swagger
  * tags:
- *  name: Usuários
- *  description: Endpoints para CRUD de usuários
+ *  name: Pacientes
+ *  description: Endpoints para CRUD de pacientes
 */
 const router = Router();
 
 /**
  * @swagger
- * /users:
+ * /patients:
  *  post:
  *    tags:
- *      - user
- *    summary: Criar um novo usuário.
+ *      - patient
+ *    summary: Criar um novo paciente.
  *    requestBody:
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/UserPostRequest'
+ *            $ref: '#/components/schemas/PatientPostRequest'
  *      required: true
  *    responses:
  *      201:
@@ -28,23 +28,23 @@ const router = Router();
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/UserResponse'
+ *              $ref: '#/components/schemas/PatientResponse'
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/users/", (request, response) => {UserController.createUser(request, response)});
+router.post("/patients/", (request, response) => {PatientController.createPatient(request, response)});
 
 /**
  * @swagger
- * /users/{id}:
+ * /patients/{id}:
  *  get:
  *    tags:
- *      - user
- *    summary: Recuperar usuário a partir de seu id.
+ *      - patient
+ *    summary: Recuperar paciente a partir de seu id.
  *    parameters:
  *      - name: id
  *        in: path
- *        description: id do usuário
+ *        description: id do paciente
  *        required: true
  *        schema:
  *          type: integer
@@ -55,21 +55,21 @@ router.post("/users/", (request, response) => {UserController.createUser(request
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/UserResponse'
+ *              $ref: '#/components/schemas/PatientResponse'
  *      404:
- *        description: Usuário não encontrado.
+ *        description: paciente não encontrado.
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/users/:id", (request, response) => {UserController.getUserById(request, response)});
+router.get("/patients/:id", (request, response) => {PatientController.getPatientById(request, response)});
 
 /**
  * @swagger
- * /users/:
+ * /patients/:
  *  get:
  *    tags:
- *      - user
- *    summary: Recuperar todos os usuários.
+ *      - patient
+ *    summary: Recuperar todos os pacientes.
  *    responses:
  *      200:
  *        description: Operação bem sucedida.
@@ -78,23 +78,23 @@ router.get("/users/:id", (request, response) => {UserController.getUserById(requ
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/UserResponse'
+ *                $ref: '#/components/schemas/PatientResponse'
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/users/", (request, response) => {UserController.getAllUsers(response)});
+router.get("/patients/", (request, response) => {PatientController.getAllPatients(response)});
 
 /**
  * @swagger
- * /users/{id}:
+ * /patients/{id}:
  *  put:
  *    tags:
- *      - user
- *    summary: Atualizar usuário.
+ *      - patient
+ *    summary: Atualizar paciente.
  *    parameters:
  *      - name: id
  *        in: path
- *        description: id do usuário
+ *        description: id do paciente
  *        required: true
  *        schema:
  *          type: integer
@@ -103,32 +103,32 @@ router.get("/users/", (request, response) => {UserController.getAllUsers(respons
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/UserPutRequest'
+ *            $ref: '#/components/schemas/PatientPutRequest'
  *    responses:
  *      200:
  *        description: Operação bem sucedida.
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/UserResponse'
+ *              $ref: '#/components/schemas/PatientResponse'
  *      404:
- *        description: Usuário não encontrado.
+ *        description: paciente não encontrado.
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/users/:id", (request, response) => {UserController.updateUser(request, response)});
+router.put("/patients/:id", (request, response) => {PatientController.updatePatient(request, response)});
 
 /**
  * @swagger
- * /users/{id}:
+ * /patients/{id}:
  *  delete:
  *    tags:
- *      - user
- *    summary: Remover um usuário a partir de seu id.
+ *      - patient
+ *    summary: Remover um paciente a partir de seu id.
  *    parameters:
  *      - name: id
  *        in: path
- *        description: id do usuário
+ *        description: id do paciente
  *        required: true
  *        schema:
  *          type: integer
@@ -137,10 +137,10 @@ router.put("/users/:id", (request, response) => {UserController.updateUser(reque
  *      204:
  *        description: Operação bem sucedida.
  *      404:
- *        description: Usuário não encontrado.
+ *        description: paciente não encontrado.
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/users/:id", (request, response) => {UserController.deleteUser(request, response)});
+router.delete("/patients/:id", (request, response) => {PatientController.deletePatient(request, response)});
 
 export default router;

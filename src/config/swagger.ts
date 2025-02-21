@@ -58,6 +58,22 @@ const options: swaggerJSDoc.Options = {
             address: {type: "string", example: "Rua Aprigio Veloso, 880"},
             phone: {type: "string", example: "83987654321"},
           }
+        },
+        PatientPostRequest: {
+          type: "object",
+          properties: {
+            userId: {type:"number", example: "1"},
+          },
+          required: ["userId"],
+        },
+        PatientPutRequest: {
+        },
+        PatientResponse: {
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            userId: {type: "number", example: "1"},
+          }
         }
       }
     }
