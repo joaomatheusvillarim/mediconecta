@@ -1,9 +1,9 @@
 import { InferCreationAttributes } from "sequelize";
 import { Secretary } from "../model/Secretary";
 
-export class PatientRepository {
+export class SecretaryRepository {
 
-  async createSecreatary(data: InferCreationAttributes<Secretary>) {
+  async createSecretary(data: InferCreationAttributes<Secretary>) {
     return await Secretary.create(data);
   }
   
@@ -11,7 +11,7 @@ export class PatientRepository {
     return await Secretary.findByPk(id);
   }
   
-  async getAllSecreataries() {
+  async getAllSecretaries() {
     return await Secretary.findAll();
   }
 
