@@ -22,7 +22,9 @@
     "express": "^4.21.2",
     "mysql2": "^3.12.0",
     "pg": "^8.13.3",
-    "sequelize": "^6.37.5"
+    "sequelize": "^6.37.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.3",
