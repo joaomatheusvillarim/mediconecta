@@ -1,6 +1,12 @@
 import { Router } from 'express';
 import PatientController from '../controller/PatientController';
 
+/**
+ * @swagger
+ * tags:
+ *  name: Pacientes
+ *  description: Endpoints para CRUD de pacientes
+*/
 const router = Router();
 
 /**
@@ -14,7 +20,7 @@ const router = Router();
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/patientPostRequest'
+ *            $ref: '#/components/schemas/PatientPostRequest'
  *      required: true
  *    responses:
  *      201:
@@ -22,7 +28,7 @@ const router = Router();
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/patientResponse'
+ *              $ref: '#/components/schemas/PatientResponse'
  *      500:
  *        description: Dados inválidos.
 */
@@ -49,7 +55,7 @@ router.post("/patients/", (request, response) => {PatientController.createPatien
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/patientResponse'
+ *              $ref: '#/components/schemas/PatientResponse'
  *      404:
  *        description: paciente não encontrado.
  *      500:
@@ -72,7 +78,7 @@ router.get("/patients/:id", (request, response) => {PatientController.getPatient
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/patientResponse'
+ *                $ref: '#/components/schemas/PatientResponse'
  *      500:
  *        description: Erro no servidor.
 */
@@ -97,14 +103,14 @@ router.get("/patients/", (request, response) => {PatientController.getAllPatient
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/patientPutRequest'
+ *            $ref: '#/components/schemas/PatientPutRequest'
  *    responses:
  *      200:
  *        description: Operação bem sucedida.
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/patientResponse'
+ *              $ref: '#/components/schemas/PatientResponse'
  *      404:
  *        description: paciente não encontrado.
  *      500:

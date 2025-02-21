@@ -3,19 +3,19 @@ import sequelize from '../config/database';
 import { User } from './User';
 
 interface PatientAttributes {
-  id: number;
+  patientId: number;
   userId: number;
 }
 
 export class Patient extends Model<InferAttributes<Patient>, InferCreationAttributes<Patient>> implements PatientAttributes {
-  declare id: CreationOptional<number>;
+  declare patientId: CreationOptional<number>;
   declare userId: number;
   declare readonly user?: User;
 }
 
 Patient.init(
   {
-    id: {
+    patientId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,

@@ -69,7 +69,11 @@ const options: swaggerJSDoc.Options = {
         PatientPutRequest: {
         },
         PatientResponse: {
-
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            userId: {type: "number", example: "1"},
+          }
         }
       }
     }

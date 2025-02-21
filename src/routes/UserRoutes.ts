@@ -1,6 +1,12 @@
 import { Router } from 'express';
 import UserController from '../controller/UserController';
 
+/**
+ * @swagger
+ * tags:
+ *  name: Usuários
+ *  description: Endpoints para CRUD de usuários
+*/
 const router = Router();
 
 /**
