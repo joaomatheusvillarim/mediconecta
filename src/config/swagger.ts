@@ -74,6 +74,29 @@ const options: swaggerJSDoc.Options = {
             id: {type: "number", example: "1"},
             userId: {type: "number", example: "1"},
           }
+        },
+        
+        DoctorPostRequest: {
+          type: "object",
+          properties: {
+            userId: {type:"number", example: "1"},
+            crm: {type:"string", example: "123456"},
+          },
+          required: ["userId", "crm"],
+        },
+        DoctorPutRequest: {
+          type: "object",
+          properties: {
+            crm: {type:"string", example: "654321"},
+          },
+        },
+        DoctorResponse: {
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            userId: {type: "number", example: "1"},
+            crm: {type: "string", example: "123456"},
+          }
         }
       }
     }
