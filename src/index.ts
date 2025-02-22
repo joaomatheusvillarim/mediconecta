@@ -4,6 +4,7 @@ import sequelize from "./config/database";
 import userRoutes from "./routes/UserRoutes";
 import patientRoutes from "./routes/PatientRoutes";
 import doctorRoutes from "./routes/DoctorRoutes"
+import clinicRoutes from "./routes/ClinicRoutes";
 import { setupSwagger } from "./config/swagger";
 
 dotenv.config();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(userRoutes);
 app.use(patientRoutes);
 app.use(doctorRoutes);
+app.use(clinicRoutes);
 setupSwagger(app);
 
 sequelize.sync({force: true}).then(() => {

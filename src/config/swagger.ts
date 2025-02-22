@@ -97,6 +97,33 @@ const options: swaggerJSDoc.Options = {
             userId: {type: "number", example: "1"},
             crm: {type: "string", example: "123456"},
           }
+        },
+
+        ClinicPostRequest: {
+          type: "object",
+          properties: {
+            address: {type:"string", example: "Rua das Flores, 123"},
+            workingHours: {type:"string", example: "08:00 - 18:00"},
+            specialties: {type:"string", example: "Cardiologia, Ortopedia"},
+          },
+          required: ["address", "workingHours", "specialties"],
+        },
+        ClinicPutRequest: {
+          type: "object",
+          properties: {
+            address: {type:"string", example: "Avenida Brasil, 456"},
+            workingHours: {type:"string", example: "07:00 - 19:00"},
+            specialties: {type:"string", example: "Pediatria, Dermatologia"},
+          },
+        },
+        ClinicResponse: {
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            address: {type:"string", example: "Rua das Flores, 123"},
+            workingHours: {type:"string", example: "08:00 - 18:00"},
+            specialties: {type:"string", example: "Cardiologia, Ortopedia"},
+          }
         }
       }
     }
