@@ -1,26 +1,26 @@
 import { Router } from 'express';
-import PatientController from '../controller/PatientController';
+import SecretaryController from '../controller/SecretaryController';
 
 /**
  * @swagger
  * tags:
- *  name: Pacientes
- *  description: Endpoints para CRUD de pacientes
+ *  name: Secretários
+ *  description: Endpoints para CRUD de secretários
 */
 const router = Router();
 
 /**
  * @swagger
- * /patients:
+ * /secretaries:
  *  post:
  *    tags:
- *      - Pacientes
- *    summary: Criar um novo paciente.
+ *      - Secretários
+ *    summary: Criar um novo secretário(a).
  *    requestBody:
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/PatientPostRequest'
+ *            $ref: '#/components/schemas/SecretaryPostRequest'
  *      required: true
  *    responses:
  *      201:
@@ -28,23 +28,23 @@ const router = Router();
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/PatientResponse'
+ *              $ref: '#/components/schemas/SecretaryResponse'
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/patients/", (request, response) => {PatientController.createPatient(request, response)});
+router.post("/secretaries/", (request, response) => {SecretaryController.createSecretary(request, response)});
 
 /**
  * @swagger
- * /patients/{id}:
+ * /secretaries/{id}:
  *  get:
  *    tags:
- *      - Pacientes
- *    summary: Recuperar paciente a partir de seu id.
+ *      - Secretários
+ *    summary: Recuperar secretário(a) a partir de seu id.
  *    parameters:
  *      - name: id
  *        in: path
- *        description: id do paciente
+ *        description: id do secretário(a)
  *        required: true
  *        schema:
  *          type: integer
@@ -55,21 +55,21 @@ router.post("/patients/", (request, response) => {PatientController.createPatien
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/PatientResponse'
+ *              $ref: '#/components/schemas/SecretaryResponse'
  *      404:
- *        description: paciente não encontrado.
+ *        description: Secretário(a) não encontrado.
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/patients/:id", (request, response) => {PatientController.getPatientById(request, response)});
+router.get("/secretaries/:id", (request, response) => {SecretaryController.getSecretaryById(request, response)});
 
 /**
  * @swagger
- * /patients/:
+ * /secretaries/:
  *  get:
  *    tags:
- *      - Pacientes
- *    summary: Recuperar todos os pacientes.
+ *      - Secretários
+ *    summary: Recuperar todos os secretário(a)s.
  *    responses:
  *      200:
  *        description: Operação bem sucedida.
@@ -78,23 +78,23 @@ router.get("/patients/:id", (request, response) => {PatientController.getPatient
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/PatientResponse'
+ *                $ref: '#/components/schemas/SecretaryResponse'
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/patients/", (request, response) => {PatientController.getAllPatients(response)});
+router.get("/secretaries/", (request, response) => {SecretaryController.getAllSecretaries(response)});
 
 /**
  * @swagger
- * /patients/{id}:
+ * /secretaries/{id}:
  *  put:
  *    tags:
- *      - Pacientes
- *    summary: Atualizar paciente.
+ *      - Secretários
+ *    summary: Atualizar secretário(a).
  *    parameters:
  *      - name: id
  *        in: path
- *        description: id do paciente
+ *        description: id do secretário(a)
  *        required: true
  *        schema:
  *          type: integer
@@ -103,32 +103,32 @@ router.get("/patients/", (request, response) => {PatientController.getAllPatient
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/PatientPutRequest'
+ *            $ref: '#/components/schemas/SecretaryPutRequest'
  *    responses:
  *      200:
  *        description: Operação bem sucedida.
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/PatientResponse'
+ *              $ref: '#/components/schemas/SecretaryResponse'
  *      404:
- *        description: paciente não encontrado.
+ *        description: Secretário(a) não encontrado.
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/patients/:id", (request, response) => {PatientController.updatePatient(request, response)});
+router.put("/secretaries/:id", (request, response) => {SecretaryController.updateSecretary(request, response)});
 
 /**
  * @swagger
- * /patients/{id}:
+ * /secretaries/{id}:
  *  delete:
  *    tags:
- *      - Pacientes
- *    summary: Remover um paciente a partir de seu id.
+ *      - Secretários
+ *    summary: Remover um secretário(a) a partir de seu id.
  *    parameters:
  *      - name: id
  *        in: path
- *        description: id do paciente
+ *        description: id do secretário(a)
  *        required: true
  *        schema:
  *          type: integer
@@ -137,10 +137,10 @@ router.put("/patients/:id", (request, response) => {PatientController.updatePati
  *      204:
  *        description: Operação bem sucedida.
  *      404:
- *        description: paciente não encontrado.
+ *        description: Secretário(a) não encontrado.
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/patients/:id", (request, response) => {PatientController.deletePatient(request, response)});
+router.delete("/secretaries/:id", (request, response) => {SecretaryController.deleteSecretary(request, response)});
 
 export default router;
