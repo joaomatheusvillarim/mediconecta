@@ -128,6 +128,42 @@ const options: swaggerJSDoc.Options = {
           }
         },
 
+        AppointmentPostRequest: {
+          type: "object",
+          properties: {
+            clinicId: {type: "number", example: 1},
+            date: {type:"string", format: "date", example: "2025-03-15"},
+            time: {type:"string", example: "14:30"},
+            isReturn: {type:"boolean", example: false},
+            exam: {type:"string", example: "Raio-X"},
+            insurance: {type:"string", example: "Plano Saúde"},
+            price: {type:"number", example: 150.50},
+            hasMedicalCertificate: {type:"boolean", example: true},
+          },
+          required: ["clinicId", "date", "time", "isReturn", "price", "hasMedicalCertificate"],
+        },
+        AppointmentPutRequest: {
+          type: "object",
+          properties: {
+            date: {type:"string", format: "date", example: "2025-03-20"},
+            time: {type:"string", example: "16:00"},
+          },
+        },
+        AppointmentResponse: {
+          type: "object",
+          properties: {
+            appointmentId: {type: "number", example: "1"},
+            clinicId: {type: "number", example: "1"},
+            date: {type:"string", format: "date", example: "2025-03-15"},
+            time: {type:"string", example: "14:30"},
+            isReturn: {type:"boolean", example: false},
+            exam: {type:"string", example: "Raio-X"},
+            insurance: {type:"string", example: "Plano Saúde"},
+            price: {type:"number", example: 150.50},
+            hasMedicalCertificate: {type:"boolean", example: true},
+          }
+        },
+
         AnnouncementPostRequest: {
           type: "object",
           properties: {

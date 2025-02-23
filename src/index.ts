@@ -5,6 +5,7 @@ import userRoutes from "./routes/UserRoutes";
 import patientRoutes from "./routes/PatientRoutes";
 import doctorRoutes from "./routes/DoctorRoutes"
 import clinicRoutes from "./routes/ClinicRoutes";
+import appointmentRoutes from "./routes/AppointmentRoutes";
 import announcementRoutes from "./routes/AnnouncementRoutes";
 import secretaryRoutes from "./routes/SecretaryRoutes"
 import { setupSwagger } from "./config/swagger";
@@ -18,6 +19,7 @@ app.use(userRoutes);
 app.use(patientRoutes);
 app.use(doctorRoutes);
 app.use(clinicRoutes);
+app.use(appointmentRoutes);
 app.use(announcementRoutes);
 app.use(secretaryRoutes);
 
