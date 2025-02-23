@@ -27,11 +27,18 @@ Patient.init(
         model: User,
         key: "id",
       },
+      unique: true,
     },
   },
   {
     sequelize,
     tableName: "patients",
     timestamps: false,
+  }
+);
+
+Patient.belongsTo(
+  User, {
+    foreignKey: "userId",
   }
 );
