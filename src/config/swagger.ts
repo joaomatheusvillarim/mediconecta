@@ -17,6 +17,7 @@ const options: swaggerJSDoc.Options = {
     ],
     components: {
       schemas: {
+
         UserPostRequest: {
           type: "object",
           properties: {
@@ -59,6 +60,7 @@ const options: swaggerJSDoc.Options = {
             phone: {type: "string", example: "83987654321"},
           }
         },
+
         PatientPostRequest: {
           type: "object",
           properties: {
@@ -98,7 +100,7 @@ const options: swaggerJSDoc.Options = {
             crm: {type: "string", example: "123456"},
           }
         },
-
+        
         ClinicPostRequest: {
           type: "object",
           properties: {
@@ -160,7 +162,51 @@ const options: swaggerJSDoc.Options = {
             price: {type:"number", example: 150.50},
             hasMedicalCertificate: {type:"boolean", example: true},
           }
-        }
+        },
+
+        AnnouncementPostRequest: {
+          type: "object",
+          properties: {
+            title: {type:"string", example: "Aviso Importante"},
+            body: {type:"string", example: "Consulta cancelada devido à manutenção."},
+            timestamp: {type:"string", format: "date-time", example: "2025-02-21T14:30:00Z"},
+          },
+          required: ["title", "body", "timestamp"],
+        },
+        AnnouncementPutRequest: {
+          type: "object",
+          properties: {
+            title: {type:"string", example: "Aviso Atualizado"},
+            body: {type:"string", example: "Novo aviso sobre expediente."},
+          },
+        },
+        AnnouncementResponse: {
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            title: {type:"string", example: "Aviso Importante"},
+            body: {type:"string", example: "Consulta cancelada devido à manutenção."},
+            timestamp: {type:"string", format: "date-time", example: "2025-02-21T14:30:00Z"},
+          }
+        },
+
+        SecretaryPostRequest: {
+          type: "object",
+          properties: {
+            userId: {type:"number", example:"1"}
+          },
+          required: ["userId"],
+        },
+        SecretaryPutRequest: {
+        },
+        SecretaryResponse: {
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            userId: {type: "number", example: "1"},
+          }
+        },
+
       }
     }
   },

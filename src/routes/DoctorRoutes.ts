@@ -14,7 +14,7 @@ const router = Router();
  * /doctors/:
  *  post:
  *    tags:
- *      - doctor
+ *      - Médicos
  *    summary: Criar um novo médico.
  *    requestBody:
  *      content:
@@ -39,7 +39,7 @@ router.post("/doctors/", (request, response) => {DoctorController.createDoctor(r
  * /doctors/{id}:
  *  get:
  *    tags:
- *      - doctor
+ *      - Médicos
  *    summary: Recuperar médico a partir de seu id.
  *    parameters:
  *      - name: id
@@ -68,7 +68,7 @@ router.get("/doctors/:id", (request, response) => {DoctorController.getDoctorByI
  * /doctors/:
  *  get:
  *    tags:
- *      - doctor
+ *      - Médicos
  *    summary: Recuperar todos os médicos.
  *    responses:
  *      200:
@@ -89,7 +89,7 @@ router.get("/doctors/", (request, response) => {DoctorController.getAllDoctors(r
  * /doctors/{id}:
  *  put:
  *    tags:
- *      - doctor
+ *      - Médicos
  *    summary: Atualizar médico.
  *    parameters:
  *      - name: id
@@ -123,7 +123,7 @@ router.put("/doctors/:id", (request, response) => {DoctorController.updateDoctor
  * /doctors/{id}:
  *  delete:
  *    tags:
- *      - doctor
+ *      - Médicos
  *    summary: Remover um médico a partir de seu id.
  *    parameters:
  *      - name: id

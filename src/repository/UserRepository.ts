@@ -5,7 +5,7 @@ export class UserRepository {
   
   async createUser(data: InferCreationAttributes<User>) {
     return await User.create(data);
-  };
+  }
 
   async getUserById(id: number) {
     return await User.findByPk(id);
