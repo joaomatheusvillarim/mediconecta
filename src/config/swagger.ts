@@ -127,7 +127,33 @@ const options: swaggerJSDoc.Options = {
             specialties: {type:"string", example: "Cardiologia, Ortopedia"},
           }
         },
-        
+
+        AnnouncementPostRequest: {
+          type: "object",
+          properties: {
+            title: {type:"string", example: "Aviso Importante"},
+            body: {type:"string", example: "Consulta cancelada devido à manutenção."},
+            timestamp: {type:"string", format: "date-time", example: "2025-02-21T14:30:00Z"},
+          },
+          required: ["title", "body", "timestamp"],
+        },
+        AnnouncementPutRequest: {
+          type: "object",
+          properties: {
+            title: {type:"string", example: "Aviso Atualizado"},
+            body: {type:"string", example: "Novo aviso sobre expediente."},
+          },
+        },
+        AnnouncementResponse: {
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            title: {type:"string", example: "Aviso Importante"},
+            body: {type:"string", example: "Consulta cancelada devido à manutenção."},
+            timestamp: {type:"string", format: "date-time", example: "2025-02-21T14:30:00Z"},
+          }
+        },
+
         SecretaryPostRequest: {
           type: "object",
           properties: {
