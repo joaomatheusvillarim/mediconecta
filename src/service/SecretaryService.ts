@@ -14,7 +14,7 @@ class SecretaryService {
     return await secretaryRepository.getSecretaryById(id);
   }
 
-  async getAllSecretarys(): Promise<Secretary[]> {
+  async getAllSecretaries(): Promise<Secretary[]> {
     return await secretaryRepository.getAllSecretaries();
   }
 
