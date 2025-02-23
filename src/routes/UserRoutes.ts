@@ -14,7 +14,7 @@ const router = Router();
  * /users:
  *  post:
  *    tags:
- *      - user
+ *      - Usuários
  *    summary: Criar um novo usuário.
  *    requestBody:
  *      content:
@@ -39,7 +39,7 @@ router.post("/users/", (request, response) => {UserController.createUser(request
  * /users/{id}:
  *  get:
  *    tags:
- *      - user
+ *      - Usuários
  *    summary: Recuperar usuário a partir de seu id.
  *    parameters:
  *      - name: id
@@ -68,7 +68,7 @@ router.get("/users/:id", (request, response) => {UserController.getUserById(requ
  * /users/:
  *  get:
  *    tags:
- *      - user
+ *      - Usuários
  *    summary: Recuperar todos os usuários.
  *    responses:
  *      200:
@@ -89,7 +89,7 @@ router.get("/users/", (request, response) => {UserController.getAllUsers(respons
  * /users/{id}:
  *  put:
  *    tags:
- *      - user
+ *      - Usuários
  *    summary: Atualizar usuário.
  *    parameters:
  *      - name: id
@@ -123,7 +123,7 @@ router.put("/users/:id", (request, response) => {UserController.updateUser(reque
  * /users/{id}:
  *  delete:
  *    tags:
- *      - user
+ *      - Usuários
  *    summary: Remover um usuário a partir de seu id.
  *    parameters:
  *      - name: id

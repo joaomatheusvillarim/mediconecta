@@ -2,22 +2,20 @@ import { Model, InferAttributes, InferCreationAttributes, CreationOptional, Data
 import sequelize from '../config/database';
 import { User } from './User';
 
-interface DoctorAttributes {
-  doctorId: number;
+interface SecretaryAttributes {
+  secretaryId: number;
   userId: number;
-  crm: string;
 }
 
-export class Doctor extends Model<InferAttributes<Doctor>, InferCreationAttributes<Doctor>> implements DoctorAttributes {
-  declare doctorId: CreationOptional<number>;
+export class Secretary extends Model<InferAttributes<Secretary>, InferCreationAttributes<Secretary>> implements SecretaryAttributes {
+  declare secretaryId: CreationOptional<number>;
   declare userId: number;
-  declare crm: string;
   declare readonly user?: User;
 }
 
-Doctor.init(
+Secretary.init(
   {
-    doctorId: {
+    secretaryId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -31,15 +29,16 @@ Doctor.init(
       },
       unique: true,
     },
-    crm: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
   },
   {
     sequelize,
-    tableName: "doctors",
+    tableName: "secretaries",
     timestamps: false,
+  }
+);
+
+Secretary.belongsTo(
+  User, {
+    foreignKey: "userId",
   }
 );
