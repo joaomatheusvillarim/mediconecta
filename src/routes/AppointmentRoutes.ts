@@ -14,7 +14,7 @@ const router = Router();
  * /clinics/{clinic_id}/appointment:
  *  post:
  *    tags:
- *      - appointment
+ *      - Consultas
  *    summary: Criar uma nova consulta.
  *    requestBody:
  *      content:
@@ -39,7 +39,7 @@ router.post("/clinics/:clinic_id/appointment", (request, response) => {Appointme
  * /clinics/{clinic_id}/appointment/{appointment_id}:
  *  get:
  *    tags:
- *      - appointment
+ *      - Consultas
  *    summary: Recuperar consulta por ID.
  *    parameters:
  *      - name: id
@@ -68,7 +68,7 @@ router.get("/clinics/:clinic_id/appointment/:appointment_id", (request, response
  * /clinics/{clinic_id}/appointment:
  *  get:
  *    tags:
- *      - appointment
+ *      - Consultas
  *    summary: Recuperar todas as consultas.
  *    responses:
  *      200:
@@ -89,7 +89,7 @@ router.get("/clinics/:clinic_id/appointment", (request, response) => {Appointmen
  * /clinics/{clinic_id}/appointment/{appointment_id}:
  *  put:
  *    tags:
- *      - appointment
+ *      - Consultas
  *    summary: Atualizar consulta.
  *    parameters:
  *      - name: id
@@ -123,7 +123,7 @@ router.put("/clinics/:clinic_id/appointment/:appointment_id", (request, response
  * /clinics/{clinic_id}/appointment/{appointment_id}:
  *  delete:
  *    tags:
- *      - appointment
+ *      - Consultas
  *    summary: Remover uma consulta a partir de seu id.
  *    parameters:
  *      - name: id

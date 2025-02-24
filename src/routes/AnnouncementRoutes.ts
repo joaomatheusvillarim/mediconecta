@@ -14,7 +14,7 @@ const router = Router();
  * /users/{user_id}/clinics/{clinic_id}/announcement/:
  *  post:
  *    tags:
- *      - announcement
+ *      - Avisos
  *    summary: Criar um novo aviso.
  *    requestBody:
  *      content:
@@ -41,7 +41,7 @@ router.post("/users/:user_id/clinics/:clinic_id/announcement/", (request, respon
  * /users/{user_id}/clinics/{clinic_id}/announcement/{announcement_id}:
  *  get:
  *    tags:
- *      - announcement
+ *      - Avisos
  *    summary: Recuperar aviso a partir do seu id.
  *    parameters:
  *      - name: id
@@ -72,7 +72,7 @@ router.get("/users/:user_id/clinics/:clinic_id/announcement/:announcement_id", (
  * /users/{user_id}/clinics/{clinic_id}/announcement/:
  *  get:
  *    tags:
- *      - announcement
+ *      - Avisos
  *    summary: Recuperar todos os avisos.
  *    responses:
  *      200:
@@ -95,7 +95,7 @@ router.get("/users/:user_id/clinics/:clinic_id/announcement/", (request, respons
  * /users/{user_id}/clinics/{clinic_id}/announcement/{announcement_id}:
  *  put:
  *    tags:
- *      - announcement
+ *      - Avisos
  *    summary: Atualizar aviso.
  *    parameters:
  *      - name: id
@@ -131,7 +131,7 @@ router.put("/users/:user_id/clinics/:clinic_id/announcement/:announcement_id", (
  * /users/{user_id}/clinics/{clinic_id}/announcement/{announcement_id}:
  *  delete:
  *    tags:
- *      - announcement
+ *      - Avisos
  *    summary: Remover um aviso a partir de seu id.
  *    parameters:
  *      - name: id
