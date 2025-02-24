@@ -1,18 +1,17 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
-import { MedicalRecordEntry } from './MedicalRecordEntry';
 import { Patient } from './Patient';
 
 interface MedicalRecordAttributes {
   medicalRecordId: number;
   patientId: number;
-  entries: MedicalRecordEntry[];
+  entries: JSON[];
 }
 
 export class MedicalRecord extends Model<InferAttributes<MedicalRecord>, InferCreationAttributes<MedicalRecord>> implements MedicalRecordAttributes {
   declare medicalRecordId: CreationOptional<number>;
   declare patientId: number;
-  declare entries: CreationOptional<MedicalRecordEntry[]>;
+  declare entries: CreationOptional<JSON[]>;
 }
 
 MedicalRecord.init(
@@ -32,7 +31,7 @@ MedicalRecord.init(
       },
     },
     entries: {
-      type: DataTypes.ARRAY,
+      type: DataTypes.JSON,
       allowNull: false,
     }
   },
