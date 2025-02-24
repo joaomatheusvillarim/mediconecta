@@ -4,7 +4,7 @@ import ClinicController from '../controller/ClinicController';
 /**
  * @swagger
  * tags:
- *  name: Consultório
+ *  name: Consultórios
  *  description: Endpoints para CRUD de consultório
  */
 const router = Router();
@@ -14,7 +14,7 @@ const router = Router();
  * /clinics/:
  *  post:
  *    tags:
- *      - clinic
+ *      - Consultórios
  *    summary: Criar um novo consultório.
  *    requestBody:
  *      content:
@@ -39,7 +39,7 @@ router.post("/clinics/", (request, response) => { ClinicController.createClinic(
  * /clinics/{id}:
  *  get:
  *    tags:
- *      - clinic
+ *      - Consultórios
  *    summary: Recuperar consultório a partir de seu id.
  *    parameters:
  *      - name: id
@@ -68,7 +68,7 @@ router.get("/clinics/:id", (request, response) => { ClinicController.getClinicBy
  * /clinics/:
  *  get:
  *    tags:
- *      - clinic
+ *      - Consultórios
  *    summary: Recuperar todos os consultórios.
  *    responses:
  *      200:
@@ -89,7 +89,7 @@ router.get("/clinics/", (request, response) => { ClinicController.getAllClinics(
  * /clinics/{id}:
  *  put:
  *    tags:
- *      - clinic
+ *      - Consultórios
  *    summary: Atualizar consultório.
  *    parameters:
  *      - name: id
@@ -123,7 +123,7 @@ router.put("/clinics/:id", (request, response) => { ClinicController.updateClini
  * /clinics/{id}:
  *  delete:
  *    tags:
- *      - clinic
+ *      - Consultórios
  *    summary: Remover um consultório a partir de seu id.
  *    parameters:
  *      - name: id
