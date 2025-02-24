@@ -207,6 +207,32 @@ const options: swaggerJSDoc.Options = {
           }
         },
 
+        MedicalRecordPostRequest: {
+          type: "object",
+          properties: {
+            patientId: {type: "number", example: "1"},
+            entries: {type: "array", items: {type: "string"}},
+          },
+          required: ["userId", "entries"],
+        },
+        MedicalRecordPutRequest: {
+          type: "object",
+          properties: {
+            patientId: {type: "number", example: "1"},
+            entries: {type: "array", items: {type: "string"}},
+          },
+          required: ["userId", "entries"],
+        },
+        MedicalRecordResponse: {
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            patientId: {type: "number", example: "1"},
+            entries: {type: "array", items: {type: "string"}},
+          },
+          required: ["userId", "entries"],
+        }
+
       }
     }
   },
