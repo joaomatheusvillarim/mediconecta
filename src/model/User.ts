@@ -7,7 +7,7 @@ interface UserAttributes {
   email: string;
   password: string;
   cpf: string;
-  birthdate: Date;
+  birthday: Date;
   sex: string;
   address: string;
   phone: string;
@@ -19,7 +19,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare email: string;
   declare password: string;
   declare cpf: string;
-  declare birthdate: Date;
+  declare birthday: Date;
   declare sex: string;
   declare address: string;
   declare phone: string;
@@ -40,6 +40,9 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     password: {
       type: DataTypes.STRING,
@@ -49,14 +52,23 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isNumeric: true,
+      },
     },
-    birthdate: {
+    birthday: {
       type: DataTypes.DATE,
       allowNull: false,
+      validate: {
+        isDate: true, 
+      },
     },
     sex: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isIn: [["masculino", "feminino", "não especificado"]],
+      }
     },
     address: {
       type: DataTypes.STRING,
@@ -65,11 +77,15 @@ User.init(
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isNumeric: true,
+      },
     },
   },
   {
     sequelize,
     tableName: "users",
-    timestamps: false,
+    timestamps: true,
+    paranoid: true,
   }
 );

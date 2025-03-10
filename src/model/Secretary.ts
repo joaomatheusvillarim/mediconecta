@@ -3,19 +3,21 @@ import sequelize from '../config/database';
 import { User } from './User';
 
 interface SecretaryAttributes {
-  secretaryId: number;
+  id: number;
   userId: number;
+  workingHours: string;
 }
 
 export class Secretary extends Model<InferAttributes<Secretary>, InferCreationAttributes<Secretary>> implements SecretaryAttributes {
-  declare secretaryId: CreationOptional<number>;
+  declare id: CreationOptional<number>;
   declare userId: number;
+  declare workingHours: string;
   declare readonly user?: User;
 }
 
 Secretary.init(
   {
-    secretaryId: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -29,11 +31,16 @@ Secretary.init(
       },
       unique: true,
     },
+    workingHours: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     sequelize,
     tableName: "secretaries",
-    timestamps: false,
+    timestamps: true,
+    paranoid: true,
   }
 );
 

@@ -1,21 +1,24 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 import { User } from './User';
+import { Record } from './Record';
+
+// TODO composição com Record
 
 interface PatientAttributes {
-  patientId: number;
+  id: number;
   userId: number;
 }
 
 export class Patient extends Model<InferAttributes<Patient>, InferCreationAttributes<Patient>> implements PatientAttributes {
-  declare patientId: CreationOptional<number>;
+  declare id: CreationOptional<number>;
   declare userId: number;
   declare readonly user?: User;
 }
 
 Patient.init(
   {
-    patientId: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -33,7 +36,8 @@ Patient.init(
   {
     sequelize,
     tableName: "patients",
-    timestamps: false,
+    timestamps: true,
+    paranoid: true,
   }
 );
 

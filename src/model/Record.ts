@@ -2,21 +2,21 @@ import { Model, InferAttributes, InferCreationAttributes, CreationOptional, Data
 import sequelize from '../config/database';
 import { Patient } from './Patient';
 
-interface MedicalRecordAttributes {
-  medicalRecordId: number;
+interface RecordAttributes {
+  id: number;
   patientId: number;
   entries: JSON[];
 }
 
-export class MedicalRecord extends Model<InferAttributes<MedicalRecord>, InferCreationAttributes<MedicalRecord>> implements MedicalRecordAttributes {
-  declare medicalRecordId: CreationOptional<number>;
+export class Record extends Model<InferAttributes<Record>, InferCreationAttributes<Record>> implements RecordAttributes {
+  declare id: CreationOptional<number>;
   declare patientId: number;
   declare entries: CreationOptional<JSON[]>;
 }
 
-MedicalRecord.init(
+Record.init(
   {
-    medicalRecordId: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -31,18 +31,20 @@ MedicalRecord.init(
       },
     },
     entries: {
-      type: DataTypes.JSON,
+      type: DataTypes.ARRAY,
       allowNull: false,
-    }
+      defaultValue: {},
+    },
   },
   {
     sequelize,
-    tableName: "medical_records",
-    timestamps: false,
+    tableName: "records",
+    timestamps: true,
+    paranoid: true,
   },
 );
 
-MedicalRecord.belongsTo(
+Record.belongsTo(
   Patient, {
     foreignKey: "patientId",
   }

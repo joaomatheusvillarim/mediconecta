@@ -3,21 +3,27 @@ import sequelize from '../config/database';
 import { User } from './User';
 
 interface DoctorAttributes {
-  doctorId: number;
+  id: number;
   userId: number;
-  crm: string;
+  credentials: string;
+  workingHours: string;
+  specialty: string;
+  insurance: string;
 }
 
 export class Doctor extends Model<InferAttributes<Doctor>, InferCreationAttributes<Doctor>> implements DoctorAttributes {
-  declare doctorId: CreationOptional<number>;
+  declare id: CreationOptional<number>;
   declare userId: number;
-  declare crm: string;
+  declare credentials: string;
+  declare workingHours: string;
+  declare specialty: string;
+  declare insurance: string;
   declare readonly user?: User;
 }
 
 Doctor.init(
   {
-    doctorId: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -31,15 +37,34 @@ Doctor.init(
       },
       unique: true,
     },
-    crm: {
+    credentials: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+    },
+    workingHours: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    specialty: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    insurance: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
     sequelize,
     tableName: "doctors",
-    timestamps: false,
+    timestamps: true,
+    paranoid: true,
   }
 );
+
+Doctor.belongsTo(
+  User, {
+    foreignKey: "userId"
+  }
+)

@@ -1,5 +1,5 @@
 import { InferCreationAttributes } from 'sequelize';
-import { MedicalRecord } from '../model/MedicalRecord'
+import { MedicalRecord } from '../model/Record'
 
 export class MedicalRecordRepository {
   
