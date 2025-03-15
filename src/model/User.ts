@@ -1,6 +1,12 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 
+export enum UserSex {
+  MASCULINO = "MASCULINO",
+  FEMININO = "FEMININO",
+  NAO_ESPECIFICADO = "NAO-ESPECIFICADO"
+}
+
 interface UserAttributes {
   id: number;
   name: string;
@@ -8,7 +14,7 @@ interface UserAttributes {
   password: string;
   cpf: string;
   birthday: Date;
-  sex: string;
+  sex: UserSex;
   address: string;
   phone: string;
 }
@@ -20,7 +26,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare password: string;
   declare cpf: string;
   declare birthday: Date;
-  declare sex: string;
+  declare sex: UserSex;
   declare address: string;
   declare phone: string;
 }
@@ -35,6 +41,9 @@ User.init(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
     email: {
       type: DataTypes.STRING,
@@ -42,43 +51,53 @@ User.init(
       unique: true,
       validate: {
         isEmail: true,
+        notEmpty: true,
       },
     },
+    //validação? acho que apenas na camada service, pois aqui está criptografado
     password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    //validação de CPF real?
+    //11 digitos e formato correto? (baseado em um calculo)
     cpf: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
         isNumeric: true,
+        notEmpty: true,
       },
     },
+    //data antes de hoje
     birthday: {
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
-        isDate: true, 
+        isDate: true,
       },
     },
     sex: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(...Object.values(UserSex)),
       allowNull: false,
-      validate: {
-        isIn: [["masculino", "feminino", "não especificado"]],
-      }
+      defaultValue: UserSex.NAO_ESPECIFICADO,
     },
     address: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      }
     },
+    //validação de 10 ou 11 digitos
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         isNumeric: true,
+        notEmpty: true,
       },
     },
   },
