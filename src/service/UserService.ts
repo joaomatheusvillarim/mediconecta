@@ -1,7 +1,7 @@
 import * as bcrypt from "bcryptjs";
 import { User, UserSex } from '../model/User';
 import { UserRepository } from '../repository/UserRepository';
-import UserConstraint from "../util/UserConstraint";
+import Validations from "../util/Validations";
 
 const userRepository = new UserRepository();
 const saltRounds = 10;
@@ -19,17 +19,17 @@ class UserService {
     phone: string
   ): Promise<User> {
 
-    UserConstraint.validateName(name);
-    UserConstraint.validateEmail(email);
+    Validations.validateName(name);
+    Validations.validateEmail(email);
 
-    UserConstraint.validatePassword(password);
+    Validations.validatePassword(password);
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    UserConstraint.validateCpf(cpf);
-    UserConstraint.validateBirthday(birthday);
-    UserConstraint.validateSex(sex);
-    UserConstraint.validateAddress(address);
-    UserConstraint.validatePhone(phone);
+    Validations.validateCpf(cpf);
+    Validations.validateBirthday(birthday);
+    Validations.validateSex(sex);
+    Validations.validateAddress(address);
+    Validations.validatePhone(phone);
 
     return await userRepository.createUser(
       name,
@@ -65,19 +65,19 @@ class UserService {
     }>
   ): Promise<User | null> {
 
-    if (data.name) UserConstraint.validateName(data.name);
-    if (data.email) UserConstraint.validateEmail(data.email);
+    if (data.name) Validations.validateName(data.name);
+    if (data.email) Validations.validateEmail(data.email);
 
     if (data.password) {
-      UserConstraint.validatePassword(data.password);
+      Validations.validatePassword(data.password);
       data.password = await bcrypt.hash(data.password, saltRounds);
     }
 
-    if (data.cpf) UserConstraint.validateCpf(data.cpf);
-    if (data.birthday) UserConstraint.validateBirthday(data.birthday);
-    if (data.sex) UserConstraint.validateSex(data.sex);
-    if (data.address) UserConstraint.validateAddress(data.address);
-    if (data.phone) UserConstraint.validatePhone(data.phone);
+    if (data.cpf) Validations.validateCpf(data.cpf);
+    if (data.birthday) Validations.validateBirthday(data.birthday);
+    if (data.sex) Validations.validateSex(data.sex);
+    if (data.address) Validations.validateAddress(data.address);
+    if (data.phone) Validations.validatePhone(data.phone);
 
     return await userRepository.updateUser(id, data);
   }

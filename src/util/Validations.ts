@@ -1,6 +1,6 @@
 import { UserSex } from "../model/User";
 
-class UserConstraint {
+class Validations {
 
   /**
    * name: não vazio
@@ -13,8 +13,12 @@ class UserConstraint {
    * phone: isNumeric, 10 ou 11 digitos
   */
 
+  private isEmpty(value: string) {
+    return value.trim() == "";
+  }
+
   validateName(name: string) {
-    if (name.trim() == "") throw new Error("O nome não pode ser vazio.");
+    if (this.isEmpty(name)) throw new Error("O nome não pode ser vazio.");
   }
 
   validateEmail(email: string) {
@@ -55,7 +59,7 @@ class UserConstraint {
   }
 
   validateAddress(address: string) {
-    if (address.trim() == "") {
+    if (this.isEmpty(address)) {
       throw new Error("O endereço não pode ser vazio.");
     }
   }
@@ -67,6 +71,18 @@ class UserConstraint {
     }
   }
 
+  validateWorkingHours(workingHours: string) {
+    if (this.isEmpty(workingHours)) {
+      throw new Error("O horário de funcionamento não pode vazio.")
+    }
+  }
+
+  validateSpecialties(specialties: string) {
+    if (this.isEmpty(specialties)) {
+      throw new Error("As especialidades não podem ser vazio.")
+    }
+  }
+
 }
 
-export default new UserConstraint();
+export default new Validations();
