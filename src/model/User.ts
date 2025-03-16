@@ -1,4 +1,4 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
+import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database';
 
 export enum UserSex {
@@ -19,16 +19,18 @@ interface UserAttributes {
   phone: string;
 }
 
-export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> implements UserAttributes {
-  declare id: CreationOptional<number>;
-  declare name: string;
-  declare email: string;
-  declare password: string;
-  declare cpf: string;
-  declare birthday: Date;
-  declare sex: UserSex;
-  declare address: string;
-  declare phone: string;
+interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+
+export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+  public id!: number;
+  public name!: string;
+  public email!: string;
+  public password!: string;
+  public cpf!: string;
+  public birthday!: Date;
+  public sex!: UserSex;
+  public address!: string;
+  public phone!: string;
 }
 
 User.init(
