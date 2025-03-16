@@ -71,7 +71,8 @@ class UserController {
         birthday, 
         sex, 
         address, 
-        phone});
+        phone
+      });
       return !user
         ? response.status(404).json({ error: 'Usuário não encontrado' })
         : response.status(200).json(user);
