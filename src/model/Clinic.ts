@@ -1,36 +1,29 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
+import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database';
-import { Doctor } from './Doctor';
 import { User } from './User';
-import { Patient } from './Patient';
-import { Secretary } from './Secretary';
 
 interface ClinicAttributes {
   id: number;
-  admin: number;
+  adminId: number;
   name: string;
   address: string;
   workingHours: string;
   specialties: string;
   phone: string;
   email: string;
-  patients: Patient[];
-  doctors: Doctor[];
-  secretaries: Secretary[];
 }
 
-export class Clinic extends Model<InferAttributes<Clinic>, InferCreationAttributes<Clinic>> implements ClinicAttributes {
-  declare id: CreationOptional<number>;
-  declare admin: number;
-  declare name: string;
-  declare address: string;
-  declare workingHours: string;
-  declare specialties: string;
-  declare phone: string;
-  declare email: string;
-  declare patients: CreationOptional<Patient[]>;
-  declare doctors: CreationOptional<Doctor[]>;
-  declare secretaries: CreationOptional<Secretary[]>;
+interface ClinicCreationAttributes extends Optional<ClinicAttributes, "id"> {}
+
+export class Clinic extends Model<ClinicAttributes, ClinicCreationAttributes> implements ClinicAttributes {
+  public id!: number;
+  public adminId!: number;
+  public name!: string;
+  public address!: string;
+  public workingHours!: string;
+  public specialties!: string;
+  public phone!: string;
+  public email!: string;
 }
 
 Clinic.init(
@@ -40,60 +33,57 @@ Clinic.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    admin: {
+    adminId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: User,
-        key: "id",
+        key: "id"
       },
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
     address: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
     workingHours: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
     specialties: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isNumeric: true,
-      },
       unique: true,
+      validate: {
+        is: /^(\d{2})9?\d{8}$/,
+      },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        notEmpty: true,
         isEmail: true,
       },
-      unique: true,
-    },
-    patients: {
-      type: DataTypes.ARRAY,
-      allowNull: false,
-      defaultValue: {},
-    },
-    doctors: {
-      type: DataTypes.ARRAY,
-      allowNull: false,
-      defaultValue: {},
-    },
-    secretaries: {
-      type: DataTypes.ARRAY,
-      allowNull: false,
-      defaultValue: {},
     },
   },
   {
@@ -101,5 +91,11 @@ Clinic.init(
     tableName: "clinics",
     timestamps: true,
     paranoid: true,
-  }
+  },
+);
+
+Clinic.belongsTo(
+  User, {
+    foreignKey: "id",
+  },
 );
