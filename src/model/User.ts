@@ -54,28 +54,31 @@ User.init(
         notEmpty: true,
       },
     },
-    //validação? acho que apenas na camada service, pois aqui está criptografado
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/,
+      }
     },
-    //validação de CPF real?
-    //11 digitos e formato correto? (baseado em um calculo)
     cpf: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
-        isNumeric: true,
-        notEmpty: true,
+        is: /^\d{11}$/,
       },
     },
-    //data antes de hoje
     birthday: {
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
-        isDate: true,
+        validateBirthday(birthday: Date) {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          birthday.setHours(0, 0, 0, 0);
+          if (birthday > today) throw new Error();
+        }
       },
     },
     sex: {
@@ -90,14 +93,12 @@ User.init(
         notEmpty: true,
       }
     },
-    //validação de 10 ou 11 digitos
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
-        isNumeric: true,
-        notEmpty: true,
+        is: /^(\d{2})9?\d{8}$/,
       },
     },
   },
