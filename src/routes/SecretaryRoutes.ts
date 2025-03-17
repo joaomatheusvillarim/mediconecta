@@ -11,11 +11,19 @@ const router = Router();
 
 /**
  * @swagger
- * /secretaries:
+ * /clinics/{clinicId}/secretaries:
  *  post:
  *    tags:
  *      - Secretários
- *    summary: Criar um novo secretário(a).
+ *    summary: Vincular um usuário como secretário de um consultório.
+ *    parameters:
+ *      - name: clinicId
+ *        in: path
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
  *    requestBody:
  *      content:
  *        application/json:
@@ -32,19 +40,26 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/secretaries/", (request, response) => {SecretaryController.createSecretary(request, response)});
+router.post("/clinics/:clinicId/secretaries/", (request, response) => {SecretaryController.createSecretary(request, response)});
 
 /**
  * @swagger
- * /secretaries/{id}:
+ * /clinics/{clinicId}/secretaries/{secretaryId}:
  *  get:
  *    tags:
  *      - Secretários
  *    summary: Recuperar secretário(a) a partir de seu id.
  *    parameters:
- *      - name: id
+ *      - name: clinicId
  *        in: path
  *        description: id do secretário(a)
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: userId
+ *        in: path
+ *        description: ID do usuário paciente
  *        required: true
  *        schema:
  *          type: integer
@@ -65,11 +80,19 @@ router.get("/secretaries/:id", (request, response) => {SecretaryController.getSe
 
 /**
  * @swagger
- * /secretaries/:
+ * /clinics/{clinicId}/secretaries/:
  *  get:
  *    tags:
  *      - Secretários
  *    summary: Recuperar todos os secretário(a)s.
+ *    parameters:
+ *      - name: clinicId
+ *        in: path
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
  *    responses:
  *      200:
  *        description: Operação bem sucedida.
@@ -82,19 +105,26 @@ router.get("/secretaries/:id", (request, response) => {SecretaryController.getSe
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/secretaries/", (request, response) => {SecretaryController.getAllSecretaries(response)});
+router.get("/clinics/:clinicId/secretaries/", (request, response) => {SecretaryController.getAllSecretaries(request, response)});
 
 /**
  * @swagger
- * /secretaries/{id}:
+ * /clinics/{clinicId}/secretaries/{id}:
  *  put:
  *    tags:
  *      - Secretários
  *    summary: Atualizar secretário(a).
  *    parameters:
- *      - name: id
+ *      - name: clinicId
  *        in: path
- *        description: id do secretário(a)
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: userId
+ *        in: path
+ *        description: ID do usuário paciente
  *        required: true
  *        schema:
  *          type: integer
@@ -116,19 +146,26 @@ router.get("/secretaries/", (request, response) => {SecretaryController.getAllSe
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/secretaries/:id", (request, response) => {SecretaryController.updateSecretary(request, response)});
+router.put("/clinics/:clinicId/secretaries/:secreataryId", (request, response) => {SecretaryController.updateSecretary(request, response)});
 
 /**
  * @swagger
- * /secretaries/{id}:
+ * /clinics/{clinicId}/secretaries/{secretaryId}:
  *  delete:
  *    tags:
  *      - Secretários
  *    summary: Remover um secretário(a) a partir de seu id.
  *    parameters:
- *      - name: id
+ *      - name: clinicId
  *        in: path
- *        description: id do secretário(a)
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: userId
+ *        in: path
+ *        description: ID do usuário paciente
  *        required: true
  *        schema:
  *          type: integer
@@ -141,6 +178,6 @@ router.put("/secretaries/:id", (request, response) => {SecretaryController.updat
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/secretaries/:id", (request, response) => {SecretaryController.deleteSecretary(request, response)});
+router.delete("/clinics/:clinicId/secretaries/:secretaryId", (request, response) => {SecretaryController.deleteSecretary(request, response)});
 
 export default router;

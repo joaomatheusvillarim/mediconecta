@@ -240,17 +240,23 @@ const options: swaggerJSDoc.Options = {
         SecretaryPostRequest: {
           type: "object",
           properties: {
-            userId: {type:"number", example:"1"}
+            userId: {type: "number", example: "1"},
+            clinicId: {type: "number", example: "1"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
           },
-          required: ["userId"],
+          required: ["userId", "clinicId"],
         },
         SecretaryPutRequest: {
+          type: "object",
+          properties: {
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"}, },
         },
         SecretaryResponse: {
           type: "object",
           properties: {
-            id: {type: "number", example: "1"},
             userId: {type: "number", example: "1"},
+            clinicId: {type: "number", example: "1"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
           }
         },
 

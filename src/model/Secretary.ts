@@ -1,51 +1,67 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
+import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database';
 import { User } from './User';
+import { Clinic } from './Clinic';
 
 interface SecretaryAttributes {
-  id: number;
   userId: number;
+  clinicId: number;
   workingHours: string;
 }
 
-export class Secretary extends Model<InferAttributes<Secretary>, InferCreationAttributes<Secretary>> implements SecretaryAttributes {
-  declare id: CreationOptional<number>;
-  declare userId: number;
-  declare workingHours: string;
-  declare readonly user?: User;
+interface SecretaryCreationAttributes extends Optional<SecretaryAttributes, 'workingHours'> {}
+
+export class Secretary extends Model<SecretaryAttributes, SecretaryCreationAttributes> implements SecretaryAttributes {
+  public userId!: number;
+  public clinicId!: number;
+  public workingHours!: string;
 }
 
 Secretary.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     userId: {
+      primaryKey: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: User,
-        key: "id",
+        key: 'id',
       },
       unique: true,
+    },
+    clinicId: {
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Clinic,
+        key: 'id',
+      },
     },
     workingHours: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: "HORARIO DE TRABALHO NAO INFORMADO",
+      validate: {
+        notEmpty: true,
+      },
     },
   },
   {
     sequelize,
-    tableName: "secretaries",
+    tableName: "secretary",
     timestamps: true,
     paranoid: true,
   }
 );
 
 Secretary.belongsTo(
-  User, {
-    foreignKey: "userId",
+  User, { 
+    foreignKey: 'userId' 
+  }
+);
+Secretary.belongsTo(
+  Clinic, { 
+    foreignKey: 'clinicId' 
   }
 );
