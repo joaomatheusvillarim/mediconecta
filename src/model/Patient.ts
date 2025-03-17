@@ -39,8 +39,7 @@ Patient.init(
   {
     sequelize,
     tableName: "patients",
-    timestamps: true,
-    paranoid: true,
+    timestamps: false,
     hooks: {
       afterCreate: async (patient, _) => {
         await Record.create({

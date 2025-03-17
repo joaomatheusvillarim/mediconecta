@@ -107,7 +107,6 @@ User.init(
   {
     sequelize,
     tableName: "users",
-    timestamps: true,
-    paranoid: true,
+    timestamps: false,
   }
 );

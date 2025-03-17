@@ -90,8 +90,7 @@ Clinic.init(
   {
     sequelize,
     tableName: "clinics",
-    timestamps: true,
-    paranoid: true,
+    timestamps: false,
   },
 );
 

@@ -5,17 +5,6 @@ import RecordService from "../service/RecordService";
 
 class Validations {
 
-  /**
-   * name: não vazio
-   * email: não vazio, formato e-mail correto
-   * password: length >= 8, contém números, letras maiùsculas e minúsculas, e caracteres especiais
-   * cpf: isNumeric, length == 11, validação especial
-   * birthday: anterior ou igual a hoje
-   * sex: UserSex
-   * address: não vazio
-   * phone: isNumeric, 10 ou 11 digitos
-  */
-
   private isEmpty(value: string) {
     return value.trim() == "";
   }
@@ -92,12 +81,6 @@ class Validations {
     if (! await ClinicService.getClinicById(clinicId)) throw new Error("O consultório deve ter um ID válido");
   }
 
-  async validateOrdinaryText(text: string) {
-    if (this.isEmpty(text)) {
-      throw new Error("O texto não pode ser vazio.")
-    }
-  }
-
   async validateRecordEntryIndex(
     userId: number,
     clinicId: number,
@@ -114,7 +97,7 @@ class Validations {
   }
 
   validateRecordEntryContent(content: string) {
-    if (this.isEmpty(content)) throw new Error("O conteúdo de um registro no prontuário não pode ser vazio.");
+    if (!this.isEmpty(content)) throw new Error("O conteúdo de um registro no prontuário não pode ser vazio.");
   }
 
   validateDoctorCredentials(credentials: string) {
@@ -124,6 +107,14 @@ class Validations {
 
   validateInsurance(insurance: string) {
     if (this.isEmpty(insurance)) throw new Error("O convênio não pode ser vazio.")
+  }
+
+  validateAnnouncementTitle(title: string) {
+    if (this.isEmpty(title)) throw new Error("O título do aviso não pode ser vazio.")
+  }
+
+  validateAnnouncementText(text: string) {
+    if (this.isEmpty(text)) throw new Error("O texto do aviso não pode ser vazio.")
   }
 
 }

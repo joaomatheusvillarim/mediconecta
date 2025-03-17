@@ -46,8 +46,7 @@ Record.init(
   {
     sequelize,
     tableName: "records",
-    timestamps: true,
-    paranoid: true,
+    timestamps: false,
   },
 );
 

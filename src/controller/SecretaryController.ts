@@ -6,9 +6,7 @@ class SecretaryController {
   async createSecretary(request: Request, response: Response): Promise<Response> {
     try {
       const clinicId = parseInt(request.params.clinicId);
-      const { userId, 
-        workingHours 
-      } = request.body;
+      const { userId, workingHours } = request.body;
 
       const secretary = await SecretaryService.createSecretary(
         userId, 
@@ -51,16 +49,12 @@ class SecretaryController {
       const clinicId = parseInt(request.params.clinicId);
       const userId = parseInt(request.params.userId);
       
-      const { 
-        workingHours 
-      } = request.body;
+      const { workingHours } = request.body;
 
       const secretary = await SecretaryService.updateSecretary(
         userId, 
         clinicId, 
-        {
-          workingHours
-        }
+        { workingHours }
       );
       return !secretary
         ? response.status(404).json({ error: 'Secretátio não encontrado' })

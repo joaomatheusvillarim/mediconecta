@@ -1,4 +1,3 @@
-import { InferCreationAttributes } from "sequelize";
 import { Announcement } from '../model/Announcement';
 
 export class AnnouncementRepository {
@@ -8,14 +7,12 @@ export class AnnouncementRepository {
     authorId: number, 
     title: string, 
     text: string,
-    posted: Date
   ) {
-    return await Announcement.create({ 
-        clinicId, 
-        authorId, 
-        title, 
-        text, 
-        posted: new Date() 
+    return await Announcement.create({
+      clinicId, 
+      authorId, 
+      title, 
+      text
     });
   }
 
@@ -24,17 +21,17 @@ export class AnnouncementRepository {
     clinicId: number
   ) {
     return await Announcement.findOne({
-        where: {
-            announcementId : announcementId,
-            clinicId : clinicId,
-        }
+      where: {
+        announcementId : announcementId,
+        clinicId : clinicId,
+      }
     });
   }
 
   async getAllAnnouncements(clinicId: number) {
     return await Announcement.findAll({
       where: { 
-        clinicId: clinicId 
+        clinicId: clinicId,
       },
     });
   }
@@ -43,15 +40,15 @@ export class AnnouncementRepository {
     announcementId: number,
     clinicId: number, 
     data: Partial<{ 
-        title: string; 
-        text: string 
+      title: string, 
+      text: string,
     }>
   ) {
     const announcement = await Announcement.findOne({
-        where: {
-            announcementId: announcementId,
-            clinicId: clinicId,
-        }
+      where: {
+        announcementId: announcementId,
+        clinicId: clinicId,
+      }
     });
     return announcement
       ? await announcement!.update(data)
@@ -64,16 +61,16 @@ export class AnnouncementRepository {
   ) {
     let resp = false;
     const announcement = await Announcement.findOne({
-        where: {
+      where: {
         announcementId: announcementId,
         clinicId: clinicId,
-        }
+      }
     });
     if (announcement) {
-        await announcement!.destroy();
-        resp = true;
+      await announcement!.destroy();
+      resp = true;
     }
     return resp;
-    }
+  }
 
 }

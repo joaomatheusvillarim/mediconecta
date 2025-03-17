@@ -11,7 +11,7 @@ const router = Router();
 
 /**
  * @swagger
- * /clinics/{clinic_id}/announcement/:
+ * /clinics/{clinicId}/announcements:
  *  post:
  *    tags:
  *      - Avisos
@@ -40,11 +40,11 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
  */
-router.post("/clinics/:clinic_id/announcement/", (request, response) => {AnnouncementController.createAnnouncement(request, response);});
+router.post("/clinics/:clinicId/announcements", (request, response) => {AnnouncementController.createAnnouncement(request, response);});
 
 /**
  * @swagger
- * /clinics/{clinic_id}/announcement/{announcement_id}:
+ * /clinics/{clinicId}/announcements/{announcementId}:
  *  get:
  *    tags:
  *      - Avisos
@@ -76,11 +76,11 @@ router.post("/clinics/:clinic_id/announcement/", (request, response) => {Announc
  *      500:
  *        description: Erro no servidor.
  */
-router.get("/clinics/:clinic_id/announcement/:announcement_id", (request, response) => { AnnouncementController.getAnnouncementById(request, response);});
+router.get("/clinics/:clinicId/announcements/:announcementId", (request, response) => { AnnouncementController.getAnnouncementById(request, response);});
 
 /**
  * @swagger
- * /users/{user_id}/clinics/{clinic_id}/announcement/:
+ * /users/{userId}/clinics/{clinicId}/announcements:
  *  get:
  *    tags:
  *      - Avisos
@@ -105,11 +105,11 @@ router.get("/clinics/:clinic_id/announcement/:announcement_id", (request, respon
  *      500:
  *        description: Erro no servidor.
  */
-router.get("/clinics/:clinic_id/announcement/", (request, response) => { AnnouncementController.getAllAnnouncements(request, response);});
+router.get("/clinics/:clinicId/announcements", (request, response) => { AnnouncementController.getAllAnnouncements(request, response);});
 
 /**
  * @swagger
- * /clinics/{clinic_id}/announcement/{announcement_id}:
+ * /clinics/{clinicId}/announcements/{announcementId}:
  *  put:
  *    tags:
  *      - Avisos
@@ -146,11 +146,11 @@ router.get("/clinics/:clinic_id/announcement/", (request, response) => { Announc
  *      500:
  *        description: Erro no servidor.
  */
-router.put("/clinics/:clinic_id/announcement/:announcement_id", (request, response) => { AnnouncementController.updateAnnouncement(request, response);});
+router.put("/clinics/:clinicId/announcements/:announcementId", (request, response) => { AnnouncementController.updateAnnouncement(request, response);});
 
 /**
  * @swagger
- * /clinics/{clinic_id}/announcement/{announcement_id}:
+ * /clinics/{clinicId}/announcements/{announcementId}:
  *  delete:
  *    tags:
  *      - Avisos
@@ -178,7 +178,7 @@ router.put("/clinics/:clinic_id/announcement/:announcement_id", (request, respon
  *      500:
  *        description: Erro no servidor.
  */
-router.delete("/users/:user_id/clinics/:clinic_id/announcement/:announcement_id", (request, response) => { 
+router.delete("/clinics/:clinicId/announcements/:announcementId", (request, response) => { 
     AnnouncementController.deleteAnnouncement(request, response);
 });
 

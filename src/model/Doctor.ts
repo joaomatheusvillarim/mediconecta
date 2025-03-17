@@ -75,8 +75,7 @@ Doctor.init(
   {
     sequelize,
     tableName: "doctors",
-    timestamps: true,
-    paranoid: true,
+    timestamps: false,
   }
 );
 

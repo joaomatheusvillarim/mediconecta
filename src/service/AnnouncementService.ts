@@ -10,15 +10,19 @@ class AnnouncementService {
     clinicId: number, 
     authorId: number, 
     title: string, 
-    text: string) {
+    text: string
+  ) {
 
     Validations.validateClinicId(clinicId);
     Validations.validateUserId(authorId);
+    Validations.validateAnnouncementTitle(title);
+    Validations.validateAnnouncementText(text);
+
     return await announcementRepository.createAnnouncement(
       clinicId,
       authorId,
       title,
-      text,
+      text
     );
 
   }
@@ -28,7 +32,6 @@ class AnnouncementService {
     clinicId: number
   ): Promise<Announcement | null> {
     
-    Validations.validateUserId(announcementdId);
     Validations.validateClinicId(clinicId);
     
     return await announcementRepository.getAnnouncementById(announcementdId, clinicId);
@@ -54,11 +57,9 @@ class AnnouncementService {
     Validations.validateUserId(announcementdId);
     Validations.validateClinicId(clinicId);
 
-    if (data.title) Validations.validateOrdinaryText(data.title);
-    if (data.text)  Validations.validateOrdinaryText(data.text);
+    if (data.title) Validations.validateAnnouncementTitle(data.title);
+    if (data.text) Validations.validateAnnouncementTitle(data.text);
 
-    
-    
     return await announcementRepository.updateAnnouncement(announcementdId, clinicId, data);
   }
 
@@ -67,7 +68,6 @@ class AnnouncementService {
     clinicId: number
   ): Promise<boolean> {
 
-    Validations.validateUserId(announcementdId);
     Validations.validateClinicId(clinicId);
 
     return await announcementRepository.deleteAnnouncement(announcementdId, clinicId);

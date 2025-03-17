@@ -1,7 +1,6 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { Express } from "express";
-import { Announcement } from "../model/Announcement";
 
 const options: swaggerJSDoc.Options = {
   definition: {
@@ -148,7 +147,6 @@ const options: swaggerJSDoc.Options = {
           type: "object",
           properties: {
             userId: {type: "number", example: "1"},
-            clinicId: {type: "number", example: "1"},
             credentials: {type: "string", example: "1234PB"},
             workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
             specialty: {type: "string", example: "endocrinologia"},
@@ -173,6 +171,55 @@ const options: swaggerJSDoc.Options = {
             workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
             specialty: {type: "string", example: "endocrinologia"},
             insurance: {type: "string", example: "unimed"},
+          }
+        },
+
+        SecretaryPostRequest: {
+          type: "object",
+          properties: {
+            userId: {type: "number", example: "1"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
+          },
+          required: ["userId", "clinicId"],
+        },
+        SecretaryPutRequest: {
+          type: "object",
+          properties: {
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"}, },
+        },
+        SecretaryResponse: {
+          type: "object",
+          properties: {
+            userId: {type: "number", example: "1"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
+          }
+        },
+
+        AnnouncementPostRequest: {
+          type: "object",
+          properties: {
+            authorId: {type: "number", example: "1"},
+            title: {type:"string", example: "Aviso Importante"},
+            text: {type:"string", example: "Consultas canceladas devido à manutenção."},
+          },
+          required: ["authorId", "title", "text"],
+        },
+        AnnouncementPutRequest: {
+          type: "object",
+          properties: {
+            title: {type:"string", example: "Aviso Importante"},
+            text: {type:"string", example: "Consultas canceladas devido à manutenção."},
+          },
+        },
+        AnnouncementResponse: {
+          type: "object",
+          properties: {
+            announcementId: {type: "number", example: "1"},
+            clinicId: {type: "number", example: "1"},
+            authorId: {type: "number", example: "1"},
+            title: {type:"string", example: "Aviso Importante"},
+            text: {type:"string", example: "Consultas canceladas devido à manutenção."},
+            posted: {type: "date", example: "01/01/2025"},
           }
         },
         
@@ -209,58 +256,6 @@ const options: swaggerJSDoc.Options = {
             insurance: {type:"string", example: "Plano Saúde"},
             price: {type:"number", example: 150.50},
             hasMedicalCertificate: {type:"boolean", example: true},
-          }
-        },
-
-        AnnouncementPostRequest: {
-          type: "object",
-          properties: {
-            announcementId: {type: "number", example: "1"},
-            clinicId: {type: "number", example: "1"},
-            title: {type:"string", example: "Aviso Importante"},
-            text: {type:"string", example: "Consulta cancelada devido à manutenção."},
-            timestamp: {type:"string", format: "date-time", example: "2025-02-21T14:30:00Z"},
-          },
-          required: ["title", "body", "timestamp"],
-        },
-        AnnouncementPutRequest: {
-          type: "object",
-          properties: {
-            title: {type:"string", example: "Aviso Atualizado"},
-            text: {type:"string", example: "Novo aviso sobre expediente."},
-          },
-        },
-        AnnouncementResponse: {
-          type: "object",
-          properties: {
-            announcementId: {type: "number", example: "1"},
-            clinicId: {type: "number", example: "1"},
-            title: {type:"string", example: "Aviso Importante"},
-            text: {type:"string", example: "Consulta cancelada devido à manutenção."},
-            timestamp: {type:"string", format: "date-time", example: "2025-02-21T14:30:00Z"},
-          }
-        },
-
-        SecretaryPostRequest: {
-          type: "object",
-          properties: {
-            userId: {type: "number", example: "1"},
-            clinicId: {type: "number", example: "1"},
-            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
-          },
-          required: ["userId", "clinicId"],
-        },
-        SecretaryPutRequest: {
-          type: "object",
-          properties: {
-            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"}, },
-        },
-        SecretaryResponse: {
-          type: "object",
-          properties: {
-            userId: {type: "number", example: "1"},
-            clinicId: {type: "number", example: "1"},
-            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
           }
         },
 

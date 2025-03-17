@@ -14,6 +14,7 @@ class SecretaryService {
 
     Validations.validateUserId(userId);
     Validations.validateClinicId(clinicId);
+    
     if (workingHours) Validations.validateWorkingHours(workingHours);
 
     return await secretaryRepository.createSecretary(

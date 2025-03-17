@@ -6,15 +6,15 @@ class AnnouncementController {
   async createAnnouncement(request: Request, response: Response): Promise<Response> {
     try {
       const clinicId = parseInt(request.params.clinicId);
-      const { 
-        announcementId,
+      const {
+        authorId,
         title, 
         text 
       } = request.body;
       
       const announcement = await AnnouncementService.createAnnouncement(
-        announcementId,
         clinicId,
+        authorId,
         title,
         text,
       );
@@ -54,17 +54,15 @@ class AnnouncementController {
       const clinicId = parseInt(request.params.clinicId);
       const announcementdId = parseInt(request.params.announcementdId);
 
-      const {
-        title,
-        text
-      }  = request.body;
+      const { title, text }  = request.body;
 
       const announcement = await AnnouncementService.updateAnnouncement(
         announcementdId, 
         clinicId,
-        title, 
-        text
-        
+        {
+          title, 
+          text
+        }
       );
       return !announcement
         ? response.status(404).json({ error: 'Aviso não encontrado' })

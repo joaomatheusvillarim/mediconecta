@@ -40,11 +40,11 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/clinics/:clinicId/secretaries/", (request, response) => {SecretaryController.createSecretary(request, response)});
+router.post("/clinics/:clinicId/secretaries", (request, response) => {SecretaryController.createSecretary(request, response)});
 
 /**
  * @swagger
- * /clinics/{clinicId}/secretaries/{secretaryId}:
+ * /clinics/{clinicId}/secretaries/{userId}:
  *  get:
  *    tags:
  *      - Secretários
@@ -76,7 +76,7 @@ router.post("/clinics/:clinicId/secretaries/", (request, response) => {Secretary
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/secretaries/:id", (request, response) => {SecretaryController.getSecretaryById(request, response)});
+router.get("/clinics/:clinicId/secretaries/:userId", (request, response) => {SecretaryController.getSecretaryById(request, response)});
 
 /**
  * @swagger
@@ -105,11 +105,11 @@ router.get("/secretaries/:id", (request, response) => {SecretaryController.getSe
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/secretaries/", (request, response) => {SecretaryController.getAllSecretaries(request, response)});
+router.get("/clinics/:clinicId/secretaries", (request, response) => {SecretaryController.getAllSecretaries(request, response)});
 
 /**
  * @swagger
- * /clinics/{clinicId}/secretaries/{id}:
+ * /clinics/{clinicId}/secretaries/{userId}:
  *  put:
  *    tags:
  *      - Secretários
@@ -146,11 +146,11 @@ router.get("/clinics/:clinicId/secretaries/", (request, response) => {SecretaryC
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/clinics/:clinicId/secretaries/:secreataryId", (request, response) => {SecretaryController.updateSecretary(request, response)});
+router.put("/clinics/:clinicId/secretaries/:userId", (request, response) => {SecretaryController.updateSecretary(request, response)});
 
 /**
  * @swagger
- * /clinics/{clinicId}/secretaries/{secretaryId}:
+ * /clinics/{clinicId}/secretaries/{userId}:
  *  delete:
  *    tags:
  *      - Secretários
@@ -178,6 +178,6 @@ router.put("/clinics/:clinicId/secretaries/:secreataryId", (request, response) =
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/clinics/:clinicId/secretaries/:secretaryId", (request, response) => {SecretaryController.deleteSecretary(request, response)});
+router.delete("/clinics/:clinicId/secretaries/:userId", (request, response) => {SecretaryController.deleteSecretary(request, response)});
 
 export default router;

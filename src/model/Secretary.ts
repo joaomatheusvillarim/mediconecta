@@ -9,7 +9,7 @@ interface SecretaryAttributes {
   workingHours: string;
 }
 
-interface SecretaryCreationAttributes extends Optional<SecretaryAttributes, 'workingHours'> {}
+interface SecretaryCreationAttributes extends Optional<SecretaryAttributes, "workingHours"> {}
 
 export class Secretary extends Model<SecretaryAttributes, SecretaryCreationAttributes> implements SecretaryAttributes {
   public userId!: number;
@@ -49,9 +49,8 @@ Secretary.init(
   },
   {
     sequelize,
-    tableName: "secretary",
-    timestamps: true,
-    paranoid: true,
+    tableName: "secretaries",
+    timestamps: false,
   }
 );
 
