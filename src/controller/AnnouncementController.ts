@@ -5,7 +5,19 @@ class AnnouncementController {
 
   async createAnnouncement(request: Request, response: Response): Promise<Response> {
     try {
-      const announcement = await AnnouncementService.createAnnouncement(request.body);
+      const clinicId = parseInt(request.params.clinicId);
+      const { 
+        announcementId,
+        title, 
+        text 
+      } = request.body;
+      
+      const announcement = await AnnouncementService.createAnnouncement(
+        announcementId,
+        clinicId,
+        title,
+        text,
+      );
       return response.status(201).json(announcement);
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao criar aviso' });
@@ -14,8 +26,11 @@ class AnnouncementController {
 
   async getAnnouncementById(request: Request, response: Response): Promise<Response> {
     try {
-      const announcement = await AnnouncementService.getAnnouncementById(parseInt(request.params.id));
-      return !announcement 
+      const clinicId = parseInt(request.params.clinicId);
+      const announcementdId = parseInt(request.params.announcementdId);
+
+      const announcement = await AnnouncementService.getAnnouncementById(announcementdId, clinicId);
+      return !announcement
         ? response.status(404).json({ error: 'Aviso não encontrado' }) 
         : response.status(200).json(announcement);
     } catch (error) {
@@ -23,18 +38,34 @@ class AnnouncementController {
     }
   }
 
-  async getAllAnnouncements(response: Response): Promise<Response> {
+  async getAllAnnouncements(request: Request, response: Response): Promise<Response> {
     try {
-      const announcements = await AnnouncementService.getAllAnnouncements();
+      const clinicId = parseInt(request.params.clinicId);
+      
+      const announcements = await AnnouncementService.getAllAnnouncements(clinicId);
       return response.status(200).json(announcements);
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao listar avisos' });
+      return response.status(500).json({ error: 'Erro ao buscar aviso' });
     }
   }
 
   async updateAnnouncement(request: Request, response: Response): Promise<Response> {
     try {
-      const announcement = await AnnouncementService.updateAnnouncement(parseInt(request.params.id), request.body);
+      const clinicId = parseInt(request.params.clinicId);
+      const announcementdId = parseInt(request.params.announcementdId);
+
+      const {
+        title,
+        text
+      }  = request.body;
+
+      const announcement = await AnnouncementService.updateAnnouncement(
+        announcementdId, 
+        clinicId,
+        title, 
+        text
+        
+      );
       return !announcement
         ? response.status(404).json({ error: 'Aviso não encontrado' })
         : response.status(200).json(announcement);
@@ -45,12 +76,15 @@ class AnnouncementController {
 
   async deleteAnnouncement(request: Request, response: Response): Promise<Response> {
     try {
-      const success = await AnnouncementService.deleteAnnouncement(parseInt(request.params.id));
+      const clinicId = parseInt(request.params.clinicId);
+      const announcementdId = parseInt(request.params.announcementdId);
+
+      const success = await AnnouncementService.deleteAnnouncement(announcementdId, clinicId);
       return !success
         ? response.status(404).json({ error: 'Aviso não encontrado' })
         : response.status(204).send();
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao excluir aviso' });
+      return response.status(500).json({ error: 'Erro ao remover aviso' });
     }
   }
 }

@@ -11,11 +11,19 @@ const router = Router();
 
 /**
  * @swagger
- * /users/{user_id}/clinics/{clinic_id}/announcement/:
+ * /clinics/{clinic_id}/announcement/:
  *  post:
  *    tags:
  *      - Avisos
- *    summary: Criar um novo aviso.
+ *    summary: Criar um novo aviso pertencente a um consultório    
+ *    parameters:
+ *      - name: clinicId
+ *        in: path
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
  *    requestBody:
  *      content:
  *        application/json:
@@ -32,21 +40,26 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
  */
-router.post("/users/:user_id/clinics/:clinic_id/announcement/", (request, response) => { 
-    AnnouncementController.createAnnouncement(request, response);
-});
+router.post("/clinics/:clinic_id/announcement/", (request, response) => {AnnouncementController.createAnnouncement(request, response);});
 
 /**
  * @swagger
- * /users/{user_id}/clinics/{clinic_id}/announcement/{announcement_id}:
+ * /clinics/{clinic_id}/announcement/{announcement_id}:
  *  get:
  *    tags:
  *      - Avisos
  *    summary: Recuperar aviso a partir do seu id.
  *    parameters:
- *      - name: id
+ *      - name: clinicId
  *        in: path
- *        description: id do aviso
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: announcementId
+ *        in: path
+ *        description: ID do anuncio
  *        required: true
  *        schema:
  *          type: integer
@@ -63,9 +76,7 @@ router.post("/users/:user_id/clinics/:clinic_id/announcement/", (request, respon
  *      500:
  *        description: Erro no servidor.
  */
-router.get("/users/:user_id/clinics/:clinic_id/announcement/:announcement_id", (request, response) => { 
-    AnnouncementController.getAnnouncementById(request, response);
-});
+router.get("/clinics/:clinic_id/announcement/:announcement_id", (request, response) => { AnnouncementController.getAnnouncementById(request, response);});
 
 /**
  * @swagger
@@ -74,6 +85,14 @@ router.get("/users/:user_id/clinics/:clinic_id/announcement/:announcement_id", (
  *    tags:
  *      - Avisos
  *    summary: Recuperar todos os avisos.
+ *    parameters:
+ *      - name: clinicId
+ *        in: path
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
  *    responses:
  *      200:
  *        description: Operação bem-sucedida.
@@ -86,19 +105,24 @@ router.get("/users/:user_id/clinics/:clinic_id/announcement/:announcement_id", (
  *      500:
  *        description: Erro no servidor.
  */
-router.get("/users/:user_id/clinics/:clinic_id/announcement/", (request, response) => { 
-    AnnouncementController.getAllAnnouncements(response);
-});
+router.get("/clinics/:clinic_id/announcement/", (request, response) => { AnnouncementController.getAllAnnouncements(request, response);});
 
 /**
  * @swagger
- * /users/{user_id}/clinics/{clinic_id}/announcement/{announcement_id}:
+ * /clinics/{clinic_id}/announcement/{announcement_id}:
  *  put:
  *    tags:
  *      - Avisos
  *    summary: Atualizar aviso.
  *    parameters:
- *      - name: id
+ *      - name: clinicId
+ *        in: path
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: announcementId
  *        in: path
  *        description: id do aviso
  *        required: true
@@ -122,19 +146,24 @@ router.get("/users/:user_id/clinics/:clinic_id/announcement/", (request, respons
  *      500:
  *        description: Erro no servidor.
  */
-router.put("/users/:user_id/clinics/:clinic_id/announcement/:announcement_id", (request, response) => { 
-    AnnouncementController.updateAnnouncement(request, response);
-});
+router.put("/clinics/:clinic_id/announcement/:announcement_id", (request, response) => { AnnouncementController.updateAnnouncement(request, response);});
 
 /**
  * @swagger
- * /users/{user_id}/clinics/{clinic_id}/announcement/{announcement_id}:
+ * /clinics/{clinic_id}/announcement/{announcement_id}:
  *  delete:
  *    tags:
  *      - Avisos
  *    summary: Remover um aviso a partir de seu id.
  *    parameters:
- *      - name: id
+ *      - name: clinicId
+ *        in: path
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: announcementId
  *        in: path
  *        description: id do aviso
  *        required: true

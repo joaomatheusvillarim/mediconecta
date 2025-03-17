@@ -1,23 +1,24 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
+import { Model, DataTypes, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
 import sequelize from '../config/database';
+import { User } from './User';
 import { Clinic } from './Clinic';
 
 interface AnnouncementAttributes {
   announcementId: number;
-  userId: number;
+  authorId: number;
   clinicId: number;
   title: string;
-  body: string;
-  timestamp: Date;
+  text: string;
+  posted: Date;
 }
 
 export class Announcement extends Model<InferAttributes<Announcement>, InferCreationAttributes<Announcement>> implements AnnouncementAttributes {
   declare announcementId: CreationOptional<number>;
-  declare userId: number;
+  declare authorId: number;
   declare clinicId: number;
   declare title: string;
-  declare body: string;
-  declare timestamp: Date;
+  declare text: string;
+  declare posted: Date;
 }
 
 Announcement.init(
@@ -27,23 +28,31 @@ Announcement.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    userId: {
+    authorId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: User,
+        key: 'id',
+      },
     },
     clinicId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: Clinic,
+        key: 'id',
+      },
     },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    body: {
-      type: DataTypes.TEXT,
+    text: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    timestamp: {
+    posted: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
@@ -51,12 +60,18 @@ Announcement.init(
   },
   {
     sequelize,
-    tableName: "announcements",
-    timestamps: false,
+    modelName: 'Announcement',
+    timestamps: true, // Adiciona createdAt e updatedAt automaticamente
   }
 );
 
-Announcement.belongsTo(Clinic, {
-    foreignKey: 'clinicId',
-    as: 'clinic',
-});
+Announcement.belongsTo(
+  User, { 
+    foreignKey: 'authorId' 
+  }
+);
+Announcement.belongsTo(
+  Clinic, { 
+    foreignKey: 'clinicId' 
+  }
+);

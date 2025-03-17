@@ -1,6 +1,7 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { Express } from "express";
+import { Announcement } from "../model/Announcement";
 
 const options: swaggerJSDoc.Options = {
   definition: {
@@ -214,8 +215,10 @@ const options: swaggerJSDoc.Options = {
         AnnouncementPostRequest: {
           type: "object",
           properties: {
+            announcementId: {type: "number", example: "1"},
+            clinicId: {type: "number", example: "1"},
             title: {type:"string", example: "Aviso Importante"},
-            body: {type:"string", example: "Consulta cancelada devido à manutenção."},
+            text: {type:"string", example: "Consulta cancelada devido à manutenção."},
             timestamp: {type:"string", format: "date-time", example: "2025-02-21T14:30:00Z"},
           },
           required: ["title", "body", "timestamp"],
@@ -224,15 +227,16 @@ const options: swaggerJSDoc.Options = {
           type: "object",
           properties: {
             title: {type:"string", example: "Aviso Atualizado"},
-            body: {type:"string", example: "Novo aviso sobre expediente."},
+            text: {type:"string", example: "Novo aviso sobre expediente."},
           },
         },
         AnnouncementResponse: {
           type: "object",
           properties: {
-            id: {type: "number", example: "1"},
+            announcementId: {type: "number", example: "1"},
+            clinicId: {type: "number", example: "1"},
             title: {type:"string", example: "Aviso Importante"},
-            body: {type:"string", example: "Consulta cancelada devido à manutenção."},
+            text: {type:"string", example: "Consulta cancelada devido à manutenção."},
             timestamp: {type:"string", format: "date-time", example: "2025-02-21T14:30:00Z"},
           }
         },

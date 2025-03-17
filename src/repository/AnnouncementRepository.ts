@@ -1,34 +1,79 @@
 import { InferCreationAttributes } from "sequelize";
-import { Announcement } from "../model/Announcement";
+import { Announcement } from '../model/Announcement';
 
 export class AnnouncementRepository {
 
-  async createAnnouncement(data: InferCreationAttributes<Announcement>) {
-      return await Announcement.create(data);
+  async createAnnouncement(
+    clinicId: number, 
+    authorId: number, 
+    title: string, 
+    text: string,
+    posted: Date
+  ) {
+    return await Announcement.create({ 
+        clinicId, 
+        authorId, 
+        title, 
+        text, 
+        posted: new Date() 
+    });
   }
-  
-  async getAnnouncementById(id: number) {
-      return await Announcement.findByPk(id);
+
+  async getAnnouncementById(
+    announcementId: number,
+    clinicId: number
+  ) {
+    return await Announcement.findOne({
+        where: {
+            announcementId : announcementId,
+            clinicId : clinicId,
+        }
+    });
   }
-  
-  async getAllAnnouncements() {
-      return await Announcement.findAll();
+
+  async getAllAnnouncements(clinicId: number) {
+    return await Announcement.findAll({
+      where: { 
+        clinicId: clinicId 
+      },
+    });
   }
-  
-  async updateAnnouncement(id: number, data: InferCreationAttributes<Announcement>) {
-      const announcement = await Announcement.findByPk(id);
-      return announcement
-        ? await announcement!.update(data)
-        : null;
+
+  async updateAnnouncement(
+    announcementId: number,
+    clinicId: number, 
+    data: Partial<{ 
+        title: string; 
+        text: string 
+    }>
+  ) {
+    const announcement = await Announcement.findOne({
+        where: {
+            announcementId: announcementId,
+            clinicId: clinicId,
+        }
+    });
+    return announcement
+      ? await announcement!.update(data)
+      : null;
   }
-  
-  async deleteAnnouncement(id: number) {
-      let resp = false;
-      const announcement = await Announcement.findByPk(id);
-      if (announcement) {
-          await announcement!.destroy();
-          resp = true;
-      }
-      return resp;
-  }
+
+  async deleteAnnouncement(
+    announcementId: number,
+    clinicId: number
+  ) {
+    let resp = false;
+    const announcement = await Announcement.findOne({
+        where: {
+        announcementId: announcementId,
+        clinicId: clinicId,
+        }
+    });
+    if (announcement) {
+        await announcement!.destroy();
+        resp = true;
+    }
+    return resp;
+    }
+
 }

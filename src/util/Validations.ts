@@ -92,6 +92,12 @@ class Validations {
     if (! await ClinicService.getClinicById(clinicId)) throw new Error("O consultório deve ter um ID válido");
   }
 
+  async validateOrdinaryText(text: string) {
+    if (this.isEmpty(text)) {
+      throw new Error("O texto não pode ser vazio.")
+    }
+  }
+
   async validateRecordEntryIndex(
     userId: number,
     clinicId: number,
