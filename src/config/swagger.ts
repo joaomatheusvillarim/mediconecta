@@ -146,23 +146,32 @@ const options: swaggerJSDoc.Options = {
         DoctorPostRequest: {
           type: "object",
           properties: {
-            userId: {type:"number", example: "1"},
-            crm: {type:"string", example: "123456"},
+            userId: {type: "number", example: "1"},
+            clinicId: {type: "number", example: "1"},
+            credentials: {type: "string", example: "1234PB"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
+            specialty: {type: "string", example: "endocrinologia"},
+            insurance: {type: "string", example: "unimed"},
           },
-          required: ["userId", "crm"],
+          required: ["userId", "clinicId", "credentials", "specialty"],
         },
         DoctorPutRequest: {
           type: "object",
           properties: {
-            crm: {type:"string", example: "654321"},
-          },
+            credentials: {type: "string", example: "1234PB"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
+            specialty: {type: "string", example: "endocrinologia"},
+            insurance: {type: "string", example: "unimed"},          },
         },
         DoctorResponse: {
           type: "object",
           properties: {
-            id: {type: "number", example: "1"},
             userId: {type: "number", example: "1"},
-            crm: {type: "string", example: "123456"},
+            clinicId: {type: "number", example: "1"},
+            credentials: {type: "string", example: "1234PB"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
+            specialty: {type: "string", example: "endocrinologia"},
+            insurance: {type: "string", example: "unimed"},
           }
         },
         

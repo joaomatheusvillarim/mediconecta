@@ -11,11 +11,19 @@ const router = Router();
 
 /**
  * @swagger
- * /doctors/:
+ * /clinics/{clinicId}/doctors:
  *  post:
  *    tags:
  *      - Médicos
- *    summary: Criar um novo médico.
+ *    summary: Vincular um usuário como médico de um consultório.
+ *    parameters:
+ *      - name: clinicId
+ *        in: path
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
  *    requestBody:
  *      content:
  *        application/json:
@@ -32,19 +40,26 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/doctors/", (request, response) => {DoctorController.createDoctor(request, response)});
+router.post("/clinics/:clinicId/doctors/", (request, response) => {DoctorController.createDoctor(request, response)});
 
 /**
  * @swagger
- * /doctors/{id}:
+ * /clinics/{clinicId}/doctors/{doctorId}:
  *  get:
  *    tags:
  *      - Médicos
  *    summary: Recuperar médico a partir de seu id.
  *    parameters:
- *      - name: id
+ *      - name: clinicId
  *        in: path
- *        description: id do médico
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: userId
+ *        in: path
+ *        description: ID do usuário paciente
  *        required: true
  *        schema:
  *          type: integer
@@ -65,11 +80,19 @@ router.get("/doctors/:id", (request, response) => {DoctorController.getDoctorByI
 
 /**
  * @swagger
- * /doctors/:
+ * /clinics/{clinicId}/doctors:
  *  get:
  *    tags:
  *      - Médicos
  *    summary: Recuperar todos os médicos.
+ *    parameters:
+ *      - name: clinicId
+ *        in: path
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
  *    responses:
  *      200:
  *        description: Operação bem-sucedida.
@@ -82,19 +105,26 @@ router.get("/doctors/:id", (request, response) => {DoctorController.getDoctorByI
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/doctors/", (request, response) => {DoctorController.getAllDoctors(response)});
+router.get("/clinics/:clinicId/doctors/", (request, response) => {DoctorController.getAllDoctors(request, response)});
 
 /**
  * @swagger
- * /doctors/{id}:
+ * /clinics/{clinicId}/doctors/{doctorId}:
  *  put:
  *    tags:
  *      - Médicos
  *    summary: Atualizar médico.
  *    parameters:
- *      - name: id
+ *      - name: clinicId
  *        in: path
- *        description: id do médico
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: userId
+ *        in: path
+ *        description: ID do usuário paciente
  *        required: true
  *        schema:
  *          type: integer
@@ -116,19 +146,26 @@ router.get("/doctors/", (request, response) => {DoctorController.getAllDoctors(r
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/doctors/:id", (request, response) => {DoctorController.updateDoctor(request, response)});
+router.put("/clinics/:clinicId/doctors/:doctorId", (request, response) => {DoctorController.updateDoctor(request, response)});
 
 /**
  * @swagger
- * /doctors/{id}:
+ * /clinics/{clinicId}/doctors/{doctorId}:
  *  delete:
  *    tags:
  *      - Médicos
  *    summary: Remover um médico a partir de seu id.
  *    parameters:
- *      - name: id
+ *      - name: clinicId
  *        in: path
- *        description: id do médico
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: userId
+ *        in: path
+ *        description: ID do usuário paciente
  *        required: true
  *        schema:
  *          type: integer
@@ -141,6 +178,6 @@ router.put("/doctors/:id", (request, response) => {DoctorController.updateDoctor
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/doctors/:id", (request, response) => {DoctorController.deleteDoctor(request, response)});
+router.delete("/clinics/:clinicId/doctors/:doctorId", (request, response) => {DoctorController.deleteDoctor(request, response)});
 
 export default router;

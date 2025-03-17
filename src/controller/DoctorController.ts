@@ -5,7 +5,23 @@ class DoctorController {
 
   async createDoctor(request: Request, response: Response): Promise<Response> {
     try {
-      const doctor = await DoctorService.createDoctor(request.body);
+      const clinicId = parseInt(request.params.clinicId);
+      const {
+        userId,
+        credentials,
+        workingHours,
+        specialty,
+        insurance
+      }  = request.body;
+
+      const doctor = await DoctorService.createDoctor(
+        userId,
+        clinicId,
+        credentials,
+        workingHours,
+        specialty,
+        insurance
+      );
       return response.status(201).json(doctor);
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao criar médico' });
@@ -14,7 +30,10 @@ class DoctorController {
 
   async getDoctorById(request: Request, response: Response): Promise<Response> {
     try {
-      const doctor = await DoctorService.getDoctorById(parseInt(request.params.id));
+      const clinicId = parseInt(request.params.clinicId);
+      const userId = parseInt(request.params.userId);
+
+      const doctor = await DoctorService.getDoctorById(userId, clinicId);
       return !doctor 
         ? response.status(404).json({ error: 'Médico não encontrado' }) 
         : response.status(200).json(doctor);
@@ -23,9 +42,11 @@ class DoctorController {
     }
   }
 
-  async getAllDoctors(response: Response): Promise<Response> {
+  async getAllDoctors(request: Request, response: Response): Promise<Response> {
     try {
-      const doctors = await DoctorService.getAllDoctors();
+      const clinicId = parseInt(request.params.clinicId);
+
+      const doctors = await DoctorService.getAllDoctors(clinicId);
       return response.status(200).json(doctors);
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao listar médicos' });
@@ -34,7 +55,26 @@ class DoctorController {
 
   async updateDoctor(request: Request, response: Response): Promise<Response> {
     try {
-      const doctor = await DoctorService.updateDoctor(parseInt(request.params.id), request.body);
+      const clinicId = parseInt(request.params.clinicId);
+      const userId = parseInt(request.params.userId);
+
+      const {
+        credentials,
+        workingHours,
+        specialty,
+        insurance
+      }  = request.body;
+
+      const doctor = await DoctorService.updateDoctor(
+        userId,
+        clinicId,
+        {
+          credentials,
+          workingHours,
+          specialty,
+          insurance
+        }
+      );
       return !doctor
         ? response.status(404).json({ error: 'Médico não encontrado' })
         : response.status(200).json(doctor);
@@ -45,7 +85,10 @@ class DoctorController {
 
   async deleteDoctor(request: Request, response: Response): Promise<Response> {
     try {
-      const success = await DoctorService.deleteDoctor(parseInt(request.params.id));
+      const clinicId = parseInt(request.params.clinicId);
+      const userId = parseInt(request.params.userId);
+
+      const success = await DoctorService.deleteDoctor(userId, clinicId);
       return !success
         ? response.status(404).json({ error: 'Médico não encontrado' })
         : response.status(204).send();

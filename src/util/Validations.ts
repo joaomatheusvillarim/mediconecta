@@ -111,6 +111,15 @@ class Validations {
     if (this.isEmpty(content)) throw new Error("O conteúdo de um registro no prontuário não pode ser vazio.");
   }
 
+  validateDoctorCredentials(credentials: string) {
+    const credentialsRegex = /^\d{4,6}[A-Z]{2}$/i;
+    if (!credentialsRegex.test(credentials)) throw new Error("O CRM deve ter credenciais válidas.")
+  }
+
+  validateInsurance(insurance: string) {
+    if (this.isEmpty(insurance)) throw new Error("O convênio não pode ser vazio.")
+  }
+
 }
 
 export default new Validations();
