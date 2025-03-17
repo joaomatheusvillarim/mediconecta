@@ -1,54 +1,21 @@
 import { Router } from 'express';
-import PatientController from '../controller/PatientController';
+import RecordController from '../controller/RecordController';
 
 /**
  * @swagger
  * tags:
- *  name: Pacientes
- *  description: Endpoints para CRUD de pacientes
+ *  name: Prontuários
+ *  description: Endpoints para CRUD de prontuários
 */
 const router = Router();
 
 /**
  * @swagger
- * /clinics/{clinicId}/patients/:
+ * /clinics/{clinicId}/patients/{userId}/record:
  *  post:
  *    tags:
- *      - Pacientes
- *    summary: Vincular um usuário como paciente de um consultório.
- *    parameters:
- *      - name: clinicId
- *        in: path
- *        description: ID do consultório
- *        required: true
- *        schema:
- *          type: integer
- *          format: int64
- *    requestBody:
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/PatientPostRequest'
- *      required: true
- *    responses:
- *      201:
- *        description: Operação bem-sucedida.
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/PatientResponse'
- *      500:
- *        description: Dados inválidos.
-*/
-router.post("/clinics/:clinicId/patients", (request, response) => {PatientController.createPatient(request, response)});
-
-/**
- * @swagger
- * /clinics/{clinicId}/patients/{userId}:
- *  get:
- *    tags:
- *      - Pacientes
- *    summary: Recuperar paciente de uma clínica a partir do ID de usuário.
+ *      - Prontuários
+ *    summary: Criar um novo registro em prontuário.
  *    parameters:
  *      - name: clinicId
  *        in: path
@@ -64,31 +31,85 @@ router.post("/clinics/:clinicId/patients", (request, response) => {PatientContro
  *        schema:
  *          type: integer
  *          format: int64
+ *    requestBody:
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/RecordPostRequest'
+ *      required: true
+ *    responses:
+ *      201:
+ *        description: Operação bem-sucedida.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/RecordResponse'
+ *      500:
+ *        description: Dados inválidos.
+*/
+router.post("/clinics/:clinicId/patients/:userId/record", (request, response) => {RecordController.createRecordEntry(request, response)});
+
+/**
+ * @swagger
+ * /clinics/{clinicId}/patients/{userId}/record/{entryIndex}:
+ *  get:
+ *    tags:
+ *      - Prontuários
+ *    summary: Recuperar registro em prontuário a partir de seu índice.
+ *    parameters:
+ *      - name: clinicId
+ *        in: path
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: userId
+ *        in: path
+ *        description: ID do usuário paciente
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: entryIndex
+ *        in: path
+ *        description: índice do registro no prontuário
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
  *    responses:
  *      200:
  *        description: Operação bem sucedida.
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/PatientResponse'
+ *              $ref: '#/components/schemas/RecordResponse'
  *      404:
- *        description: paciente não encontrado.
+ *        description: prontuário não encontrado.
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/patients/:userId", (request, response) => {PatientController.getPatientById(request, response)});
+router.get("/clinics/:clinicId/patients/:userId/record/:entryIndex", (request, response) => {RecordController.getRecordEntryByIndex(request, response)});
 
 /**
  * @swagger
- * /clinics/{clinicId}/patients:
+ * /clinics/{clinicId}/patients/{userId}/record:
  *  get:
  *    tags:
- *      - Pacientes
- *    summary: Recuperar todos os pacientes de um consultório.
+ *      - Prontuários
+ *    summary: Recuperar todos os registros de um prontuário.
  *    parameters:
  *      - name: clinicId
  *        in: path
  *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: userId
+ *        in: path
+ *        description: ID do usuário paciente
  *        required: true
  *        schema:
  *          type: integer
@@ -101,19 +122,19 @@ router.get("/clinics/:clinicId/patients/:userId", (request, response) => {Patien
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/PatientResponse'
+ *                $ref: '#/components/schemas/RecordResponse'
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/patients", (request, response) => {PatientController.getAllPatients(request, response)});
+router.get("/clinics/:clinicId/patients/:userId/record", (request, response) => {RecordController.getAllRecordEntries(request, response)});
 
 /**
  * @swagger
- * /clinics/{clinicId}/patients/{userId}:
+ * /clinics/{clinicId}/patients/{userId}/record/{entryIndex}:
  *  put:
  *    tags:
- *      - Pacientes
- *    summary: Atualizar paciente de um consultório.
+ *      - Prontuários
+ *    summary: Atualizar prontuário.
  *    parameters:
  *      - name: clinicId
  *        in: path
@@ -125,6 +146,13 @@ router.get("/clinics/:clinicId/patients", (request, response) => {PatientControl
  *      - name: userId
  *        in: path
  *        description: ID do usuário paciente
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: entryIndex
+ *        in: path
+ *        description: índice do registro no prontuário
  *        required: true
  *        schema:
  *          type: integer
@@ -133,28 +161,28 @@ router.get("/clinics/:clinicId/patients", (request, response) => {PatientControl
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/PatientPutRequest'
+ *            $ref: '#/components/schemas/RecordPutRequest'
  *    responses:
  *      200:
  *        description: Operação bem sucedida.
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/PatientResponse'
+ *              $ref: '#/components/schemas/RecordResponse'
  *      404:
- *        description: paciente não encontrado.
+ *        description: prontuário não encontrado.
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/clinics/:clinicD/patients/:userId", (request, response) => {PatientController.updatePatient(request, response)});
+router.put("/clinics/:clinicId/patients/:userId/record/:entryIndex", (request, response) => {RecordController.updateRecord(request, response)});
 
 /**
  * @swagger
- * /clinics/{clinicId}/patients/{userId}:
+ * /clinics/{clinicId}/patients/{userId}/record/{entryIndex}:
  *  delete:
  *    tags:
- *      - Pacientes
- *    summary: Remover um paciente a partir de seu id.
+ *      - Prontuários
+ *    summary: Remover um prontuário a partir de seu id.
  *    parameters:
  *      - name: clinicId
  *        in: path
@@ -170,14 +198,21 @@ router.put("/clinics/:clinicD/patients/:userId", (request, response) => {Patient
  *        schema:
  *          type: integer
  *          format: int64
+ *      - name: entryIndex
+ *        in: path
+ *        description: índice do registro no prontuário
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
  *    responses:
  *      204:
  *        description: Operação bem sucedida.
  *      404:
- *        description: paciente não encontrado.
+ *        description: prontuário não encontrado.
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/clinics/:clinicId/patients/:userId", (request, response) => {PatientController.deletePatient(request, response)});
+router.delete("/clinics/:clinicId/patients/:userId/record/:entryIndex", (request, response) => {RecordController.deleteRecordEntry(request, response)});
 
 export default router;

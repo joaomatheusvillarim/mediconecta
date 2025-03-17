@@ -27,7 +27,10 @@ class UserService {
 
     Validations.validateCpf(cpf);
     Validations.validateBirthday(birthday);
+
+    if (!sex) sex = UserSex.NAO_ESPECIFICADO;
     Validations.validateSex(sex);
+
     Validations.validateAddress(address);
     Validations.validatePhone(phone);
 

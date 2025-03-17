@@ -1,39 +1,46 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
+import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database';
-import { Patient } from './Patient';
+import { User } from './User';
+import { Clinic } from './Clinic';
 
 interface RecordAttributes {
-  id: number;
-  patientId: number;
-  entries: JSON[];
+  userId: number;
+  clinicId: number;
+  entries: string[];
 }
 
-export class Record extends Model<InferAttributes<Record>, InferCreationAttributes<Record>> implements RecordAttributes {
-  declare id: CreationOptional<number>;
-  declare patientId: number;
-  declare entries: CreationOptional<JSON[]>;
+interface RecordCreationAttributes extends Optional<RecordAttributes, "entries"> {}
+
+export class Record extends Model<RecordAttributes, RecordCreationAttributes> implements RecordAttributes {
+  public readonly userId!: number;
+  public readonly clinicId!: number;
+  public entries!: string[];
 }
 
 Record.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+    userId: {
       primaryKey: true,
-    },
-    patientId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true,
       references: {
-        model: Patient,
-        key: "patientId"
+        model: User,
+        key: "id",
+      },
+    },
+    clinicId: {
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Clinic,
+        key: "id",
       },
     },
     entries: {
-      type: DataTypes.ARRAY,
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
-      defaultValue: {},
+      defaultValue: [],
     },
   },
   {
@@ -45,7 +52,12 @@ Record.init(
 );
 
 Record.belongsTo(
-  Patient, {
-    foreignKey: "patientId",
+  User, {
+    foreignKey: "userId",
   }
-)
+);
+Record.belongsTo(
+  Clinic, {
+    foreignKey: "clinicId"
+  }
+);

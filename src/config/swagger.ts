@@ -23,14 +23,14 @@ const options: swaggerJSDoc.Options = {
           properties: {
             name: {type:"string", example: "Joao Matheus"},
             email: {type:"string", example: "joaomatheus@gmail.com"},
-            password: {type:"string", example: "joaomatheus123"},
+            password: {type:"string", example: "Joaomatheus123!"},
             cpf: {type: "string", example: "12345678900"},
-            birthdate: {type: "date", example: "01/01/2000"},
-            sex: {type: "string", example: "male"},
+            birthday: {type: "date", example: "01/01/2000"},
+            sex: {type: "string", example: "MASCULINO"},
             address: {type: "string", example: "Rua Aprigio Veloso, 880"},
             phone: {type: "string", example: "83987654321"},
           },
-          required: ["name", "email", "password", "cpf", "birthdate", "sex",
+          required: ["name", "email", "password", "cpf", "birthday", "sex",
             "address", "phone"],
         },
         UserPutRequest: {
@@ -40,8 +40,8 @@ const options: swaggerJSDoc.Options = {
             email: {type:"string", example: "joaomatheus@gmail.com"},
             password: {type:"string", example: "joaomatheus123"},
             cpf: {type: "string", example: "12345678900"},
-            birthdate: {type: "date", example: "01/01/2000"},
-            sex: {type: "string", example: "male"},
+            birthday: {type: "date", example: "01/01/2000"},
+            sex: {type: "string", example: "MASCULINO"},
             address: {type: "string", example: "Rua Aprigio Veloso, 880"},
             phone: {type: "string", example: "83987654321"},
           },
@@ -54,10 +54,51 @@ const options: swaggerJSDoc.Options = {
             email: {type:"string", example: "joaomatheus@gmail.com"},
             password: {type:"string", example: "joaomatheus123"},
             cpf: {type: "string", example: "12345678900"},
-            birthdate: {type: "date", example: "01/01/2000"},
-            sex: {type: "string", example: "male"},
+            birthday: {type: "date", example: "01/01/2000"},
+            sex: {type: "string", example: "MASCULINO"},
             address: {type: "string", example: "Rua Aprigio Veloso, 880"},
             phone: {type: "string", example: "83987654321"},
+          }
+        },
+
+        ClinicPostRequest: {
+          type: "object",
+          properties: {
+            adminId: {type: "number", example: "1"},
+            name: {type: "string", example: "Clínica Top Exames"},
+            address: {type: "string", example: "Rua Aprígio Veloso, 1000"},
+            workingHours: {type: "string", example: "seg-sex 8:00-12:00 14:00-18:00"},
+            specialties: {type: "string", example: "Endocrinologia e otorrinolaringologia"},
+            phone: {type: "string", example: "83987654321"},
+            email: {type: "string", example: "clinicatopexames@gmail.com"},
+          },
+          required: ["adminId", "name", "address", "workingHours", "specialties",
+            "phone", "email"
+          ],
+        },
+        ClinicPutRequest: {
+          type: "object",
+          properties: {
+            adminId: {type: "number", example: "1"},
+            name: {type: "string", example: "Clínica Top Exames"},
+            address: {type: "string", example: "Rua Aprígio Veloso, 1000"},
+            workingHours: {type: "string", example: "seg-sex 8:00-12:00 14:00-18:00"},
+            specialties: {type: "string", example: "Endocrinologia e otorrinolaringologia"},
+            phone: {type: "string", example: "83987654321"},
+            email: {type: "string", example: "clinicatopexames@gmail.com"},
+          },
+        },
+        ClinicResponse: {
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            adminId: {type: "number", example: "1"},
+            name: {type: "string", example: "Clínica Top Exames"},
+            address: {type: "string", example: "Rua Aprígio Veloso, 1000"},
+            workingHours: {type: "string", example: "seg-sex 8:00-12:00 14:00-18:00"},
+            specialties: {type: "string", example: "Endocrinologia e otorrinolaringologia"},
+            phone: {type: "string", example: "83987654321"},
+            email: {type: "string", example: "clinicatopexames@gmail.com"},
           }
         },
 
@@ -73,9 +114,33 @@ const options: swaggerJSDoc.Options = {
         PatientResponse: {
           type: "object",
           properties: {
-            id: {type: "number", example: "1"},
             userId: {type: "number", example: "1"},
+            clinicId: {type: "number", example: "1"},
           }
+        },
+
+        RecordPostRequest: {
+          type: "object",
+          properties: {
+            content: {type: "string", example: "{\nregistro\ndata:01/01/2025\nidade: 21\naltura: 1,75\npeso: 57kg\ncirurgias: nao\n}"}
+          },
+          required: ["content"],
+        },
+        RecordPutRequest: {
+          type: "object",
+          properties: {
+            content: {type: "string", example: "{\nregistro\ndata:01/01/2025\nidade: 21\naltura: 1,75\npeso: 57kg\ncirurgias: nao\n}"}
+          },
+          required: ["content"],
+        },
+        RecordResponse: {
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            patientId: {type: "number", example: "1"},
+            entries: {type: "array", items: {type: "string"}},
+          },
+          required: ["userId", "entries"],
         },
         
         DoctorPostRequest: {
@@ -101,33 +166,6 @@ const options: swaggerJSDoc.Options = {
           }
         },
         
-        ClinicPostRequest: {
-          type: "object",
-          properties: {
-            address: {type:"string", example: "Rua das Flores, 123"},
-            workingHours: {type:"string", example: "08:00 - 18:00"},
-            specialties: {type:"string", example: "Cardiologia, Ortopedia"},
-          },
-          required: ["address", "workingHours", "specialties"],
-        },
-        ClinicPutRequest: {
-          type: "object",
-          properties: {
-            address: {type:"string", example: "Avenida Brasil, 456"},
-            workingHours: {type:"string", example: "07:00 - 19:00"},
-            specialties: {type:"string", example: "Pediatria, Dermatologia"},
-          },
-        },
-        ClinicResponse: {
-          type: "object",
-          properties: {
-            id: {type: "number", example: "1"},
-            address: {type:"string", example: "Rua das Flores, 123"},
-            workingHours: {type:"string", example: "08:00 - 18:00"},
-            specialties: {type:"string", example: "Cardiologia, Ortopedia"},
-          }
-        },
-
         AppointmentPostRequest: {
           type: "object",
           properties: {
@@ -206,32 +244,6 @@ const options: swaggerJSDoc.Options = {
             userId: {type: "number", example: "1"},
           }
         },
-
-        MedicalRecordPostRequest: {
-          type: "object",
-          properties: {
-            patientId: {type: "number", example: "1"},
-            entries: {type: "array", items: {type: "string"}},
-          },
-          required: ["userId", "entries"],
-        },
-        MedicalRecordPutRequest: {
-          type: "object",
-          properties: {
-            patientId: {type: "number", example: "1"},
-            entries: {type: "array", items: {type: "string"}},
-          },
-          required: ["userId", "entries"],
-        },
-        MedicalRecordResponse: {
-          type: "object",
-          properties: {
-            id: {type: "number", example: "1"},
-            patientId: {type: "number", example: "1"},
-            entries: {type: "array", items: {type: "string"}},
-          },
-          required: ["userId", "entries"],
-        }
 
       }
     }

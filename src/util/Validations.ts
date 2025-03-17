@@ -1,4 +1,7 @@
 import { UserSex } from "../model/User";
+import UserService from "../service/UserService";
+import ClinicService from "../service/ClinicService";
+import RecordService from "../service/RecordService";
 
 class Validations {
 
@@ -44,8 +47,6 @@ class Validations {
 
   validateBirthday(birthday: Date) {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    birthday.setHours(0, 0, 0, 0);
     if (birthday > today) {
       throw new Error("A data de nascimento deve ser anterior a hoje.");
     }
@@ -53,7 +54,7 @@ class Validations {
 
   validateSex(sex: string) {
     sex = sex.toUpperCase();
-    if (!(sex in Object.values(UserSex))) {
+    if (!Object.values(UserSex).includes(sex as UserSex)) {
       throw new Error("O sexo deve ser masculino, feminino, ou não especificado");
     }
   }
@@ -81,6 +82,33 @@ class Validations {
     if (this.isEmpty(specialties)) {
       throw new Error("As especialidades não podem ser vazio.")
     }
+  }
+
+  async validateUserId(userId: number) {
+    if (! await UserService.getUserById(userId)) throw new Error("O usuário deve ter um ID válido");
+  }
+
+  async validateClinicId(clinicId: number) {
+    if (! await ClinicService.getClinicById(clinicId)) throw new Error("O consultório deve ter um ID válido");
+  }
+
+  async validateRecordEntryIndex(
+    userId: number,
+    clinicId: number,
+    index: number
+  ) {
+    const record = await RecordService.getAllRecordEntries(userId, clinicId);
+
+    if (record) {
+      if (index >= record.entries.length || index < 0) throw new Error("O registro de prontuário deve ter um índice válido.");
+    } else {
+      throw new Error("O registro deve pertencer a um prontuário válido.");
+    }
+
+  }
+
+  validateRecordEntryContent(content: string) {
+    if (this.isEmpty(content)) throw new Error("O conteúdo de um registro no prontuário não pode ser vazio.");
   }
 
 }
