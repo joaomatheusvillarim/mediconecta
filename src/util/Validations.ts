@@ -1,12 +1,19 @@
+import { AppointmentStatus } from "../model/Appointment";
 import { UserSex } from "../model/User";
-import UserService from "../service/UserService";
 import ClinicService from "../service/ClinicService";
+import DoctorService from "../service/DoctorService";
+import PatientService from "../service/PatientService";
 import RecordService from "../service/RecordService";
+import UserService from "../service/UserService";
 
 class Validations {
 
   private isEmpty(value: string) {
     return value.trim() == "";
+  }
+
+  private isDateBeforeToday(date: Date) {
+    return date <= new Date();
   }
 
   validateName(name: string) {
@@ -35,9 +42,8 @@ class Validations {
   }
 
   validateBirthday(birthday: Date) {
-    const today = new Date();
-    if (birthday > today) {
-      throw new Error("A data de nascimento deve ser anterior a hoje.");
+    if (! this.isDateBeforeToday(birthday)) {
+      throw new Error("A data de nascimento deve ser anterior ou igual a hoje.");
     }
   }
 
@@ -115,6 +121,29 @@ class Validations {
 
   validateAnnouncementText(text: string) {
     if (this.isEmpty(text)) throw new Error("O texto do aviso não pode ser vazio.")
+  }
+
+  validateAppointmentDate(date: Date) {
+    if (! this.isDateBeforeToday(date)) throw new Error("A data da consulta deve ser anterior ou igual a hoje.");
+  }
+
+  validateAppointmentStatus(status: string) {
+    status = status.toUpperCase();
+    if (! Object.values(AppointmentStatus).includes(status as AppointmentStatus)) {
+      throw new Error("O status da consulta deve ser confirmado ou não confirmado.")
+    }
+  }
+  
+  async validatePatientId(userId: number, clinicId: number) {
+    if (! await PatientService.getPatientById(userId, clinicId)) {
+      throw new Error("O usuário deve estar cadastrado nesta clínica como paciente.")
+    }    
+  }
+
+  async validateDoctorId(userId: number, clinicId: number) {
+    if (! await DoctorService.getDoctorById(userId, clinicId)) {
+      throw new Error("O usuário deve estar cadastrado nesta clínica como médico.");
+    }
   }
 
 }

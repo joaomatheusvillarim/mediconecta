@@ -8,8 +8,9 @@ export class AppointmentRepository {
     doctorId: number,
     date: Date,
     insurance: string,
-    status: AppointmentStatus
   ) {
+
+    const status = AppointmentStatus.NAOCONFIRMADO;
     return await Appointment.create({
       clinicId,
       patientId,
