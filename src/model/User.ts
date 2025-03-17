@@ -72,13 +72,11 @@ User.init(
       },
     },
     birthday: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
         validateBirthday(birthday: Date) {
           const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          birthday.setHours(0, 0, 0, 0);
           if (birthday > today) throw new Error();
         }
       },
