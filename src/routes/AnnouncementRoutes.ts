@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import AnnouncementController from '../controller/AnnouncementController';
+import { authenticate, authorize } from '../middleware/AuthMiddleware';
 
 /**
  * @swagger
@@ -40,7 +41,7 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
  */
-router.post("/clinics/:clinicId/announcements", (request, response) => {AnnouncementController.createAnnouncement(request, response);});
+router.post("/clinics/:clinicId/announcements", authenticate, authorize(["doctor", "secretary"]), (request, response) => {AnnouncementController.createAnnouncement(request, response);});
 
 /**
  * @swagger
@@ -76,7 +77,7 @@ router.post("/clinics/:clinicId/announcements", (request, response) => {Announce
  *      500:
  *        description: Erro no servidor.
  */
-router.get("/clinics/:clinicId/announcements/:announcementId", (request, response) => { AnnouncementController.getAnnouncementById(request, response);});
+router.get("/clinics/:clinicId/announcements/:announcementId", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => { AnnouncementController.getAnnouncementById(request, response);});
 
 /**
  * @swagger
@@ -105,7 +106,7 @@ router.get("/clinics/:clinicId/announcements/:announcementId", (request, respons
  *      500:
  *        description: Erro no servidor.
  */
-router.get("/clinics/:clinicId/announcements", (request, response) => { AnnouncementController.getAllAnnouncements(request, response);});
+router.get("/clinics/:clinicId/announcements", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => { AnnouncementController.getAllAnnouncements(request, response);});
 
 /**
  * @swagger
@@ -146,7 +147,7 @@ router.get("/clinics/:clinicId/announcements", (request, response) => { Announce
  *      500:
  *        description: Erro no servidor.
  */
-router.put("/clinics/:clinicId/announcements/:announcementId", (request, response) => { AnnouncementController.updateAnnouncement(request, response);});
+router.put("/clinics/:clinicId/announcements/:announcementId", authenticate, authorize(['doctor', 'secretary']), (request, response) => { AnnouncementController.updateAnnouncement(request, response);});
 
 /**
  * @swagger
@@ -178,7 +179,7 @@ router.put("/clinics/:clinicId/announcements/:announcementId", (request, respons
  *      500:
  *        description: Erro no servidor.
  */
-router.delete("/clinics/:clinicId/announcements/:announcementId", (request, response) => { 
+router.delete("/clinics/:clinicId/announcements/:announcementId", authenticate, authorize(['doctor', 'secretary']), (request, response) => { 
     AnnouncementController.deleteAnnouncement(request, response);
 });
 

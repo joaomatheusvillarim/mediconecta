@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import ClinicController from '../controller/ClinicController';
+import { authenticate, authorize } from '../middleware/AuthMiddleware';
 
 /**
  * @swagger
@@ -32,7 +33,7 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
  */
-router.post("/clinics/", (request, response) => { ClinicController.createClinic(request, response); });
+router.post("/clinics/", authenticate, (request, response) => { ClinicController.createClinic(request, response); });
 
 /**
  * @swagger
@@ -61,7 +62,7 @@ router.post("/clinics/", (request, response) => { ClinicController.createClinic(
  *      500:
  *        description: Erro no servidor.
  */
-router.get("/clinics/:id", (request, response) => { ClinicController.getClinicById(request, response); });
+router.get("/clinics/:id", authenticate, (request, response) => { ClinicController.getClinicById(request, response); });
 
 /**
  * @swagger
@@ -82,7 +83,7 @@ router.get("/clinics/:id", (request, response) => { ClinicController.getClinicBy
  *      500:
  *        description: Erro no servidor.
  */
-router.get("/clinics/", (request, response) => { ClinicController.getAllClinics(response); });
+router.get("/clinics/", authenticate, (request, response) => { ClinicController.getAllClinics(response); });
 
 /**
  * @swagger
@@ -116,7 +117,7 @@ router.get("/clinics/", (request, response) => { ClinicController.getAllClinics(
  *      500:
  *        description: Erro no servidor.
  */
-router.put("/clinics/:id", (request, response) => { ClinicController.updateClinic(request, response); });
+router.put("/clinics/:id", authenticate, authorize(['admin']), (request, response) => { ClinicController.updateClinic(request, response); });
 
 /**
  * @swagger
@@ -141,6 +142,6 @@ router.put("/clinics/:id", (request, response) => { ClinicController.updateClini
  *      500:
  *        description: Erro no servidor. 
  */
-router.delete("/clinics/:id", (request, response) => { ClinicController.deleteClinic(request, response); });
+router.delete("/clinics/:id", authenticate, authorize(['admin']), (request, response) => { ClinicController.deleteClinic(request, response); });
 
 export default router;
