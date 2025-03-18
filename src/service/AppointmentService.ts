@@ -17,7 +17,6 @@ class AppointmentService {
     Validations.validateClinicId(clinicId);
     Validations.validatePatientId(patientId, clinicId);
     Validations.validateDoctorId(doctorId, clinicId);
-    Validations.validateAppointmentDate(date);
     Validations.validateInsurance(insurance);
     
     return await appointmentRepository.createAppointment(
@@ -59,7 +58,6 @@ class AppointmentService {
 
     if (data.patientId) Validations.validatePatientId(data.patientId, clinicId);
     if (data.doctorId) Validations.validateDoctorId(data.doctorId, clinicId);
-    if (data.date) Validations.validateAppointmentDate(data.date);
     if (data.insurance) Validations.validateInsurance(data.insurance);
     if (data.status) Validations.validateAppointmentStatus(data.status);
 

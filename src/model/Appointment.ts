@@ -18,7 +18,7 @@ interface AppointmentAttributes {
   status: AppointmentStatus;
 }
 
-interface AppointmentCreationAttributes extends Optional<AppointmentAttributes, "appointmentId"> {}
+interface AppointmentCreationAttributes extends Optional<AppointmentAttributes, "appointmentId" | "status"> {}
 
 export class Appointment extends Model<AppointmentAttributes, AppointmentCreationAttributes> implements AppointmentAttributes {
   public appointmentId!: number;
@@ -63,7 +63,7 @@ Appointment.init(
       },
     },
     date: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: false,
       validate: {
         validateAppointmentDate(date: Date) {

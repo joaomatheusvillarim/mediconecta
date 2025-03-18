@@ -13,7 +13,9 @@ class Validations {
   }
 
   private isDateBeforeToday(date: Date) {
-    return date <= new Date();
+    const today = new Date();
+    date = new Date(date);
+    return date <= today;
   }
 
   validateName(name: string) {
@@ -124,7 +126,9 @@ class Validations {
   }
 
   validateAppointmentDate(date: Date) {
-    if (! this.isDateBeforeToday(date)) throw new Error("A data da consulta deve ser anterior ou igual a hoje.");
+    if (! this.isDateBeforeToday(date)) {
+      throw new Error("A data da consulta deve ser anterior ou igual a hoje.");
+    }
   }
 
   validateAppointmentStatus(status: string) {

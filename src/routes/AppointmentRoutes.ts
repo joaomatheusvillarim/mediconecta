@@ -11,11 +11,19 @@ const router = Router();
 
 /**
  * @swagger
- * /clinics/{clinic_id}/appointment:
+ * /clinics/{clinicId}/appointments:
  *  post:
  *    tags:
  *      - Consultas
  *    summary: Criar uma nova consulta.
+ *    parameters:
+ *      - name: clinicId
+ *        in: path
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
  *    requestBody:
  *      content:
  *        application/json:
@@ -32,19 +40,26 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/clinics/:clinic_id/appointment", (request, response) => {AppointmentController.createAppointment(request, response)});
+router.post("/clinics/:clinicId/appointments", (request, response) => {AppointmentController.createAppointment(request, response)});
 
 /**
  * @swagger
- * /clinics/{clinic_id}/appointment/{appointment_id}:
+ * /clinics/{clinicId}/appointments/{appointmentId}:
  *  get:
  *    tags:
  *      - Consultas
  *    summary: Recuperar consulta por ID.
  *    parameters:
- *      - name: id
+ *      - name: clinicId
  *        in: path
- *        description: id da consulta
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: appointmentId
+ *        in: path
+ *        description: ID da consulta
  *        required: true
  *        schema:
  *          type: integer
@@ -61,15 +76,23 @@ router.post("/clinics/:clinic_id/appointment", (request, response) => {Appointme
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinic_id/appointment/:appointment_id", (request, response) => {AppointmentController.getAppointmentById(request, response)});
+router.get("/clinics/:clinicId/appointments/:appointmentId", (request, response) => {AppointmentController.getAppointmentById(request, response)});
 
 /**
  * @swagger
- * /clinics/{clinic_id}/appointment:
+ * /clinics/{clinicId}/appointments:
  *  get:
  *    tags:
  *      - Consultas
  *    summary: Recuperar todas as consultas.
+ *    parameters:parameters:
+ *      - name: clinicId
+ *        in: path
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
  *    responses:
  *      200:
  *        description: Operação bem-sucedida.
@@ -82,19 +105,26 @@ router.get("/clinics/:clinic_id/appointment/:appointment_id", (request, response
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinic_id/appointment", (request, response) => {AppointmentController.getAllAppointments(response)});
+router.get("/clinics/:clinicId/appointments", (request, response) => {AppointmentController.getAllAppointments(request, response)});
 
 /**
  * @swagger
- * /clinics/{clinic_id}/appointment/{appointment_id}:
+ * /clinics/{clinicId}/appointments/{appointmentId}:
  *  put:
  *    tags:
  *      - Consultas
  *    summary: Atualizar consulta.
  *    parameters:
- *      - name: id
+ *      - name: clinicId
  *        in: path
- *        description: id da consulta
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: appointmentId
+ *        in: path
+ *        description: ID da consulta
  *        required: true
  *        schema:
  *          type: integer
@@ -116,19 +146,26 @@ router.get("/clinics/:clinic_id/appointment", (request, response) => {Appointmen
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/clinics/:clinic_id/appointment/:appointment_id", (request, response) => {AppointmentController.updateAppointment(request, response)});
+router.put("/clinics/:clinicId/appointments/:appointmentId", (request, response) => {AppointmentController.updateAppointment(request, response)});
 
 /**
  * @swagger
- * /clinics/{clinic_id}/appointment/{appointment_id}:
+ * /clinics/{clinicId}/appointments/{appointmentId}:
  *  delete:
  *    tags:
  *      - Consultas
  *    summary: Remover uma consulta a partir de seu id.
  *    parameters:
- *      - name: id
+ *      - name: clinicId
  *        in: path
- *        description: id da consulta
+ *        description: ID do consultório
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: int64
+ *      - name: appointmentId
+ *        in: path
+ *        description: ID da consulta
  *        required: true
  *        schema:
  *          type: integer
@@ -141,6 +178,6 @@ router.put("/clinics/:clinic_id/appointment/:appointment_id", (request, response
  *      500:
  *        description: Erro no servidor. 
 */
-router.delete("/clinics/:clinic_id/appointment/:appointment_id", (request, response) => {AppointmentController.deleteAppointment(request, response)});
+router.delete("/clinics/:clinicId/appointments/:appointmentId", (request, response) => {AppointmentController.deleteAppointment(request, response)});
 
 export default router;

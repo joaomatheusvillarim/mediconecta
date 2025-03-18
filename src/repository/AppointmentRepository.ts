@@ -9,15 +9,12 @@ export class AppointmentRepository {
     date: Date,
     insurance: string,
   ) {
-
-    const status = AppointmentStatus.NAOCONFIRMADO;
     return await Appointment.create({
       clinicId,
       patientId,
       doctorId,
       date,
       insurance,
-      status
     });
   }
   

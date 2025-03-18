@@ -72,7 +72,7 @@ User.init(
       },
     },
     birthday: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: false,
       validate: {
         validateBirthday(birthday: Date) {

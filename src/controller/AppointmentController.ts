@@ -5,16 +5,33 @@ class AppointmentController {
 
   async createAppointment(request: Request, response: Response): Promise<Response> {
     try {
-      const appointment = await AppointmentService.createAppointment(request.body);
+      const clinicId = parseInt(request.params.clinicId);
+      const {
+        patientId,
+        doctorId,
+        date,
+        insurance
+      } = request.body;
+
+      const appointment = await AppointmentService.createAppointment(
+        clinicId,
+        patientId,
+        doctorId,
+        date,
+        insurance
+      );
       return response.status(201).json(appointment);
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao criar consulta' });
+      return response.status(500).json({ error: "Erro ao criar consulta" });
     }
   }
 
   async getAppointmentById(request: Request, response: Response): Promise<Response> {
     try {
-      const appointment = await AppointmentService.getAppointmentById(parseInt(request.params.id));
+      const clinicId = parseInt(request.params.clinicId);
+      const appointmentId = parseInt(request.params.appointmentId);
+
+      const appointment = await AppointmentService.getAppointmentById(clinicId, appointmentId);
       return !appointment 
         ? response.status(404).json({ error: 'Consulta não encontrada' }) 
         : response.status(200).json(appointment);
@@ -23,9 +40,11 @@ class AppointmentController {
     }
   }
 
-  async getAllAppointments(response: Response): Promise<Response> {
+  async getAllAppointments(request: Request, response: Response): Promise<Response> {
     try {
-      const appointments = await AppointmentService.getAllAppointments();
+      const clinicId = parseInt(request.params.clinicId);
+
+      const appointments = await AppointmentService.getAllAppointments(clinicId);
       return response.status(200).json(appointments);
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao listar consultas' });
@@ -34,7 +53,27 @@ class AppointmentController {
 
   async updateAppointment(request: Request, response: Response): Promise<Response> {
     try {
-      const appointment = await AppointmentService.updateAppointment(parseInt(request.params.id), request.body);
+      const clinicId = parseInt(request.params.clinicId);
+      const appointmentId = parseInt(request.params.appointmentId);
+      const {
+        patientId,
+        doctorId,
+        date,
+        insurance,
+        status
+      } = request.body;
+
+      const appointment = await AppointmentService.updateAppointment(
+        clinicId,
+        appointmentId,
+        {
+          patientId,
+          doctorId,
+          date,
+          insurance,
+          status
+        }
+      );
       return !appointment
         ? response.status(404).json({ error: 'Consulta não encontrada' })
         : response.status(200).json(appointment);
@@ -45,7 +84,10 @@ class AppointmentController {
 
   async deleteAppointment(request: Request, response: Response): Promise<Response> {
     try {
-      const success = await AppointmentService.deleteAppointment(parseInt(request.params.id));
+      const clinicId = parseInt(request.params.clinicId);
+      const appointmentId = parseInt(request.params.appointmentId);
+
+      const success = await AppointmentService.deleteAppointment(clinicId, appointmentId);
       return !success
         ? response.status(404).json({ error: 'Consulta não encontrada' })
         : response.status(204).send();
