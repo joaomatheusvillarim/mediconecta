@@ -1,69 +1,88 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
+import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database';
 import { Clinic } from './Clinic';
+import { User } from './User';
+
+export enum AppointmentStatus {
+  NAOCONFIRMADO = "NAO CONFIRMADO",
+  CONFIRMADO = "CONFIRMADO",
+}
 
 interface AppointmentAttributes {
   appointmentId: number;
   clinicId: number;
+  patientId: number;
+  doctorId: number;
   date: Date;
-  time: string;
-  isReturn: boolean;
-  exam: string;
   insurance: string;
-  price: number;
-  hasMedicalCertificate: boolean;
+  status: AppointmentStatus;
 }
 
-export class Appointment extends Model<InferAttributes<Appointment>, InferCreationAttributes<Appointment>> implements AppointmentAttributes {
-  declare appointmentId: CreationOptional<number>;
-  declare clinicId: number;
-  declare date: Date;
-  declare time: string;
-  declare isReturn: boolean;
-  declare exam: string;
-  declare insurance: string;
-  declare price: number;
-  declare hasMedicalCertificate: boolean;
+interface AppointmentCreationAttributes extends Optional<AppointmentAttributes, "appointmentId" | "status"> {}
+
+export class Appointment extends Model<AppointmentAttributes, AppointmentCreationAttributes> implements AppointmentAttributes {
+  public appointmentId!: number;
+  public clinicId!: number;
+  public patientId!: number;
+  public doctorId!: number;
+  public date!: Date;
+  public insurance!: string;
+  public status!: AppointmentStatus;
 }
 
 Appointment.init(
   {
     appointmentId: {
+      primaryKey: true,
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
     },
     clinicId: {
+      primaryKey: true,
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: Clinic,
+        key: "id",
+      }
+    },
+    patientId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: User,
+        key: "id",
+      },
+    },
+    doctorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: User,
+        key: "id"
+      },
     },
     date: {
       type: DataTypes.DATE,
       allowNull: false,
-    },
-    time: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    isReturn: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    exam: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      validate: {
+        validateBirthday(birthday: Date) {
+          const today = new Date();
+          if (birthday > today) throw new Error();
+        }
+      }
     },
     insurance: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    price: {
-      type: DataTypes.FLOAT,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
-    hasMedicalCertificate: {
-      type: DataTypes.BOOLEAN,
+    status: {
+      type: DataTypes.ENUM(...Object.values(AppointmentStatus)),
       allowNull: false,
+      defaultValue: AppointmentStatus.NAOCONFIRMADO,
     },
   },
   {
@@ -73,7 +92,7 @@ Appointment.init(
   }
 );
 
-Appointment.belongsTo(Clinic, {
+Appointment.belongsTo(
+  Clinic, {
     foreignKey: 'clinicId',
-    as: 'clinic',
 });

@@ -1,30 +1,52 @@
-import { InferCreationAttributes } from "sequelize";
 import { Patient } from "../model/Patient";
 
 export class PatientRepository {
 
-  async createPatient(data: InferCreationAttributes<Patient>) {
-    return await Patient.create(data);
+  async createPatient(
+    userId: number,
+    clinicId: number
+  ) {
+    return await Patient.create({userId, clinicId});
   }
   
-  async getPatientById(id: number) {
-    return await Patient.findByPk(id);
+  async getPatientById(
+    userId: number,
+    clinicId: number
+  ) {
+    return await Patient.findOne({
+      where: {
+        userId: userId,
+        clinicId: clinicId,
+      }
+    });
   }
   
-  async getAllPatients() {
-    return await Patient.findAll();
+  async getAllPatients(clinicId: number) {
+    return await Patient.findAll({
+      where: {
+        clinicId: clinicId,
+      }
+    });
   }
 
-  async updatePatient(id: number, data: InferCreationAttributes<Patient>) {
-    const patient = await Patient.findByPk(id);
-    return patient
-      ? await patient!.update(data)
-      : null;
+  async updatePatient(
+    userId: number,
+    clinicId: number
+  ) {
+    return null;
   }
 
-  async deletePatient(id: number) {
+  async deletePatient(
+    userId: number,
+    clinicId: number
+  ) {
     let resp = false;
-    const patient = await Patient.findByPk(id);
+    const patient = await Patient.findOne({
+      where: {
+        userId: userId,
+        clinicId: clinicId,
+      }
+    });
     if (patient) {
       await patient!.destroy();
       resp = true;

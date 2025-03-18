@@ -1,35 +1,72 @@
-import { InferCreationAttributes } from "sequelize";
-import { Secretary } from "../model/Secretary";
+import { Secretary } from '../model/Secretary';
 
 export class SecretaryRepository {
 
-  async createSecretary(data: InferCreationAttributes<Secretary>) {
-    return await Secretary.create(data);
-  }
-  
-  async getSecretaryById(id: number) {
-    return await Secretary.findByPk(id);
-  }
-  
-  async getAllSecretaries() {
-    return await Secretary.findAll();
+  async createSecretary(
+    userId: number,
+    clinicId: number,
+    workingHours: Partial<string>
+  ) {
+    return await Secretary.create({
+      userId,
+      clinicId,
+      workingHours,
+    });
   }
 
-  async updateSecretary(id: number, data: InferCreationAttributes<Secretary>) {
-    const secretary = await Secretary.findByPk(id);
+  async getSecretaryById(
+    userId: number, 
+    clinicId: number
+  ) {
+    return await Secretary.findOne({
+      where: {
+        userId: userId,
+        clinicId: clinicId,
+      },
+    });
+  }
+
+  async getAllSecretaries(clinicId: number) {
+    return await Secretary.findAll({
+      where: {
+        clinicId: clinicId,
+      },
+    });
+  }
+
+  async updateSecretary(
+    userId: number,
+    clinicId: number,
+    data: Partial<{ 
+      workingHours: string 
+    }>
+  ) {
+    const secretary = await Secretary.findOne({
+      where: { 
+        userId: userId, 
+        clinicId: clinicId 
+      },
+    });
     return secretary
       ? await secretary!.update(data)
       : null;
   }
 
-  async deleteSecretary(id: number) {
+  async deleteSecretary(
+    userId: number, 
+    clinicId: number
+  ) {
     let resp = false;
-    const secretary = await Secretary.findByPk(id);
+    const secretary = await Secretary.findOne({
+      where: { 
+        userId: userId, 
+        clinicId: clinicId 
+      }
+    });
     if (secretary) {
       await secretary!.destroy();
       resp = true;
-    }
-    return resp;
   }
-
+  return resp;
+  }
 }

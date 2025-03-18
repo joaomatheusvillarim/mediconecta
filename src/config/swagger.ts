@@ -23,14 +23,14 @@ const options: swaggerJSDoc.Options = {
           properties: {
             name: {type:"string", example: "Joao Matheus"},
             email: {type:"string", example: "joaomatheus@gmail.com"},
-            password: {type:"string", example: "joaomatheus123"},
+            password: {type:"string", example: "Joaomatheus123!"},
             cpf: {type: "string", example: "12345678900"},
-            birthdate: {type: "date", example: "01/01/2000"},
-            sex: {type: "string", example: "male"},
+            birthday: {type: "date", example: "01/01/2000"},
+            sex: {type: "string", example: "MASCULINO"},
             address: {type: "string", example: "Rua Aprigio Veloso, 880"},
             phone: {type: "string", example: "83987654321"},
           },
-          required: ["name", "email", "password", "cpf", "birthdate", "sex",
+          required: ["name", "email", "password", "cpf", "birthday", "sex",
             "address", "phone"],
         },
         UserPutRequest: {
@@ -40,8 +40,8 @@ const options: swaggerJSDoc.Options = {
             email: {type:"string", example: "joaomatheus@gmail.com"},
             password: {type:"string", example: "joaomatheus123"},
             cpf: {type: "string", example: "12345678900"},
-            birthdate: {type: "date", example: "01/01/2000"},
-            sex: {type: "string", example: "male"},
+            birthday: {type: "date", example: "01/01/2000"},
+            sex: {type: "string", example: "MASCULINO"},
             address: {type: "string", example: "Rua Aprigio Veloso, 880"},
             phone: {type: "string", example: "83987654321"},
           },
@@ -54,10 +54,51 @@ const options: swaggerJSDoc.Options = {
             email: {type:"string", example: "joaomatheus@gmail.com"},
             password: {type:"string", example: "joaomatheus123"},
             cpf: {type: "string", example: "12345678900"},
-            birthdate: {type: "date", example: "01/01/2000"},
-            sex: {type: "string", example: "male"},
+            birthday: {type: "date", example: "01/01/2000"},
+            sex: {type: "string", example: "MASCULINO"},
             address: {type: "string", example: "Rua Aprigio Veloso, 880"},
             phone: {type: "string", example: "83987654321"},
+          }
+        },
+
+        ClinicPostRequest: {
+          type: "object",
+          properties: {
+            adminId: {type: "number", example: "1"},
+            name: {type: "string", example: "Clínica Top Exames"},
+            address: {type: "string", example: "Rua Aprígio Veloso, 1000"},
+            workingHours: {type: "string", example: "seg-sex 8:00-12:00 14:00-18:00"},
+            specialties: {type: "string", example: "Endocrinologia e otorrinolaringologia"},
+            phone: {type: "string", example: "83987654321"},
+            email: {type: "string", example: "clinicatopexames@gmail.com"},
+          },
+          required: ["adminId", "name", "address", "workingHours", "specialties",
+            "phone", "email"
+          ],
+        },
+        ClinicPutRequest: {
+          type: "object",
+          properties: {
+            adminId: {type: "number", example: "1"},
+            name: {type: "string", example: "Clínica Top Exames"},
+            address: {type: "string", example: "Rua Aprígio Veloso, 1000"},
+            workingHours: {type: "string", example: "seg-sex 8:00-12:00 14:00-18:00"},
+            specialties: {type: "string", example: "Endocrinologia e otorrinolaringologia"},
+            phone: {type: "string", example: "83987654321"},
+            email: {type: "string", example: "clinicatopexames@gmail.com"},
+          },
+        },
+        ClinicResponse: {
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            adminId: {type: "number", example: "1"},
+            name: {type: "string", example: "Clínica Top Exames"},
+            address: {type: "string", example: "Rua Aprígio Veloso, 1000"},
+            workingHours: {type: "string", example: "seg-sex 8:00-12:00 14:00-18:00"},
+            specialties: {type: "string", example: "Endocrinologia e otorrinolaringologia"},
+            phone: {type: "string", example: "83987654321"},
+            email: {type: "string", example: "clinicatopexames@gmail.com"},
           }
         },
 
@@ -73,165 +114,146 @@ const options: swaggerJSDoc.Options = {
         PatientResponse: {
           type: "object",
           properties: {
-            id: {type: "number", example: "1"},
             userId: {type: "number", example: "1"},
+            clinicId: {type: "number", example: "1"},
           }
+        },
+
+        RecordPostRequest: {
+          type: "object",
+          properties: {
+            content: {type: "string", example: "{\nregistro\ndata:01/01/2025\nidade: 21\naltura: 1,75\npeso: 57kg\ncirurgias: nao\n}"}
+          },
+          required: ["content"],
+        },
+        RecordPutRequest: {
+          type: "object",
+          properties: {
+            content: {type: "string", example: "{\nregistro\ndata:01/01/2025\nidade: 21\naltura: 1,75\npeso: 57kg\ncirurgias: nao\n}"}
+          },
+          required: ["content"],
+        },
+        RecordResponse: {
+          type: "object",
+          properties: {
+            id: {type: "number", example: "1"},
+            patientId: {type: "number", example: "1"},
+            entries: {type: "array", items: {type: "string"}},
+          },
+          required: ["userId", "entries"],
         },
         
         DoctorPostRequest: {
           type: "object",
           properties: {
-            userId: {type:"number", example: "1"},
-            crm: {type:"string", example: "123456"},
+            userId: {type: "number", example: "1"},
+            credentials: {type: "string", example: "1234PB"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
+            specialty: {type: "string", example: "endocrinologia"},
+            insurance: {type: "string", example: "unimed"},
           },
-          required: ["userId", "crm"],
+          required: ["userId", "clinicId", "credentials", "specialty"],
         },
         DoctorPutRequest: {
           type: "object",
           properties: {
-            crm: {type:"string", example: "654321"},
-          },
+            credentials: {type: "string", example: "1234PB"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
+            specialty: {type: "string", example: "endocrinologia"},
+            insurance: {type: "string", example: "unimed"},          },
         },
         DoctorResponse: {
           type: "object",
           properties: {
-            id: {type: "number", example: "1"},
             userId: {type: "number", example: "1"},
-            crm: {type: "string", example: "123456"},
-          }
-        },
-        
-        ClinicPostRequest: {
-          type: "object",
-          properties: {
-            address: {type:"string", example: "Rua das Flores, 123"},
-            workingHours: {type:"string", example: "08:00 - 18:00"},
-            specialties: {type:"string", example: "Cardiologia, Ortopedia"},
-          },
-          required: ["address", "workingHours", "specialties"],
-        },
-        ClinicPutRequest: {
-          type: "object",
-          properties: {
-            address: {type:"string", example: "Avenida Brasil, 456"},
-            workingHours: {type:"string", example: "07:00 - 19:00"},
-            specialties: {type:"string", example: "Pediatria, Dermatologia"},
-          },
-        },
-        ClinicResponse: {
-          type: "object",
-          properties: {
-            id: {type: "number", example: "1"},
-            address: {type:"string", example: "Rua das Flores, 123"},
-            workingHours: {type:"string", example: "08:00 - 18:00"},
-            specialties: {type:"string", example: "Cardiologia, Ortopedia"},
-          }
-        },
-
-        AppointmentPostRequest: {
-          type: "object",
-          properties: {
-            clinicId: {type: "number", example: 1},
-            date: {type:"string", format: "date", example: "2025-03-15"},
-            time: {type:"string", example: "14:30"},
-            isReturn: {type:"boolean", example: false},
-            exam: {type:"string", example: "Raio-X"},
-            insurance: {type:"string", example: "Plano Saúde"},
-            price: {type:"number", example: 150.50},
-            hasMedicalCertificate: {type:"boolean", example: true},
-          },
-          required: ["clinicId", "date", "time", "isReturn", "price", "hasMedicalCertificate"],
-        },
-        AppointmentPutRequest: {
-          type: "object",
-          properties: {
-            date: {type:"string", format: "date", example: "2025-03-20"},
-            time: {type:"string", example: "16:00"},
-          },
-        },
-        AppointmentResponse: {
-          type: "object",
-          properties: {
-            appointmentId: {type: "number", example: "1"},
             clinicId: {type: "number", example: "1"},
-            date: {type:"string", format: "date", example: "2025-03-15"},
-            time: {type:"string", example: "14:30"},
-            isReturn: {type:"boolean", example: false},
-            exam: {type:"string", example: "Raio-X"},
-            insurance: {type:"string", example: "Plano Saúde"},
-            price: {type:"number", example: 150.50},
-            hasMedicalCertificate: {type:"boolean", example: true},
-          }
-        },
-
-        AnnouncementPostRequest: {
-          type: "object",
-          properties: {
-            title: {type:"string", example: "Aviso Importante"},
-            body: {type:"string", example: "Consulta cancelada devido à manutenção."},
-            timestamp: {type:"string", format: "date-time", example: "2025-02-21T14:30:00Z"},
-          },
-          required: ["title", "body", "timestamp"],
-        },
-        AnnouncementPutRequest: {
-          type: "object",
-          properties: {
-            title: {type:"string", example: "Aviso Atualizado"},
-            body: {type:"string", example: "Novo aviso sobre expediente."},
-          },
-        },
-        AnnouncementResponse: {
-          type: "object",
-          properties: {
-            id: {type: "number", example: "1"},
-            title: {type:"string", example: "Aviso Importante"},
-            body: {type:"string", example: "Consulta cancelada devido à manutenção."},
-            timestamp: {type:"string", format: "date-time", example: "2025-02-21T14:30:00Z"},
+            credentials: {type: "string", example: "1234PB"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
+            specialty: {type: "string", example: "endocrinologia"},
+            insurance: {type: "string", example: "unimed"},
           }
         },
 
         SecretaryPostRequest: {
           type: "object",
           properties: {
-            userId: {type:"number", example:"1"}
+            userId: {type: "number", example: "1"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
           },
-          required: ["userId"],
+          required: ["userId", "clinicId"],
         },
         SecretaryPutRequest: {
+          type: "object",
+          properties: {
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"}, },
         },
         SecretaryResponse: {
           type: "object",
           properties: {
-            id: {type: "number", example: "1"},
             userId: {type: "number", example: "1"},
+            workingHours: {type: "string", example: "seg-sex 8-12h 14-18h"},
           }
         },
 
-        MedicalRecordPostRequest: {
+        AnnouncementPostRequest: {
           type: "object",
           properties: {
-            patientId: {type: "number", example: "1"},
-            entries: {type: "array", items: {type: "string"}},
+            authorId: {type: "number", example: "1"},
+            title: {type:"string", example: "Aviso Importante"},
+            text: {type:"string", example: "Consultas canceladas devido à manutenção."},
           },
-          required: ["userId", "entries"],
+          required: ["authorId", "title", "text"],
         },
-        MedicalRecordPutRequest: {
+        AnnouncementPutRequest: {
           type: "object",
           properties: {
-            patientId: {type: "number", example: "1"},
-            entries: {type: "array", items: {type: "string"}},
+            title: {type:"string", example: "Aviso Importante"},
+            text: {type:"string", example: "Consultas canceladas devido à manutenção."},
           },
-          required: ["userId", "entries"],
         },
-        MedicalRecordResponse: {
+        AnnouncementResponse: {
           type: "object",
           properties: {
-            id: {type: "number", example: "1"},
+            announcementId: {type: "number", example: "1"},
+            clinicId: {type: "number", example: "1"},
+            authorId: {type: "number", example: "1"},
+            title: {type:"string", example: "Aviso Importante"},
+            text: {type:"string", example: "Consultas canceladas devido à manutenção."},
+            posted: {type: "date", example: "01/01/2025"},
+          }
+        },
+        
+        AppointmentPostRequest: {
+          type: "object",
+          properties: {
             patientId: {type: "number", example: "1"},
-            entries: {type: "array", items: {type: "string"}},
+            doctorId: {type: "number", example: "1"},
+            date: {type: "date", example: "17/03/2025"},
+            insurance: {type: "string", example: "unimed"},
           },
-          required: ["userId", "entries"],
-        }
+          required: ["clinicId", "date", "time", "isReturn", "price", "hasMedicalCertificate"],
+        },
+        AppointmentPutRequest: {
+          type: "object",
+          properties: {
+            patientId: {type: "number", example: "1"},
+            doctorId: {type: "number", example: "1"},
+            date: {type: "date", example: "17/03/2025"},
+            insurance: {type: "string", example: "unimed"},
+            status: {type: "string", example: "CONFIRMADO"},
+          },
+        },
+        AppointmentResponse: {
+          type: "object",
+          properties: {
+            appointmentId: {type: "number", example: "1"},
+            patientId: {type: "number", example: "1"},
+            doctorId: {type: "number", example: "1"},
+            date: {type: "date", example: "17/03/2025"},
+            insurance: {type: "string", example: "unimed"},
+            status: {type: "string", example: "CONFIRMADO"},
+          }
+        },
 
       }
     }

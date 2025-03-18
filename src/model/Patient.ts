@@ -1,26 +1,23 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database';
 import { User } from './User';
+import { Record } from './Record';
+import { Clinic } from './Clinic';
 
 interface PatientAttributes {
-  patientId: number;
   userId: number;
+  clinicId: number
 }
 
-export class Patient extends Model<InferAttributes<Patient>, InferCreationAttributes<Patient>> implements PatientAttributes {
-  declare patientId: CreationOptional<number>;
-  declare userId: number;
-  declare readonly user?: User;
+export class Patient extends Model<PatientAttributes> implements PatientAttributes {
+  public readonly userId!: number;
+  public readonly clinicId!: number;
 }
 
 Patient.init(
   {
-    patientId: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     userId: {
+      primaryKey: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -29,16 +26,38 @@ Patient.init(
       },
       unique: true,
     },
+    clinicId: {
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Clinic,
+        key: "id",
+      }
+    }
   },
   {
     sequelize,
     tableName: "patients",
     timestamps: false,
+    hooks: {
+      afterCreate: async (patient, _) => {
+        await Record.create({
+          userId: patient.userId,
+          clinicId: patient.clinicId,
+        })
+      }
+    }
   }
 );
 
 Patient.belongsTo(
   User, {
     foreignKey: "userId",
+  }
+);
+Patient.belongsTo(
+  Clinic, {
+    foreignKey: "clinicId",
   }
 );

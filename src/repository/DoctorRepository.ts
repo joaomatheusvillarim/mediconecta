@@ -1,30 +1,77 @@
-import { InferCreationAttributes } from "sequelize";
 import { Doctor } from "../model/Doctor";
 
 export class DoctorRepository {
 
-  async createDoctor(data: InferCreationAttributes<Doctor>) {
-    return await Doctor.create(data);
+  async createDoctor(
+    userId: number,
+    clinicId: number,
+    credentials: string,
+    workingHours: Partial<string>,
+    specialty: string,
+    insurance: Partial<string>
+  ) {
+    return await Doctor.create({
+      userId,
+      clinicId,
+      credentials,
+      workingHours,
+      specialty,
+      insurance
+    });
   }
   
-  async getDoctorById(id: number) {
-    return await Doctor.findByPk(id);
+  async getDoctorById(
+    userId: number,
+    clinicId: number
+  ) {
+    return await Doctor.findOne({
+      where: {
+        userId: userId,
+        clinicId: clinicId,
+      }
+    });
   }
   
-  async getAllDoctors() {
-    return await Doctor.findAll();
+  async getAllDoctors(clinicId: number) {
+    return await Doctor.findAll({
+      where: {
+        clinicId: clinicId,
+      }
+    });
   }
   
-  async updateDoctor(id: number, data: InferCreationAttributes<Doctor>) {
-    const doctor = await Doctor.findByPk(id);
+  async updateDoctor(
+    userId: number,
+    clinicId: number,
+    data: Partial<{
+      credentials: string,
+      workingHours: string,
+      specialty: string,
+      insurance: string
+    }>
+  ) {
+    const doctor = await Doctor.findOne({
+      where: {
+        userId: userId,
+        clinicId: clinicId,
+      }
+    });
     return doctor
       ? await doctor!.update(data)
       : null;
   }
   
-  async deleteDoctor(id: number) {
+  async deleteDoctor(
+    userId: number,
+    clinicId: number
+  ) {
     let resp = false;
-    const doctor = await Doctor.findByPk(id);
+    const doctor = await Doctor.findOne({
+      where: {
+        userId: userId,
+        clinicId: clinicId,
+      }
+    });
     if (doctor) {
         await doctor!.destroy();
         resp = true;

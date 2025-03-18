@@ -1,10 +1,27 @@
-import { InferCreationAttributes } from 'sequelize';
-import { User } from '../model/User'
+import { User, UserSex } from '../model/User'
 
 export class UserRepository {
   
-  async createUser(data: InferCreationAttributes<User>) {
-    return await User.create(data);
+  async createUser(
+    name: string,
+    email: string,
+    password: string,
+    cpf: string,
+    birthday: Date,
+    sex: UserSex,
+    address: string,
+    phone: string
+  ) {
+    return await User.create({
+      name,
+      email,
+      password,
+      cpf,
+      birthday,
+      sex,
+      address,
+      phone
+    });
   }
 
   async getUserById(id: number) {
@@ -15,7 +32,19 @@ export class UserRepository {
     return await User.findAll();
   }
 
-  async updateUser(id: number, data: InferCreationAttributes<User>) {
+  async updateUser(
+    id: number,
+    data: Partial<{
+      name: string;
+      email: string;
+      password: string;
+      cpf: string;
+      birthday: Date;
+      sex: UserSex;
+      address: string;
+      phone: string;
+    }>
+  ) {
     const user = await User.findByPk(id);
     return user
       ? await user!.update(data)

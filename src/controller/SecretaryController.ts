@@ -5,52 +5,76 @@ class SecretaryController {
 
   async createSecretary(request: Request, response: Response): Promise<Response> {
     try {
-      const secretary = await SecretaryService.createSecretary(request.body);
+      const clinicId = parseInt(request.params.clinicId);
+      const { userId, workingHours } = request.body;
+
+      const secretary = await SecretaryService.createSecretary(
+        userId, 
+        clinicId, 
+        workingHours
+      );
       return response.status(201).json(secretary);
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao criar secretário(a)' });
+      return response.status(500).json({ error: 'Erro ao criar secretário' });
     }
   }
 
   async getSecretaryById(request: Request, response: Response): Promise<Response> {
     try {
-      const secretary = await SecretaryService.getSecretaryById(parseInt(request.params.id));
-      return !secretary 
-        ? response.status(404).json({ error: 'Secretário(a) não encontrado' }) 
+      const clinicId = parseInt(request.params.clinicId);
+      const userId = parseInt(request.params.userId);
+
+      const secretary = await SecretaryService.getSecretaryById(userId, clinicId);
+      return !secretary
+        ? response.status(404).json({ error: 'Secretário não encontrado' }) 
         : response.status(200).json(secretary);
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao buscar secretário(a)' });
+      return response.status(500).json({ error: 'Erro ao buscar secretário' });
     }
   }
 
-  async getAllSecretaries(response: Response): Promise<Response> {
+  async getAllSecretaries(request: Request, response: Response): Promise<Response> {
     try {
-      const secretaries = await SecretaryService.getAllSecretaries();
+      const clinicId = parseInt(request.params.clinicId);
+      
+      const secretaries = await SecretaryService.getAllSecretaries(clinicId);
       return response.status(200).json(secretaries);
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao listar secretários(as)' });
+      return response.status(500).json({ error: 'Erro ao listar secretários' });
     }
   }
 
   async updateSecretary(request: Request, response: Response): Promise<Response> {
     try {
-      const secretary = await SecretaryService.updateSecretary(parseInt(request.params.id), request.body);
+      const clinicId = parseInt(request.params.clinicId);
+      const userId = parseInt(request.params.userId);
+      
+      const { workingHours } = request.body;
+
+      const secretary = await SecretaryService.updateSecretary(
+        userId, 
+        clinicId, 
+        { workingHours }
+      );
       return !secretary
-        ? response.status(404).json({ error: 'Secretário(a) não encontrado' })
+        ? response.status(404).json({ error: 'Secretátio não encontrado' })
         : response.status(200).json(secretary);
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao atualizar secretário(a)' });
+      return response.status(500).json({ error: 'Erro ao atualizar secretário' });
     }
   }
 
   async deleteSecretary(request: Request, response: Response): Promise<Response> {
     try {
-      const success = await SecretaryService.deleteSecretary(parseInt(request.params.id));
-      return !success
-        ? response.status(404).json({ error: 'Secretário(a) não encontrado' })
+      const clinicId = parseInt(request.params.clinicId);
+      const userId = parseInt(request.params.userId);
+
+      const sucess = await SecretaryService.deleteSecretary(userId, clinicId);
+      return !sucess
+        ? response.status(404).json({ error: 'Secretário não encontrado' })
         : response.status(204).send();
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao excluir secretário(a)' });
+      return response.status(500).json({ error: 'Erro ao remover secretário' });
     }
   }
 }

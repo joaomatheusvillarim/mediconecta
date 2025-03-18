@@ -5,10 +5,27 @@ class ClinicController {
 
   async createClinic(request: Request, response: Response): Promise<Response> {
     try {
-      const clinic = await ClinicService.createClinic(request.body);
+      const {
+        adminId,
+        name,
+        address,
+        workingHours,
+        specialties,
+        phone,
+        email
+      } = request.body;
+      const clinic = await ClinicService.createClinic(
+        adminId,
+        name,
+        address,
+        workingHours,
+        specialties,
+        phone,
+        email
+      );
       return response.status(201).json(clinic);
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao criar clínica' });
+      return response.status(500).json({ error: "Erro ao criar consultório" });
     }
   }
 
@@ -16,10 +33,10 @@ class ClinicController {
     try {
       const clinic = await ClinicService.getClinicById(parseInt(request.params.id));
       return !clinic 
-        ? response.status(404).json({ error: 'Clínica não encontrada' }) 
+        ? response.status(404).json({ error: "Consultório não encontrado" }) 
         : response.status(200).json(clinic);
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao buscar clínica' });
+      return response.status(500).json({ error: "Erro ao buscar consultório" });
     }
   }
 
@@ -28,18 +45,36 @@ class ClinicController {
       const clinics = await ClinicService.getAllClinics();
       return response.status(200).json(clinics);
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao listar clínicas' });
+      return response.status(500).json({ error: "Erro ao listar consultórios" });
     }
   }
 
   async updateClinic(request: Request, response: Response): Promise<Response> {
     try {
-      const clinic = await ClinicService.updateClinic(parseInt(request.params.id), request.body);
+      const {
+        adminId,
+        name,
+        address,
+        workingHours,
+        specialties,
+        phone,
+        email
+      } = request.body;
+      const clinic = await ClinicService.updateClinic(
+        parseInt(request.params.id), {
+        adminId,
+        name,
+        address,
+        workingHours,
+        specialties,
+        phone,
+        email
+      });
       return !clinic
-        ? response.status(404).json({ error: 'Clínica não encontrada' })
+        ? response.status(404).json({ error: "Consultório não encontrado" })
         : response.status(200).json(clinic);
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao atualizar clínica' });
+      return response.status(500).json({ error: "Erro ao atualizar consultório" });
     }
   }
 
@@ -47,10 +82,10 @@ class ClinicController {
     try {
       const success = await ClinicService.deleteClinic(parseInt(request.params.id));
       return !success
-        ? response.status(404).json({ error: 'Clínica não encontrada' })
+        ? response.status(404).json({ error: "Consultório não encontrado" })
         : response.status(204).send();
     } catch (error) {
-      return response.status(500).json({ error: 'Erro ao excluir clínica' });
+      return response.status(500).json({ error: "Erro ao excluir consultório" });
     }
   }
 }

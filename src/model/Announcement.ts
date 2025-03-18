@@ -1,49 +1,67 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
+import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database';
+import { User } from './User';
 import { Clinic } from './Clinic';
 
 interface AnnouncementAttributes {
   announcementId: number;
-  userId: number;
   clinicId: number;
+  authorId: number;
   title: string;
-  body: string;
-  timestamp: Date;
+  text: string;
+  posted: Date;
 }
 
-export class Announcement extends Model<InferAttributes<Announcement>, InferCreationAttributes<Announcement>> implements AnnouncementAttributes {
-  declare announcementId: CreationOptional<number>;
-  declare userId: number;
-  declare clinicId: number;
-  declare title: string;
-  declare body: string;
-  declare timestamp: Date;
+interface AnnouncementCreationAttributes extends Optional<AnnouncementAttributes, "announcementId" | "posted"> {}
+
+export class Announcement extends Model<AnnouncementAttributes, AnnouncementCreationAttributes> implements AnnouncementAttributes {
+  public announcementId!: number;
+  public clinicId!: number;
+  public authorId!: number;
+  public title!: string;
+  public text!: string;
+  public posted!: Date;
 }
 
 Announcement.init(
   {
     announcementId: {
+      primaryKey: true,
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
     },
     clinicId: {
+      primaryKey: true,
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: Clinic,
+        key: 'id',
+      },
+    },
+    authorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: User,
+        key: 'id',
+      },
     },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
-    body: {
-      type: DataTypes.TEXT,
+    text: {
+      type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
-    timestamp: {
+    posted: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
@@ -51,12 +69,18 @@ Announcement.init(
   },
   {
     sequelize,
-    tableName: "announcements",
+    modelName: 'announcements',
     timestamps: false,
   }
 );
 
-Announcement.belongsTo(Clinic, {
-    foreignKey: 'clinicId',
-    as: 'clinic',
-});
+Announcement.belongsTo(
+  User, { 
+    foreignKey: 'authorId' 
+  }
+);
+Announcement.belongsTo(
+  Clinic, { 
+    foreignKey: 'clinicId' 
+  }
+);

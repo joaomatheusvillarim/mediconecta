@@ -5,9 +5,29 @@ class UserController {
 
   async createUser(request: Request, response: Response): Promise<Response> {
     try {
-      const user = await UserService.createUser(request.body);
+      const {
+        name, 
+        email, 
+        password, 
+        cpf, 
+        birthday, 
+        sex, 
+        address, 
+        phone
+      } = request.body;
+      const user = await UserService.createUser(
+        name, 
+        email, 
+        password, 
+        cpf, 
+        birthday, 
+        sex, 
+        address, 
+        phone
+      );
       return response.status(201).json(user);
     } catch (error) {
+      console.log(error);
       return response.status(500).json({ error: 'Erro ao criar usuário' });
     }
   }
@@ -34,7 +54,26 @@ class UserController {
 
   async updateUser(request: Request, response: Response): Promise<Response> {
     try {
-      const user = await UserService.updateUser(parseInt(request.params.id), request.body);
+      const {
+        name, 
+        email, 
+        password, 
+        cpf, 
+        birthday, 
+        sex, 
+        address, 
+        phone
+      } = request.body;
+      const user = await UserService.updateUser(parseInt(request.params.id), {
+        name, 
+        email, 
+        password, 
+        cpf, 
+        birthday, 
+        sex, 
+        address, 
+        phone
+      });
       return !user
         ? response.status(404).json({ error: 'Usuário não encontrado' })
         : response.status(200).json(user);
