@@ -66,9 +66,9 @@ Appointment.init(
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
-        validateAppointmentDate(date: Date) {
+        validateBirthday(birthday: Date) {
           const today = new Date();
-          if (date > today) throw new Error();
+          if (birthday > today) throw new Error();
         }
       }
     },
