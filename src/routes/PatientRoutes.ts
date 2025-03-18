@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import PatientController from '../controller/PatientController';
+import { authenticate, authorize } from '../middleware/AuthMiddleware';
 
 /**
  * @swagger
@@ -40,7 +41,7 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/clinics/:clinicId/patients", (request, response) => {PatientController.createPatient(request, response)});
+router.post("/clinics/:clinicId/patients", authenticate,(request, response) => {PatientController.createPatient(request, response)});
 
 /**
  * @swagger
@@ -76,7 +77,7 @@ router.post("/clinics/:clinicId/patients", (request, response) => {PatientContro
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/patients/:userId", (request, response) => {PatientController.getPatientById(request, response)});
+router.get("/clinics/:clinicId/patients/:userId", authenticate, authorize(['doctor', 'secretary', 'patient']), (request, response) => {PatientController.getPatientById(request, response)});
 
 /**
  * @swagger
@@ -105,7 +106,7 @@ router.get("/clinics/:clinicId/patients/:userId", (request, response) => {Patien
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/patients", (request, response) => {PatientController.getAllPatients(request, response)});
+router.get("/clinics/:clinicId/patients", authenticate, authorize(['doctor', 'secretary']), (request, response) => {PatientController.getAllPatients(request, response)});
 
 /**
  * @swagger
@@ -146,7 +147,7 @@ router.get("/clinics/:clinicId/patients", (request, response) => {PatientControl
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/clinics/:clinicD/patients/:userId", (request, response) => {PatientController.updatePatient(request, response)});
+router.put("/clinics/:clinicD/patients/:userId", authenticate, authenticate, authorize(['admin']), (request, response) => {PatientController.updatePatient(request, response)});
 
 /**
  * @swagger

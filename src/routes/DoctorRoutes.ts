@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import DoctorController from '../controller/DoctorController';
+import { authenticate, authorize } from '../middleware/AuthMiddleware';
 
 /**
  * @swagger
@@ -40,7 +41,7 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/clinics/:clinicId/doctors/", (request, response) => {DoctorController.createDoctor(request, response)});
+router.post("/clinics/:clinicId/doctors/", authenticate, (request, response) => {DoctorController.createDoctor(request, response)});
 
 /**
  * @swagger
@@ -76,7 +77,7 @@ router.post("/clinics/:clinicId/doctors/", (request, response) => {DoctorControl
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/doctors/:id", (request, response) => {DoctorController.getDoctorById(request, response)});
+router.get("/doctors/:id", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => {DoctorController.getDoctorById(request, response)});
 
 /**
  * @swagger
@@ -105,7 +106,7 @@ router.get("/doctors/:id", (request, response) => {DoctorController.getDoctorByI
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/doctors/", (request, response) => {DoctorController.getAllDoctors(request, response)});
+router.get("/clinics/:clinicId/doctors/",  authenticate, authorize(['patient', 'doctor', 'secretary']),  (request, response) => {DoctorController.getAllDoctors(request, response)});
 
 /**
  * @swagger
@@ -146,7 +147,7 @@ router.get("/clinics/:clinicId/doctors/", (request, response) => {DoctorControll
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/clinics/:clinicId/doctors/:doctorId", (request, response) => {DoctorController.updateDoctor(request, response)});
+router.put("/clinics/:clinicId/doctors/:doctorId", authenticate, authorize(['admin']),(request, response) => {DoctorController.updateDoctor(request, response)});
 
 /**
  * @swagger
@@ -178,6 +179,6 @@ router.put("/clinics/:clinicId/doctors/:doctorId", (request, response) => {Docto
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/clinics/:clinicId/doctors/:doctorId", (request, response) => {DoctorController.deleteDoctor(request, response)});
+router.delete("/clinics/:clinicId/doctors/:doctorId", authenticate, authorize(['admin']), (request, response) => {DoctorController.deleteDoctor(request, response)});
 
 export default router;

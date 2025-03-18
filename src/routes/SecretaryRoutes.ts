@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import SecretaryController from '../controller/SecretaryController';
+import { authenticate, authorize } from '../middleware/AuthMiddleware';
 
 /**
  * @swagger
@@ -40,7 +41,7 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/clinics/:clinicId/secretaries", (request, response) => {SecretaryController.createSecretary(request, response)});
+router.post("/clinics/:clinicId/secretaries", authenticate, (request, response) => {SecretaryController.createSecretary(request, response)});
 
 /**
  * @swagger
@@ -76,7 +77,7 @@ router.post("/clinics/:clinicId/secretaries", (request, response) => {SecretaryC
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/secretaries/:userId", (request, response) => {SecretaryController.getSecretaryById(request, response)});
+router.get("/clinics/:clinicId/secretaries/:userId", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => {SecretaryController.getSecretaryById(request, response)});
 
 /**
  * @swagger
@@ -105,7 +106,7 @@ router.get("/clinics/:clinicId/secretaries/:userId", (request, response) => {Sec
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/secretaries", (request, response) => {SecretaryController.getAllSecretaries(request, response)});
+router.get("/clinics/:clinicId/secretaries", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => {SecretaryController.getAllSecretaries(request, response)});
 
 /**
  * @swagger
@@ -146,7 +147,7 @@ router.get("/clinics/:clinicId/secretaries", (request, response) => {SecretaryCo
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/clinics/:clinicId/secretaries/:userId", (request, response) => {SecretaryController.updateSecretary(request, response)});
+router.put("/clinics/:clinicId/secretaries/:userId", authenticate, authorize(['admin']), (request, response) => {SecretaryController.updateSecretary(request, response)});
 
 /**
  * @swagger
@@ -178,6 +179,6 @@ router.put("/clinics/:clinicId/secretaries/:userId", (request, response) => {Sec
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/clinics/:clinicId/secretaries/:userId", (request, response) => {SecretaryController.deleteSecretary(request, response)});
+router.delete("/clinics/:clinicId/secretaries/:userId", authenticate, authorize(['admin']), (request, response) => {SecretaryController.deleteSecretary(request, response)});
 
 export default router;

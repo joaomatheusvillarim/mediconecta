@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import AppointmentController from '../controller/AppointmentController';
+import { authenticate, authorize } from '../middleware/AuthMiddleware';
 
 /**
  * @swagger
@@ -40,7 +41,7 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/clinics/:clinicId/appointments", (request, response) => {AppointmentController.createAppointment(request, response)});
+router.post("/clinics/:clinicId/appointments", authenticate, authorize(['patient']), (request, response) => {AppointmentController.createAppointment(request, response)});
 
 /**
  * @swagger
@@ -76,7 +77,7 @@ router.post("/clinics/:clinicId/appointments", (request, response) => {Appointme
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/appointments/:appointmentId", (request, response) => {AppointmentController.getAppointmentById(request, response)});
+router.get("/clinics/:clinicId/appointments/:appointmentId", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => {AppointmentController.getAppointmentById(request, response)});
 
 /**
  * @swagger
@@ -105,7 +106,7 @@ router.get("/clinics/:clinicId/appointments/:appointmentId", (request, response)
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/appointments", (request, response) => {AppointmentController.getAllAppointments(request, response)});
+router.get("/clinics/:clinicId/appointments", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => {AppointmentController.getAllAppointments(request, response)});
 
 /**
  * @swagger
@@ -146,7 +147,7 @@ router.get("/clinics/:clinicId/appointments", (request, response) => {Appointmen
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/clinics/:clinicId/appointments/:appointmentId", (request, response) => {AppointmentController.updateAppointment(request, response)});
+router.put("/clinics/:clinicId/appointments/:appointmentId", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => {AppointmentController.updateAppointment(request, response)});
 
 /**
  * @swagger
@@ -178,6 +179,6 @@ router.put("/clinics/:clinicId/appointments/:appointmentId", (request, response)
  *      500:
  *        description: Erro no servidor. 
 */
-router.delete("/clinics/:clinicId/appointments/:appointmentId", (request, response) => {AppointmentController.deleteAppointment(request, response)});
+router.delete("/clinics/:clinicId/appointments/:appointmentId", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => {AppointmentController.deleteAppointment(request, response)});
 
 export default router;

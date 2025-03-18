@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import RecordController from '../controller/RecordController';
+import { authenticate, authorize } from '../middleware/AuthMiddleware';
 
 /**
  * @swagger
@@ -47,7 +48,7 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/clinics/:clinicId/patients/:userId/record", (request, response) => {RecordController.createRecordEntry(request, response)});
+router.post("/clinics/:clinicId/patients/:userId/record", authenticate, authorize(["doctor"]), (request, response) => {RecordController.createRecordEntry(request, response)});
 
 /**
  * @swagger
@@ -90,7 +91,7 @@ router.post("/clinics/:clinicId/patients/:userId/record", (request, response) =>
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/patients/:userId/record/:entryIndex", (request, response) => {RecordController.getRecordEntryByIndex(request, response)});
+router.get("/clinics/:clinicId/patients/:userId/record/:entryIndex", authenticate, authorize(["doctor"]), (request, response) => {RecordController.getRecordEntryByIndex(request, response)});
 
 /**
  * @swagger
@@ -126,7 +127,7 @@ router.get("/clinics/:clinicId/patients/:userId/record/:entryIndex", (request, r
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/patients/:userId/record", (request, response) => {RecordController.getAllRecordEntries(request, response)});
+router.get("/clinics/:clinicId/patients/:userId/record", authenticate, authorize(["doctor"]), (request, response) => {RecordController.getAllRecordEntries(request, response)});
 
 /**
  * @swagger
@@ -174,7 +175,7 @@ router.get("/clinics/:clinicId/patients/:userId/record", (request, response) => 
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/clinics/:clinicId/patients/:userId/record/:entryIndex", (request, response) => {RecordController.updateRecord(request, response)});
+router.put("/clinics/:clinicId/patients/:userId/record/:entryIndex", authenticate, authorize(["doctor"]), (request, response) => {RecordController.updateRecord(request, response)});
 
 /**
  * @swagger
@@ -213,6 +214,6 @@ router.put("/clinics/:clinicId/patients/:userId/record/:entryIndex", (request, r
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/clinics/:clinicId/patients/:userId/record/:entryIndex", (request, response) => {RecordController.deleteRecordEntry(request, response)});
+router.delete("/clinics/:clinicId/patients/:userId/record/:entryIndex", authenticate, authorize(["doctor"]), (request, response) => {RecordController.deleteRecordEntry(request, response)});
 
 export default router;
