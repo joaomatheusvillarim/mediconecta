@@ -86,7 +86,7 @@ router.get("/clinics/:clinicId/appointments/:appointmentId", authenticate, autho
  *    tags:
  *      - Consultas
  *    summary: Recuperar todas as consultas.
- *    parameters:parameters:
+ *    parameters:
  *      - name: clinicId
  *        in: path
  *        description: ID do consultório
