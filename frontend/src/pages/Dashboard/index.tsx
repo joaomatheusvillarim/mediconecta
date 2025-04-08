@@ -1,50 +1,53 @@
-import { useEffect, useState } from 'react';
-import { Container, Title, UserInfo, ClinicCard, ClinicList, Button } from './styles';
-import { api } from '../../services/api';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../../services/api";
+import {
+    Container,
+    Header,
+    ClinicsList,
+    ClinicCard,
+    CreateButton,
+} from "./styles";
+
+// Tipagem da entidade Clinic
+interface Clinic {
+    id: number;
+    name: string;
+    specialties: string;
+}
 
 export default function Dashboard() {
-    const [user, setUser] = useState<any>(null);
-    const [clinics, setClinics] = useState<any[]>([]);
+    const [clinics, setClinics] = useState<Clinic[]>([]);
+    const navigate = useNavigate();
+
+    const userName = localStorage.getItem("userName");
 
     useEffect(() => {
-        async function fetchData() {
-            try {
-                const userId = localStorage.getItem('userId');
-                const { data: userData } = await api.get(`/users/${userId}`);
-                const { data: clinicList } = await api.get('/clinics');
-
-                setUser(userData);
-                setClinics(clinicList);
-            } catch (err) {
-                console.error('Erro ao carregar dados:', err);
-            }
-        }
-
-        fetchData();
+        api
+            .get("/clinics")
+            .then((res) => setClinics(res.data))
+            .catch((err) => console.error("Erro ao buscar clínicas:", err));
     }, []);
 
     return (
         <Container>
-            <Title>Bem-vindo(a), {user?.name || 'usuário'}!</Title>
+            <Header>Bem-vindo, {userName}</Header>
 
-            <UserInfo>
-                <p><strong>Email:</strong> {user?.email}</p>
-                <p><strong>CPF:</strong> {user?.cpf}</p>
-            </UserInfo>
+            <CreateButton onClick={() => navigate("/clinics/create")}>
+                Criar novo consultório
+            </CreateButton>
 
-            <h2>Clínicas disponíveis</h2>
-
-            <ClinicList>
-                {clinics.map(clinic => (
-                    <ClinicCard key={clinic.id}>
+            <ClinicsList>
+                {clinics.map((clinic) => (
+                    <ClinicCard
+                        key={clinic.id}
+                        onClick={() => navigate(`/clinics/${clinic.id}`)}
+                    >
                         <h3>{clinic.name}</h3>
-                        <p>{clinic.address}</p>
-                        <Button onClick={() => window.location.href = `/clinics/${clinic.id}`}>Acessar</Button>
+                        <p>{clinic.specialties}</p>
                     </ClinicCard>
                 ))}
-            </ClinicList>
-
-            <Button onClick={() => window.location.href = "/clinics/create"}>Criar nova clínica</Button>
+            </ClinicsList>
         </Container>
     );
 }

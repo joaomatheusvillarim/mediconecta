@@ -1,92 +1,57 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { api } from '../../services/api';
-import {
-    Container,
-    Title,
-    Input,
-    Label,
-    Button,
-    Form
-} from './styles';
+import React, { useEffect, useState } from "react";
+import { Container, SecretaryCard, ButtonGroup } from "./styles";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-export default function SecretaryPage() {
-    const { id, clinicId } = useParams();
-    const navigate = useNavigate();
-    const [secretary, setSecretary] = useState<any>(null);
-    const [workingHours, setWorkingHours] = useState('');
+interface Secretary {
+    id: number;
+    name: string;
+    workingHours: string;
+}
+
+const SecretaryPage = () => {
+    const { id: clinicId } = useParams();
+    const [secretaries, setSecretaries] = useState<Secretary[]>([]);
 
     useEffect(() => {
-        async function loadSecretary() {
-            try {
-                const token = localStorage.getItem('token');
-                const res = await api.get(`/clinics/${clinicId}/secretaries/${id}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setSecretary(res.data);
-                setWorkingHours(res.data.workingHours || '');
-            } catch (err) {
-                alert('Erro ao carregar secretário');
-                console.error(err);
-            }
-        }
-
-        loadSecretary();
-    }, [id, clinicId]);
-
-    async function handleUpdate() {
-        try {
-            const token = localStorage.getItem('token');
-            await api.put(`/clinics/${clinicId}/secretaries/${id}`, {
-                workingHours
-            }, {
-                headers: { Authorization: `Bearer ${token}` }
+        axios
+            .get(`http://localhost:3000/clinics/${clinicId}/secretaries`)
+            .then((response) => {
+                setSecretaries(response.data);
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar secretários:", error);
             });
-            alert('Horário atualizado!');
-        } catch (err) {
-            alert('Erro ao atualizar horário');
-            console.error(err);
-        }
-    }
+    }, [clinicId]);
 
-    async function handleDelete() {
-        try {
-            const token = localStorage.getItem('token');
-            await api.delete(`/clinics/${clinicId}/secretaries/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            alert('Secretário removido!');
-            navigate(`/clinics/${clinicId}`);
-        } catch (err) {
-            alert('Erro ao remover secretário');
-            console.error(err);
-        }
-    }
+    const handleView = (id: number) => {
+        alert(`Visualizar secretário ${id}`);
+    };
+
+    const handleEdit = (id: number) => {
+        alert(`Editar secretário ${id}`);
+    };
+
+    const handleDelete = (id: number) => {
+        alert(`Remover secretário ${id}`);
+    };
 
     return (
         <Container>
-            <Title>Perfil do Secretário</Title>
-
-            {!secretary ? (
-                <p>Carregando...</p>
-            ) : (
-                <Form>
-                    <Label>Nome:</Label>
-                    <Input value={secretary.User?.name || ''} disabled />
-
-                    <Label>Email:</Label>
-                    <Input value={secretary.User?.email || ''} disabled />
-
-                    <Label>Horário de Trabalho:</Label>
-                    <Input
-                        value={workingHours}
-                        onChange={e => setWorkingHours(e.target.value)}
-                    />
-
-                    <Button onClick={handleUpdate}>Salvar Alterações</Button>
-                    <Button danger onClick={handleDelete}>Remover Secretário</Button>
-                </Form>
-            )}
+            <h1>Secretários da Clínica</h1>
+            {secretaries.map((secretary) => (
+                <SecretaryCard key={secretary.id}>
+                    <h3>{secretary.name}</h3>
+                    <p>Horário de Trabalho: {secretary.workingHours}</p>
+                    <ButtonGroup>
+                        <button onClick={() => handleView(secretary.id)}>Ver</button>
+                        <button onClick={() => handleEdit(secretary.id)}>Editar</button>
+                        <button onClick={() => handleDelete(secretary.id)}>Remover</button>
+                    </ButtonGroup>
+                </SecretaryCard>
+            ))}
         </Container>
     );
-}
+};
+
+export default SecretaryPage;

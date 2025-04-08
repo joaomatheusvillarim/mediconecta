@@ -1,91 +1,35 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { api } from '../../services/api';
-import {
-    Container,
-    Section,
-    Title,
-    SubTitle,
-    Card,
-    CardList
-} from './styles';
+import { useNavigate } from "react-router-dom";
+import { Container, Title, InfoBox, NavButton, ButtonsGrid } from "./styles";
 
-export default function ClinicProfile() {
-    const { id } = useParams();
-    const [clinic, setClinic] = useState<any>(null);
-    const [doctors, setDoctors] = useState([]);
-    const [patients, setPatients] = useState([]);
-    const [secretaries, setSecretaries] = useState([]);
-    const [announcements, setAnnouncements] = useState([]);
+const ClinicProfile = () => {
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        async function loadClinicData() {
-            try {
-                const token = localStorage.getItem('token');
-
-                const [clinicRes, docRes, patRes, secRes, annRes] = await Promise.all([
-                    api.get(`/clinics/${id}`, { headers: { Authorization: `Bearer ${token}` } }),
-                    api.get(`/clinics/${id}/doctors`),
-                    api.get(`/clinics/${id}/patients`),
-                    api.get(`/clinics/${id}/secretaries`),
-                    api.get(`/clinics/${id}/announcements`)
-                ]);
-
-                setClinic(clinicRes.data);
-                setDoctors(docRes.data);
-                setPatients(patRes.data);
-                setSecretaries(secRes.data);
-                setAnnouncements(annRes.data);
-            } catch (error) {
-                console.error('Erro ao carregar dados da clínica:', error);
-            }
-        }
-
-        loadClinicData();
-    }, [id]);
+    const handleNavigate = (path: string) => {
+        navigate(path);
+    };
 
     return (
         <Container>
-            <Title>{clinic?.name || 'Carregando...'}</Title>
-            <p><strong>Endereço:</strong> {clinic?.address}</p>
-            <p><strong>Especialidades:</strong> {clinic?.specialties}</p>
-            <p><strong>Telefone:</strong> {clinic?.phone}</p>
+            <Title>Consultório ABC</Title>
 
-            <Section>
-                <SubTitle>Médicos</SubTitle>
-                <CardList>
-                    {doctors.map((doc: any) => (
-                        <Card key={doc.id}>{doc.User?.name}</Card>
-                    ))}
-                </CardList>
-            </Section>
+            <InfoBox>
+                <p><strong>Endereço:</strong> Rua Exemplo, 123</p>
+                <p><strong>Horário de Funcionamento:</strong> 08h às 18h</p>
+                <p><strong>Especialidades:</strong> Clínica geral, Cardiologia</p>
+                <p><strong>Telefone:</strong> (83) 1234-5678</p>
+                <p><strong>Email:</strong> consultorio@exemplo.com</p>
+            </InfoBox>
 
-            <Section>
-                <SubTitle>Pacientes</SubTitle>
-                <CardList>
-                    {patients.map((p: any) => (
-                        <Card key={p.id}>{p.User?.name}</Card>
-                    ))}
-                </CardList>
-            </Section>
-
-            <Section>
-                <SubTitle>Secretários</SubTitle>
-                <CardList>
-                    {secretaries.map((s: any) => (
-                        <Card key={s.id}>{s.User?.name}</Card>
-                    ))}
-                </CardList>
-            </Section>
-
-            <Section>
-                <SubTitle>Avisos</SubTitle>
-                <CardList>
-                    {announcements.map((a: any) => (
-                        <Card key={a.id}>{a.title}</Card>
-                    ))}
-                </CardList>
-            </Section>
+            <ButtonsGrid>
+                <NavButton onClick={() => handleNavigate("/doctors")}>Médicos</NavButton>
+                <NavButton onClick={() => handleNavigate("/secretaries")}>Secretários</NavButton>
+                <NavButton onClick={() => handleNavigate("/patients")}>Pacientes</NavButton>
+                <NavButton onClick={() => handleNavigate("/appointments")}>Consultas</NavButton>
+                <NavButton onClick={() => handleNavigate("/announcements")}>Avisos</NavButton>
+                <NavButton onClick={() => handleNavigate("/join")}>Vincular</NavButton>
+            </ButtonsGrid>
         </Container>
     );
-}
+};
+
+export default ClinicProfile;

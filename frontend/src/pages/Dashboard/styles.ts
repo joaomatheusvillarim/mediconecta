@@ -1,44 +1,34 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   padding: 2rem;
 `;
 
-export const Title = styled.h1`
+export const Header = styled.h1`
+  font-size: 2rem;
   margin-bottom: 1rem;
 `;
 
-export const UserInfo = styled.div`
-  background-color: #f4f4f4;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-`;
-
-export const ClinicList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+export const ClinicsList = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-  margin-bottom: 2rem;
 `;
 
 export const ClinicCard = styled.div`
-  border: 1px solid #ddd;
   padding: 1rem;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #fff;
+  cursor: pointer;
+  background: #f9f9f9;
 `;
 
-export const Button = styled.button`
-  margin-top: 1rem;
-  padding: 0.6rem 1rem;
-  border: none;
-  background-color: #0077cc;
+export const CreateButton = styled.button`
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #4caf50;
   color: white;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
-
-  &:hover {
-    background-color: #005fa3;
-  }
 `;

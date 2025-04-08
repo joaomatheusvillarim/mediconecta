@@ -1,44 +1,54 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
-  min-height: 100vh;
-  background-color: #f4f4f4;
+  background-color: #f2f2f2;
 `;
 
-export const Form = styled.div`
-  background: white;
-  padding: 2rem;
+export const Form = styled.form`
+  background-color: white;
+  padding: 40px;
   border-radius: 10px;
-  box-shadow: 0 0 10px #ccc;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  width: 400px;
+  gap: 20px;
 `;
 
-export const Title = styled.h1`
+export const Title = styled.h2`
+  margin-bottom: 10px;
+  font-size: 24px;
   text-align: center;
+  color: #333;
 `;
 
 export const Input = styled.input`
-  padding: 0.75rem;
+  padding: 12px;
+  font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
+  outline: none;
+
+  &:focus {
+    border-color: #007bff;
+  }
 `;
 
 export const Button = styled.button`
-  padding: 0.75rem;
-  background-color: #28a745;
-  color: white;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #007bff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
+  color: white;
   cursor: pointer;
 
   &:hover {
-    background-color: #218838;
+    background-color: #0056b3;
   }
 `;

@@ -1,52 +1,99 @@
-import { useState } from 'react';
-import { api } from '../../services/api';
-import { Container, Form, Title, Input, Button } from './styles';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../../services/api";
+import {
+  Container,
+  Form,
+  Title,
+  Input,
+  Button,
+} from "./styles";
 
 export default function CreateClinicPage() {
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [workingHours, setWorkingHours] = useState('');
-  const [specialties, setSpecialties] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    address: "",
+    phone: "",
+    workingHours: "",
+    specialties: "",
+  });
 
-  async function handleSubmit() {
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     try {
-      const token = localStorage.getItem('token');
-      const response = await api.post('/clinics', {
-        name,
-        address,
-        workingHours,
-        specialties,
-        phone,
-        email
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const response = await api.post("/clinics", formData);
+      const clinicId = response.data.id;
 
-      alert('Clínica criada com sucesso!');
-      window.location.href = `/clinics/${response.data.id}`;
-    } catch (err) {
-      console.error(err);
-      alert('Erro ao criar clínica.');
+      console.log("Consultório criado:", response.data);
+      navigate(`/clinics/${clinicId}`); // Redirecionar para a página do consultório
+    } catch (error) {
+      console.error("Erro ao criar consultório:", error);
+      alert("Erro ao criar consultório. Verifique os dados.");
     }
-  }
+  };
 
   return (
     <Container>
-      <Form>
-        <Title>Cadastrar Clínica</Title>
+      <Form onSubmit={handleSubmit}>
+        <Title>Criar Consultório</Title>
 
-        <Input placeholder="Nome" value={name} onChange={e => setName(e.target.value)} />
-        <Input placeholder="Endereço" value={address} onChange={e => setAddress(e.target.value)} />
-        <Input placeholder="Horário de Funcionamento" value={workingHours} onChange={e => setWorkingHours(e.target.value)} />
-        <Input placeholder="Especialidades" value={specialties} onChange={e => setSpecialties(e.target.value)} />
-        <Input placeholder="Telefone" value={phone} onChange={e => setPhone(e.target.value)} />
-        <Input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+        <Input
+          name="name"
+          placeholder="Nome"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
 
-        <Button onClick={handleSubmit}>Criar Clínica</Button>
+        <Input
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+
+        <Input
+          name="address"
+          placeholder="Endereço"
+          value={formData.address}
+          onChange={handleChange}
+          required
+        />
+
+        <Input
+          name="phone"
+          placeholder="Telefone"
+          value={formData.phone}
+          onChange={handleChange}
+          required
+        />
+
+        <Input
+          name="workingHours"
+          placeholder="Horário de funcionamento"
+          value={formData.workingHours}
+          onChange={handleChange}
+          required
+        />
+
+        <Input
+          name="specialties"
+          placeholder="Especialidades"
+          value={formData.specialties}
+          onChange={handleChange}
+          required
+        />
+
+        <Button type="submit">Criar</Button>
       </Form>
     </Container>
   );
