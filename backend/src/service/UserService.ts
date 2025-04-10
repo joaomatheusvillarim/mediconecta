@@ -3,10 +3,15 @@ import { User, UserSex } from '../model/User';
 import { UserRepository } from '../repository/UserRepository';
 import Validations from "../util/Validations";
 
-const userRepository = new UserRepository();
 const saltRounds = 10;
 
-class UserService {
+export class UserService {
+
+  private userRepository: UserRepository;
+
+  constructor(userRepository?: UserRepository) {
+    this.userRepository = userRepository || new UserRepository();
+  }
 
   async createUser(
     name: string,
@@ -34,7 +39,7 @@ class UserService {
     Validations.validateAddress(address);
     Validations.validatePhone(phone);
 
-    return await userRepository.createUser(
+    return await this.userRepository.createUser(
       name,
       email,
       hashedPassword,
@@ -47,11 +52,11 @@ class UserService {
   }
 
   async getUserById(id: number): Promise<User | null> {
-    return await userRepository.getUserById(id);
+    return await this.userRepository.getUserById(id);
   }
 
   async getAllUsers(): Promise<User[]> {
-    return await userRepository.getAllUsers();
+    return await this.userRepository.getAllUsers();
   }
 
   async updateUser(
@@ -82,13 +87,11 @@ class UserService {
     if (data.address) Validations.validateAddress(data.address);
     if (data.phone) Validations.validatePhone(data.phone);
 
-    return await userRepository.updateUser(id, data);
+    return await this.userRepository.updateUser(id, data);
   }
 
   async deleteUser(id: number): Promise<boolean> {
-    return await userRepository.deleteUser(id);
+    return await this.userRepository.deleteUser(id);
   }
   
 }
-
-export default new UserService();
