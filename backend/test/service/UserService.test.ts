@@ -13,7 +13,7 @@ describe("Testes de UserService", () => {
 
   beforeEach(() => {
     userRepositoryMock = new UserRepository() as jest.Mocked<UserRepository>;
-    userService = new UserService();
+    userService = new UserService(userRepositoryMock);
     mockUser = User.build({
       id: 1,
       name: "Test User",
