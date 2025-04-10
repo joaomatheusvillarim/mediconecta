@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import UserController from '../controller/UserController';
+import { UserController } from '../controller/UserController';
+import { UserService } from '../service/UserService';
 import { authenticate, authorize } from '../middleware/AuthMiddleware';
 
 
@@ -10,6 +11,8 @@ import { authenticate, authorize } from '../middleware/AuthMiddleware';
  *  description: Endpoints para CRUD de usuários
 */
 const router = Router();
+const userService = new UserService();
+const userController = new UserController(userService);
 
 /**
  * @swagger
@@ -34,7 +37,7 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/users/", (request, response) => { UserController.createUser(request, response) });
+router.post("/users/", (request, response) => { userController.createUser(request, response) });
 
 /**
  * @swagger
@@ -63,7 +66,7 @@ router.post("/users/", (request, response) => { UserController.createUser(reques
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/users/:id", authenticate, (request, response) => { UserController.getUserById(request, response) });
+router.get("/users/:id", authenticate, (request, response) => { userController.getUserById(request, response) });
 
 /**
  * @swagger
@@ -84,7 +87,7 @@ router.get("/users/:id", authenticate, (request, response) => { UserController.g
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/users/", authenticate, (request, response) => { UserController.getAllUsers(response) });
+router.get("/users/", authenticate, (request, response) => { userController.getAllUsers(response) });
 
 /**
  * @swagger
@@ -118,7 +121,7 @@ router.get("/users/", authenticate, (request, response) => { UserController.getA
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/users/:id", authenticate, (request, response) => { UserController.updateUser(request, response) });
+router.put("/users/:id", authenticate, (request, response) => { userController.updateUser(request, response) });
 
 /**
  * @swagger
@@ -143,6 +146,6 @@ router.put("/users/:id", authenticate, (request, response) => { UserController.u
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/users/:id", authenticate, (request, response) => { UserController.deleteUser(request, response) });
+router.delete("/users/:id", authenticate, (request, response) => { userController.deleteUser(request, response) });
 
 export default router;
