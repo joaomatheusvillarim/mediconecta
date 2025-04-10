@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
-import DoctorService from '../service/DoctorService';
+import { DoctorService } from '../service/DoctorService';
+import { injectable, inject } from "tsyringe";
 
-class DoctorController {
+@injectable()
+export class DoctorController {
+
+  constructor(@inject(DoctorService) private doctorService: DoctorService) {}
 
   async createDoctor(request: Request, response: Response): Promise<Response> {
     try {
@@ -14,7 +18,7 @@ class DoctorController {
         insurance
       }  = request.body;
 
-      const doctor = await DoctorService.createDoctor(
+      const doctor = await this.doctorService.createDoctor(
         userId,
         clinicId,
         credentials,
@@ -33,7 +37,7 @@ class DoctorController {
       const clinicId = parseInt(request.params.clinicId);
       const userId = parseInt(request.params.userId);
 
-      const doctor = await DoctorService.getDoctorById(userId, clinicId);
+      const doctor = await this.doctorService.getDoctorById(userId, clinicId);
       return !doctor 
         ? response.status(404).json({ error: 'Médico não encontrado' }) 
         : response.status(200).json(doctor);
@@ -46,7 +50,7 @@ class DoctorController {
     try {
       const clinicId = parseInt(request.params.clinicId);
 
-      const doctors = await DoctorService.getAllDoctors(clinicId);
+      const doctors = await this.doctorService.getAllDoctors(clinicId);
       return response.status(200).json(doctors);
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao listar médicos' });
@@ -65,7 +69,7 @@ class DoctorController {
         insurance
       }  = request.body;
 
-      const doctor = await DoctorService.updateDoctor(
+      const doctor = await this.doctorService.updateDoctor(
         userId,
         clinicId,
         {
@@ -88,7 +92,7 @@ class DoctorController {
       const clinicId = parseInt(request.params.clinicId);
       const userId = parseInt(request.params.userId);
 
-      const success = await DoctorService.deleteDoctor(userId, clinicId);
+      const success = await this.doctorService.deleteDoctor(userId, clinicId);
       return !success
         ? response.status(404).json({ error: 'Médico não encontrado' })
         : response.status(204).send();
@@ -97,5 +101,3 @@ class DoctorController {
     }
   }
 }
-
-export default new DoctorController();

@@ -2,9 +2,13 @@ import { Announcement } from '../model/Announcement';
 import { AnnouncementRepository } from '../repository/AnnouncementRepository';
 import Validations from '../util/Validations';
 
-const announcementRepository = new AnnouncementRepository();
+export class AnnouncementService {
 
-class AnnouncementService {
+  private announcementRepository: AnnouncementRepository;
+
+  constructor(announcementRepository?: AnnouncementRepository) {
+    this.announcementRepository = announcementRepository || new AnnouncementRepository();
+  }
 
   async createAnnouncement(
     clinicId: number, 
@@ -13,12 +17,10 @@ class AnnouncementService {
     text: string
   ) {
 
-    Validations.validateClinicId(clinicId);
-    Validations.validateUserId(authorId);
     Validations.validateAnnouncementTitle(title);
     Validations.validateAnnouncementText(text);
 
-    return await announcementRepository.createAnnouncement(
+    return await this.announcementRepository.createAnnouncement(
       clinicId,
       authorId,
       title,
@@ -30,18 +32,12 @@ class AnnouncementService {
   async getAnnouncementById(
     announcementdId: number,
     clinicId: number
-  ): Promise<Announcement | null> {
-    
-    Validations.validateClinicId(clinicId);
-    
-    return await announcementRepository.getAnnouncementById(announcementdId, clinicId);
+  ): Promise<Announcement | null> {    
+    return await this.announcementRepository.getAnnouncementById(announcementdId, clinicId);
   }
 
   async getAllAnnouncements(clinicId: number): Promise<Announcement[]> {
-
-    Validations.validateClinicId(clinicId);
-
-    return await announcementRepository.getAllAnnouncements(clinicId); 
+    return await this.announcementRepository.getAllAnnouncements(clinicId); 
   }
 
   async updateAnnouncement(
@@ -53,25 +49,16 @@ class AnnouncementService {
     }>
     
   ): Promise<Announcement | null> {
-   
-    Validations.validateUserId(announcementdId);
-    Validations.validateClinicId(clinicId);
-
     if (data.title) Validations.validateAnnouncementTitle(data.title);
     if (data.text) Validations.validateAnnouncementTitle(data.text);
 
-    return await announcementRepository.updateAnnouncement(announcementdId, clinicId, data);
+    return await this.announcementRepository.updateAnnouncement(announcementdId, clinicId, data);
   }
 
   async deleteAnnouncement(
     announcementdId: number,
     clinicId: number
   ): Promise<boolean> {
-
-    Validations.validateClinicId(clinicId);
-
-    return await announcementRepository.deleteAnnouncement(announcementdId, clinicId);
+    return await this.announcementRepository.deleteAnnouncement(announcementdId, clinicId);
   }
 }
-
-export default new AnnouncementService();

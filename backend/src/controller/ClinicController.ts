@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
-import ClinicService from '../service/ClinicService';
+import { ClinicService } from '../service/ClinicService';
+import { injectable, inject } from "tsyringe";
 
-class ClinicController {
+@injectable()
+export class ClinicController {
+
+  constructor(@inject(ClinicService) private clinicService: ClinicService) {}
 
   async createClinic(request: Request, response: Response): Promise<Response> {
     try {
@@ -14,7 +18,7 @@ class ClinicController {
         phone,
         email
       } = request.body;
-      const clinic = await ClinicService.createClinic(
+      const clinic = await this.clinicService.createClinic(
         adminId,
         name,
         address,
@@ -31,7 +35,7 @@ class ClinicController {
 
   async getClinicById(request: Request, response: Response): Promise<Response> {
     try {
-      const clinic = await ClinicService.getClinicById(parseInt(request.params.id));
+      const clinic = await this.clinicService.getClinicById(parseInt(request.params.id));
       return !clinic 
         ? response.status(404).json({ error: "Consultório não encontrado" }) 
         : response.status(200).json(clinic);
@@ -42,7 +46,7 @@ class ClinicController {
 
   async getAllClinics(response: Response): Promise<Response> {
     try {
-      const clinics = await ClinicService.getAllClinics();
+      const clinics = await this.clinicService.getAllClinics();
       return response.status(200).json(clinics);
     } catch (error) {
       return response.status(500).json({ error: "Erro ao listar consultórios" });
@@ -60,7 +64,7 @@ class ClinicController {
         phone,
         email
       } = request.body;
-      const clinic = await ClinicService.updateClinic(
+      const clinic = await this.clinicService.updateClinic(
         parseInt(request.params.id), {
         adminId,
         name,
@@ -80,7 +84,7 @@ class ClinicController {
 
   async deleteClinic(request: Request, response: Response): Promise<Response> {
     try {
-      const success = await ClinicService.deleteClinic(parseInt(request.params.id));
+      const success = await this.clinicService.deleteClinic(parseInt(request.params.id));
       return !success
         ? response.status(404).json({ error: "Consultório não encontrado" })
         : response.status(204).send();
@@ -89,5 +93,3 @@ class ClinicController {
     }
   }
 }
-
-export default new ClinicController();

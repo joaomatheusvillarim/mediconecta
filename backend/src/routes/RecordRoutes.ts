@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import RecordController from '../controller/RecordController';
+import { RecordController } from '../controller/RecordController';
 import { authenticate, authorize } from '../middleware/AuthMiddleware';
+import { RecordService } from '../service/RecordService';
 
 /**
  * @swagger
@@ -9,6 +10,8 @@ import { authenticate, authorize } from '../middleware/AuthMiddleware';
  *  description: Endpoints para CRUD de prontuários
 */
 const router = Router();
+const recordService = new RecordService();
+const recordController = new RecordController(recordService);
 
 /**
  * @swagger
@@ -48,7 +51,7 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/clinics/:clinicId/patients/:userId/record", authenticate, authorize(["doctor"]), (request, response) => {RecordController.createRecordEntry(request, response)});
+router.post("/clinics/:clinicId/patients/:userId/record", authenticate, authorize(["doctor"]), (request, response) => {recordController.createRecordEntry(request, response)});
 
 /**
  * @swagger
@@ -91,7 +94,7 @@ router.post("/clinics/:clinicId/patients/:userId/record", authenticate, authoriz
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/patients/:userId/record/:entryIndex", authenticate, authorize(["doctor"]), (request, response) => {RecordController.getRecordEntryByIndex(request, response)});
+router.get("/clinics/:clinicId/patients/:userId/record/:entryIndex", authenticate, authorize(["doctor"]), (request, response) => {recordController.getRecordEntryByIndex(request, response)});
 
 /**
  * @swagger
@@ -127,7 +130,7 @@ router.get("/clinics/:clinicId/patients/:userId/record/:entryIndex", authenticat
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/patients/:userId/record", authenticate, authorize(["doctor"]), (request, response) => {RecordController.getAllRecordEntries(request, response)});
+router.get("/clinics/:clinicId/patients/:userId/record", authenticate, authorize(["doctor"]), (request, response) => {recordController.getAllRecordEntries(request, response)});
 
 /**
  * @swagger
@@ -175,7 +178,7 @@ router.get("/clinics/:clinicId/patients/:userId/record", authenticate, authorize
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/clinics/:clinicId/patients/:userId/record/:entryIndex", authenticate, authorize(["doctor"]), (request, response) => {RecordController.updateRecord(request, response)});
+router.put("/clinics/:clinicId/patients/:userId/record/:entryIndex", authenticate, authorize(["doctor"]), (request, response) => {recordController.updateRecord(request, response)});
 
 /**
  * @swagger
@@ -214,6 +217,6 @@ router.put("/clinics/:clinicId/patients/:userId/record/:entryIndex", authenticat
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/clinics/:clinicId/patients/:userId/record/:entryIndex", authenticate, authorize(["doctor"]), (request, response) => {RecordController.deleteRecordEntry(request, response)});
+router.delete("/clinics/:clinicId/patients/:userId/record/:entryIndex", authenticate, authorize(["doctor"]), (request, response) => {recordController.deleteRecordEntry(request, response)});
 
 export default router;

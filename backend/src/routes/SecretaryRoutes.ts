@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import SecretaryController from '../controller/SecretaryController';
+import { SecretaryController } from '../controller/SecretaryController';
 import { authenticate, authorize } from '../middleware/AuthMiddleware';
+import { SecretaryService } from '../service/SecretaryService';
 
 /**
  * @swagger
@@ -9,6 +10,8 @@ import { authenticate, authorize } from '../middleware/AuthMiddleware';
  *  description: Endpoints para CRUD de secretários
 */
 const router = Router();
+const secretaryService = new SecretaryService();
+const secretaryController = new SecretaryController(secretaryService);
 
 /**
  * @swagger
@@ -41,7 +44,7 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
 */
-router.post("/clinics/:clinicId/secretaries", authenticate, (request, response) => {SecretaryController.createSecretary(request, response)});
+router.post("/clinics/:clinicId/secretaries", authenticate, (request, response) => {secretaryController.createSecretary(request, response)});
 
 /**
  * @swagger
@@ -77,7 +80,7 @@ router.post("/clinics/:clinicId/secretaries", authenticate, (request, response) 
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/secretaries/:userId", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => {SecretaryController.getSecretaryById(request, response)});
+router.get("/clinics/:clinicId/secretaries/:userId", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => {secretaryController.getSecretaryById(request, response)});
 
 /**
  * @swagger
@@ -106,7 +109,7 @@ router.get("/clinics/:clinicId/secretaries/:userId", authenticate, authorize(['p
  *      500:
  *        description: Erro no servidor.
 */
-router.get("/clinics/:clinicId/secretaries", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => {SecretaryController.getAllSecretaries(request, response)});
+router.get("/clinics/:clinicId/secretaries", authenticate, authorize(['patient', 'doctor', 'secretary']), (request, response) => {secretaryController.getAllSecretaries(request, response)});
 
 /**
  * @swagger
@@ -147,7 +150,7 @@ router.get("/clinics/:clinicId/secretaries", authenticate, authorize(['patient',
  *      500:
  *        description: Erro no servidor.
 */
-router.put("/clinics/:clinicId/secretaries/:userId", authenticate, authorize(['admin']), (request, response) => {SecretaryController.updateSecretary(request, response)});
+router.put("/clinics/:clinicId/secretaries/:userId", authenticate, authorize(['admin']), (request, response) => {secretaryController.updateSecretary(request, response)});
 
 /**
  * @swagger
@@ -179,6 +182,6 @@ router.put("/clinics/:clinicId/secretaries/:userId", authenticate, authorize(['a
  *      500:
  *        description: Erro no servidor.
 */
-router.delete("/clinics/:clinicId/secretaries/:userId", authenticate, authorize(['admin']), (request, response) => {SecretaryController.deleteSecretary(request, response)});
+router.delete("/clinics/:clinicId/secretaries/:userId", authenticate, authorize(['admin']), (request, response) => {secretaryController.deleteSecretary(request, response)});
 
 export default router;

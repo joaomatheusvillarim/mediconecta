@@ -2,9 +2,13 @@ import { Doctor } from '../model/Doctor';
 import { DoctorRepository } from '../repository/DoctorRepository';
 import Validations from '../util/Validations';
 
-const doctorRepository = new DoctorRepository();
+export class DoctorService {
 
-class DoctorService {
+  private doctorRepository: DoctorRepository;
+
+  constructor(doctorRepository?: DoctorRepository) {
+    this.doctorRepository = doctorRepository || new DoctorRepository();
+  }
 
   async createDoctor(
     userId: number,
@@ -15,14 +19,12 @@ class DoctorService {
     insurance: Partial<string>
   ): Promise<Doctor> {
 
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
     Validations.validateDoctorCredentials(credentials);
     if (workingHours) Validations.validateWorkingHours(workingHours);
     Validations.validateSpecialties(specialty);
     if (insurance) Validations.validateInsurance(insurance);
 
-    return await doctorRepository.createDoctor(
+    return await this.doctorRepository.createDoctor(
       userId,
       clinicId,
       credentials,
@@ -36,18 +38,11 @@ class DoctorService {
     userId: number,
     clinicId: number
   ): Promise<Doctor | null> {
-
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
-
-    return await doctorRepository.getDoctorById(userId, clinicId);
+    return await this.doctorRepository.getDoctorById(userId, clinicId);
   }
 
   async getAllDoctors(clinicId: number): Promise<Doctor[]> {
-    
-    Validations.validateClinicId(clinicId);
-
-    return await doctorRepository.getAllDoctors(clinicId);
+    return await this.doctorRepository.getAllDoctors(clinicId);
   }
 
   async updateDoctor(
@@ -60,29 +55,19 @@ class DoctorService {
       insurance: string
     }>
   ): Promise<Doctor | null> {
-
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
-
     if (data.credentials) Validations.validateDoctorCredentials(data.credentials);
     if (data.workingHours) Validations.validateWorkingHours(data.workingHours);
     if (data.specialty) Validations.validateSpecialties(data.specialty);
     if (data.insurance) Validations.validateInsurance(data.insurance);
 
-    return await doctorRepository.updateDoctor(userId, clinicId, data);
+    return await this.doctorRepository.updateDoctor(userId, clinicId, data);
   }
 
   async deleteDoctor(
     userId: number,
     clinicId: number
   ): Promise<boolean> {
-
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
-
-    return await doctorRepository.deleteDoctor(userId, clinicId);
+    return await this.doctorRepository.deleteDoctor(userId, clinicId);
   }
   
 }
-
-export default new DoctorService();

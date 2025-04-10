@@ -2,9 +2,13 @@ import { Appointment, AppointmentStatus } from '../model/Appointment';
 import { AppointmentRepository } from '../repository/AppointmentRepository';
 import Validations from '../util/Validations';
 
-const appointmentRepository = new AppointmentRepository();
+export class AppointmentService {
 
-class AppointmentService {
+  private appointmentRepository: AppointmentRepository;
+
+  constructor(appointmentRepository?: AppointmentRepository) {
+    this.appointmentRepository = appointmentRepository || new AppointmentRepository();
+  }
 
   async createAppointment(
     clinicId: number,
@@ -14,13 +18,10 @@ class AppointmentService {
     insurance: string,
   ): Promise<Appointment> {
 
-    Validations.validateClinicId(clinicId);
-    Validations.validatePatientId(patientId, clinicId);
-    Validations.validateDoctorId(doctorId, clinicId);
     Validations.validateBirthday(date);
     Validations.validateInsurance(insurance);
     
-    return await appointmentRepository.createAppointment(
+    return await this.appointmentRepository.createAppointment(
       clinicId,
       patientId,
       doctorId,
@@ -30,17 +31,11 @@ class AppointmentService {
   }
 
   async getAppointmentById(clinicId: number, appointmentId: number): Promise<Appointment | null> {
-
-    Validations.validateClinicId(clinicId);
-
-    return await appointmentRepository.getAppointmentById(clinicId, appointmentId);
+    return await this.appointmentRepository.getAppointmentById(clinicId, appointmentId);
   }
 
   async getAllAppointments(clinicId: number): Promise<Appointment[]> {
-
-    Validations.validateClinicId(clinicId);
-
-    return await appointmentRepository.getAllAppointments(clinicId);
+    return await this.appointmentRepository.getAllAppointments(clinicId);
   }
 
   async updateAppointment(
@@ -55,15 +50,11 @@ class AppointmentService {
     }>
   ): Promise<Appointment | null> {
 
-    Validations.validateClinicId(clinicId);
-
-    if (data.patientId) Validations.validatePatientId(data.patientId, clinicId);
-    if (data.doctorId) Validations.validateDoctorId(data.doctorId, clinicId);
     if (data.date) Validations.validateBirthday(data.date);
     if (data.insurance) Validations.validateInsurance(data.insurance);
     if (data.status) Validations.validateAppointmentStatus(data.status);
 
-    return await appointmentRepository.updateAppointment(
+    return await this.appointmentRepository.updateAppointment(
       clinicId,
       appointmentId,
       data
@@ -71,12 +62,7 @@ class AppointmentService {
   }
 
   async deleteAppointment(clinicId: number, appointmentId: number): Promise<boolean> {
-    
-    Validations.validateClinicId(clinicId);
-
-    return await appointmentRepository.deleteAppointment(clinicId, appointmentId);
+    return await this.appointmentRepository.deleteAppointment(clinicId, appointmentId);
   }
   
 }
-
-export default new AppointmentService();

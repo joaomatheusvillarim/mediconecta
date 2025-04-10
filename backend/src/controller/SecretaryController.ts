@@ -1,14 +1,18 @@
 import { Request, Response } from 'express';
-import SecretaryService from '../service/SecretaryService';
+import { SecretaryService } from '../service/SecretaryService';
+import { injectable, inject } from "tsyringe";
 
-class SecretaryController {
+@injectable()
+export class SecretaryController {
+
+  constructor(@inject(SecretaryService) private secretaryService: SecretaryService) {}
 
   async createSecretary(request: Request, response: Response): Promise<Response> {
     try {
       const clinicId = parseInt(request.params.clinicId);
       const { userId, workingHours } = request.body;
 
-      const secretary = await SecretaryService.createSecretary(
+      const secretary = await this.secretaryService.createSecretary(
         userId, 
         clinicId, 
         workingHours
@@ -24,7 +28,7 @@ class SecretaryController {
       const clinicId = parseInt(request.params.clinicId);
       const userId = parseInt(request.params.userId);
 
-      const secretary = await SecretaryService.getSecretaryById(userId, clinicId);
+      const secretary = await this.secretaryService.getSecretaryById(userId, clinicId);
       return !secretary
         ? response.status(404).json({ error: 'Secretário não encontrado' }) 
         : response.status(200).json(secretary);
@@ -37,7 +41,7 @@ class SecretaryController {
     try {
       const clinicId = parseInt(request.params.clinicId);
       
-      const secretaries = await SecretaryService.getAllSecretaries(clinicId);
+      const secretaries = await this.secretaryService.getAllSecretaries(clinicId);
       return response.status(200).json(secretaries);
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao listar secretários' });
@@ -51,7 +55,7 @@ class SecretaryController {
       
       const { workingHours } = request.body;
 
-      const secretary = await SecretaryService.updateSecretary(
+      const secretary = await this.secretaryService.updateSecretary(
         userId, 
         clinicId, 
         { workingHours }
@@ -69,7 +73,7 @@ class SecretaryController {
       const clinicId = parseInt(request.params.clinicId);
       const userId = parseInt(request.params.userId);
 
-      const sucess = await SecretaryService.deleteSecretary(userId, clinicId);
+      const sucess = await this.secretaryService.deleteSecretary(userId, clinicId);
       return !sucess
         ? response.status(404).json({ error: 'Secretário não encontrado' })
         : response.status(204).send();
@@ -78,5 +82,3 @@ class SecretaryController {
     }
   }
 }
-
-export default new SecretaryController();

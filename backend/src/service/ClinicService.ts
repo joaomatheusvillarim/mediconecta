@@ -1,11 +1,20 @@
 import { Clinic } from '../model/Clinic';
 import { ClinicRepository } from '../repository/ClinicRepository';
 import Validations from '../util/Validations';
-import UserService from './UserService';
+import { UserService } from './UserService';
 
-const clinicRepository = new ClinicRepository();
+export class ClinicService {
 
-class ClinicService {
+  private userService: UserService;
+  private clinicRepository: ClinicRepository;
+
+  constructor(
+    userService?: UserService,
+    clinicRepository?: ClinicRepository
+  ) {
+    this.userService = userService || new UserService();
+    this.clinicRepository = clinicRepository || new ClinicRepository();
+  }
 
   async createClinic(
     adminId: number,
@@ -17,7 +26,7 @@ class ClinicService {
     email: string,
   ): Promise<Clinic> {
 
-    if (! await UserService.getUserById(adminId)) {
+    if (! await this.userService.getUserById(adminId)) {
       throw new Error("O administrador do consultório deve ter um ID válido.");
     }
     
@@ -28,7 +37,7 @@ class ClinicService {
     Validations.validatePhone(phone);
     Validations.validateEmail(email);
 
-    return await clinicRepository.createClinic(
+    return await this.clinicRepository.createClinic(
       adminId,
       name,
       address,
@@ -40,11 +49,11 @@ class ClinicService {
   }
 
   async getClinicById(id: number): Promise<Clinic | null> {
-    return await clinicRepository.getClinicById(id);
+    return await this.clinicRepository.getClinicById(id);
   }
 
   async getAllClinics(): Promise<Clinic[]> {
-    return await clinicRepository.getAllClinics();
+    return await this.clinicRepository.getAllClinics();
   }
 
   async updateClinic(
@@ -61,7 +70,7 @@ class ClinicService {
   ): Promise<Clinic | null> {
 
     if (data.adminId) {
-      if (! await UserService.getUserById(data.adminId)) {
+      if (! await this.userService.getUserById(data.adminId)) {
         throw new Error("O administrador do consultório deve ter um ID válido.");
       }
     }
@@ -73,13 +82,11 @@ class ClinicService {
     if (data.phone) Validations.validatePhone(data.phone);
     if (data.email) Validations.validateEmail(data.email);
 
-    return await clinicRepository.updateClinic(id, data);
+    return await this.clinicRepository.updateClinic(id, data);
   }
 
   async deleteClinic(id: number): Promise<boolean> {
-    return await clinicRepository.deleteClinic(id);
+    return await this.clinicRepository.deleteClinic(id);
   }
   
 }
-
-export default new ClinicService();

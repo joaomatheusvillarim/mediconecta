@@ -2,9 +2,13 @@ import { Record } from '../model/Record';
 import { RecordRepository } from '../repository/RecordRepository';
 import Validations from '../util/Validations';
 
-const recordRepository = new RecordRepository();
+export class RecordService {
 
-class RecordService {
+  private recordRepository: RecordRepository;
+
+  constructor(recordRepository?: RecordRepository) {
+    this.recordRepository = recordRepository || new RecordRepository();
+  }
 
   async createRecordEntry(
     userId: number,
@@ -12,11 +16,9 @@ class RecordService {
     content: string
   ): Promise<Record | null> {
 
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
     Validations.validateRecordEntryContent(content);
 
-    return await recordRepository.createRecordEntry(
+    return await this.recordRepository.createRecordEntry(
       userId,
       clinicId,
       content
@@ -28,23 +30,14 @@ class RecordService {
     clinicId: number,
     index: number
   ): Promise<string | null> {
-
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
-    Validations.validateRecordEntryIndex(userId, clinicId, index);
-
-    return await recordRepository.getRecordEntryByIndex(userId, clinicId, index);
+    return await this.recordRepository.getRecordEntryByIndex(userId, clinicId, index);
   }
 
   async getAllRecordEntries(
     userId: number,
     clinicId: number,
   ): Promise<Record | null> {
-
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
-
-    return await recordRepository.getAllRecordEntries(userId, clinicId);
+    return await this.recordRepository.getAllRecordEntries(userId, clinicId);
   }
 
   async updateRecordEntry(
@@ -54,12 +47,9 @@ class RecordService {
     content: string
   ): Promise<Record | null> {
 
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
-    Validations.validateRecordEntryIndex(userId, clinicId, index);
     Validations.validateRecordEntryContent(content);
 
-    return await recordRepository.updateRecordEntry(userId, clinicId, index, content);
+    return await this.recordRepository.updateRecordEntry(userId, clinicId, index, content);
   }
 
   async deleteRecordEntry(
@@ -67,14 +57,7 @@ class RecordService {
     clinicId: number,
     index: number
   ): Promise<boolean> {
-
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
-    Validations.validateRecordEntryIndex(userId, clinicId, index);
-
-    return await recordRepository.deleteRecordEntry(userId, clinicId, index);
+    return await this.recordRepository.deleteRecordEntry(userId, clinicId, index);
   }
   
 }
-
-export default new RecordService();

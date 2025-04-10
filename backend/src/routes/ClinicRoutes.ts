@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import ClinicController from '../controller/ClinicController';
+import { ClinicController } from '../controller/ClinicController';
 import { authenticate, authorize } from '../middleware/AuthMiddleware';
+import { ClinicService } from '../service/ClinicService';
 
 /**
  * @swagger
@@ -9,6 +10,8 @@ import { authenticate, authorize } from '../middleware/AuthMiddleware';
  *  description: Endpoints para CRUD de consultório
  */
 const router = Router();
+const clinicService = new ClinicService();
+const clinicController = new ClinicController(clinicService);
 
 /**
  * @swagger
@@ -33,7 +36,7 @@ const router = Router();
  *      500:
  *        description: Dados inválidos.
  */
-router.post("/clinics/", authenticate, (request, response) => { ClinicController.createClinic(request, response); });
+router.post("/clinics/", authenticate, (request, response) => { clinicController.createClinic(request, response); });
 
 /**
  * @swagger
@@ -62,7 +65,7 @@ router.post("/clinics/", authenticate, (request, response) => { ClinicController
  *      500:
  *        description: Erro no servidor.
  */
-router.get("/clinics/:id", authenticate, (request, response) => { ClinicController.getClinicById(request, response); });
+router.get("/clinics/:id", authenticate, (request, response) => { clinicController.getClinicById(request, response); });
 
 /**
  * @swagger
@@ -83,7 +86,7 @@ router.get("/clinics/:id", authenticate, (request, response) => { ClinicControll
  *      500:
  *        description: Erro no servidor.
  */
-router.get("/clinics/", authenticate, (request, response) => { ClinicController.getAllClinics(response); });
+router.get("/clinics/", authenticate, (request, response) => { clinicController.getAllClinics(response); });
 
 /**
  * @swagger
@@ -117,7 +120,7 @@ router.get("/clinics/", authenticate, (request, response) => { ClinicController.
  *      500:
  *        description: Erro no servidor.
  */
-router.put("/clinics/:id", authenticate, authorize(['admin']), (request, response) => { ClinicController.updateClinic(request, response); });
+router.put("/clinics/:id", authenticate, authorize(['admin']), (request, response) => { clinicController.updateClinic(request, response); });
 
 /**
  * @swagger
@@ -142,6 +145,6 @@ router.put("/clinics/:id", authenticate, authorize(['admin']), (request, respons
  *      500:
  *        description: Erro no servidor. 
  */
-router.delete("/clinics/:id", authenticate, authorize(['admin']), (request, response) => { ClinicController.deleteClinic(request, response); });
+router.delete("/clinics/:id", authenticate, authorize(['admin']), (request, response) => { clinicController.deleteClinic(request, response); });
 
 export default router;

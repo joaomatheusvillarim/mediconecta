@@ -1,13 +1,17 @@
 import { Request, Response } from 'express';
-import PatientService from '../service/PatientService';
+import { PatientService } from '../service/PatientService';
+import { injectable, inject } from "tsyringe";
 
-class PatientController {
+@injectable()
+export class PatientController {
+
+  constructor(@inject(PatientService) private patientService: PatientService) {}
 
   async createPatient(request: Request, response: Response): Promise<Response> {
     try {
       const clinicId = parseInt(request.params.clinicId);
       const { userId }  = request.body;
-      const patient = await PatientService.createPatient(userId, clinicId);
+      const patient = await this.patientService.createPatient(userId, clinicId);
 
       return response.status(201).json(patient);
     } catch (error) {
@@ -20,7 +24,7 @@ class PatientController {
       const clinicId = parseInt(request.params.clinicId);
       const userId = parseInt(request.params.userId);
 
-      const patient = await PatientService.getPatientById(userId, clinicId);
+      const patient = await this.patientService.getPatientById(userId, clinicId);
       return !patient 
         ? response.status(404).json({ error: "Paciente não encontrado" }) 
         : response.status(200).json(patient);
@@ -33,7 +37,7 @@ class PatientController {
     try {
       const clinicId = parseInt(request.params.clinicId);
 
-      const patients = await PatientService.getAllPatients(clinicId);
+      const patients = await this.patientService.getAllPatients(clinicId);
       return response.status(200).json(patients);
     } catch (error) {
       return response.status(500).json({ error: "Erro ao listar pacientes" });
@@ -45,7 +49,7 @@ class PatientController {
       const clinicId = parseInt(request.params.clinicId);
       const userId = parseInt(request.params.userId);
 
-      const patient = await PatientService.updatePatient(userId, clinicId);
+      const patient = await this.patientService.updatePatient(userId, clinicId);
       return !patient
         ? response.status(404).json({ error: "Paciente não encontrado" })
         : response.status(200).json(patient);
@@ -59,7 +63,7 @@ class PatientController {
       const clinicId = parseInt(request.params.clinicId);
       const userId = parseInt(request.params.userId);
 
-      const success = await PatientService.deletePatient(userId, clinicId);
+      const success = await this.patientService.deletePatient(userId, clinicId);
       return !success
         ? response.status(404).json({ error: "Paciente não encontrado" })
         : response.status(204).send();
@@ -68,5 +72,3 @@ class PatientController {
     }
   }
 }
-
-export default new PatientController();

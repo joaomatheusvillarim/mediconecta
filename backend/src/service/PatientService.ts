@@ -2,57 +2,44 @@ import { Patient } from '../model/Patient';
 import { PatientRepository } from '../repository/PatientRepository';
 import Validations from '../util/Validations';
 
-const patientRepository = new PatientRepository();
+export class PatientService {
 
-class PatientService {
+  private patientRepository: PatientRepository;
+
+  constructor(patientRepository?: PatientRepository) {
+    this.patientRepository = patientRepository || new PatientRepository();
+  }
 
   async createPatient(
     userId: number,
     clinicId: number
   ): Promise<Patient> {
-
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
-
-    return await patientRepository.createPatient(userId, clinicId);
+    return await this.patientRepository.createPatient(userId, clinicId);
   }
 
   async getPatientById(
     userId: number,
     clinicId: number
   ): Promise<Patient | null> {
-
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
-
-    return await patientRepository.getPatientById(userId, clinicId);
+    return await this.patientRepository.getPatientById(userId, clinicId);
   }
 
   async getAllPatients(clinicId: number): Promise<Patient[]> {
-
-    Validations.validateClinicId(clinicId);
-
-    return await patientRepository.getAllPatients(clinicId);
+    return await this.patientRepository.getAllPatients(clinicId);
   }
 
   async updatePatient(
     userId: number,
     clinicId: number
   ): Promise<null> {
-    return await patientRepository.updatePatient(userId, clinicId);
+    return await this.patientRepository.updatePatient(userId, clinicId);
   }
 
   async deletePatient(
     userId: number,
     clinicId: number
   ): Promise<boolean> {
-
-    Validations.validateUserId(userId);
-    Validations.validateClinicId(clinicId);
-
-    return await patientRepository.deletePatient(userId, clinicId);
+    return await this.patientRepository.deletePatient(userId, clinicId);
   }
   
 }
-
-export default new PatientService();

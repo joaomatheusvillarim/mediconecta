@@ -1,10 +1,5 @@
 import { AppointmentStatus } from "../model/Appointment";
 import { UserSex } from "../model/User";
-import ClinicService from "../service/ClinicService";
-import DoctorService from "../service/DoctorService";
-import PatientService from "../service/PatientService";
-import RecordService from "../service/RecordService";
-import UserService from "../service/UserService";
 
 class Validations {
 
@@ -81,29 +76,6 @@ class Validations {
     }
   }
 
-  async validateUserId(userId: number) {
-    if (! await UserService.getUserById(userId)) throw new Error("O usuário deve ter um ID válido");
-  }
-
-  async validateClinicId(clinicId: number) {
-    if (! await ClinicService.getClinicById(clinicId)) throw new Error("O consultório deve ter um ID válido");
-  }
-
-  async validateRecordEntryIndex(
-    userId: number,
-    clinicId: number,
-    index: number
-  ) {
-    const record = await RecordService.getAllRecordEntries(userId, clinicId);
-
-    if (record) {
-      if (index >= record.entries.length || index < 0) throw new Error("O registro de prontuário deve ter um índice válido.");
-    } else {
-      throw new Error("O registro deve pertencer a um prontuário válido.");
-    }
-
-  }
-
   validateRecordEntryContent(content: string) {
     if (!this.isEmpty(content)) throw new Error("O conteúdo de um registro no prontuário não pode ser vazio.");
   }
@@ -135,18 +107,6 @@ class Validations {
     status = status.toUpperCase();
     if (! Object.values(AppointmentStatus).includes(status as AppointmentStatus)) {
       throw new Error("O status da consulta deve ser confirmado ou não confirmado.")
-    }
-  }
-  
-  async validatePatientId(userId: number, clinicId: number) {
-    if (! await PatientService.getPatientById(userId, clinicId)) {
-      throw new Error("O usuário deve estar cadastrado nesta clínica como paciente.")
-    }    
-  }
-
-  async validateDoctorId(userId: number, clinicId: number) {
-    if (! await DoctorService.getDoctorById(userId, clinicId)) {
-      throw new Error("O usuário deve estar cadastrado nesta clínica como médico.");
     }
   }
 

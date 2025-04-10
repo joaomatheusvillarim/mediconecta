@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
-import AppointmentService from '../service/AppointmentService';
+import { AppointmentService } from '../service/AppointmentService';
+import { injectable, inject } from "tsyringe";
 
-class AppointmentController {
+@injectable()
+export class AppointmentController {
+
+  constructor(@inject(AppointmentService) private appointmentService: AppointmentService) {}
 
   async createAppointment(request: Request, response: Response): Promise<Response> {
     try {
@@ -13,7 +17,7 @@ class AppointmentController {
         insurance
       } = request.body;
 
-      const appointment = await AppointmentService.createAppointment(
+      const appointment = await this.appointmentService.createAppointment(
         clinicId,
         patientId,
         doctorId,
@@ -31,7 +35,7 @@ class AppointmentController {
       const clinicId = parseInt(request.params.clinicId);
       const appointmentId = parseInt(request.params.appointmentId);
 
-      const appointment = await AppointmentService.getAppointmentById(clinicId, appointmentId);
+      const appointment = await this.appointmentService.getAppointmentById(clinicId, appointmentId);
       return !appointment 
         ? response.status(404).json({ error: 'Consulta não encontrada' }) 
         : response.status(200).json(appointment);
@@ -44,7 +48,7 @@ class AppointmentController {
     try {
       const clinicId = parseInt(request.params.clinicId);
 
-      const appointments = await AppointmentService.getAllAppointments(clinicId);
+      const appointments = await this.appointmentService.getAllAppointments(clinicId);
       return response.status(200).json(appointments);
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao listar consultas' });
@@ -63,7 +67,7 @@ class AppointmentController {
         status
       } = request.body;
 
-      const appointment = await AppointmentService.updateAppointment(
+      const appointment = await this.appointmentService.updateAppointment(
         clinicId,
         appointmentId,
         {
@@ -87,7 +91,7 @@ class AppointmentController {
       const clinicId = parseInt(request.params.clinicId);
       const appointmentId = parseInt(request.params.appointmentId);
 
-      const success = await AppointmentService.deleteAppointment(clinicId, appointmentId);
+      const success = await this.appointmentService.deleteAppointment(clinicId, appointmentId);
       return !success
         ? response.status(404).json({ error: 'Consulta não encontrada' })
         : response.status(204).send();
@@ -96,5 +100,3 @@ class AppointmentController {
     }
   }
 }
-
-export default new AppointmentController();

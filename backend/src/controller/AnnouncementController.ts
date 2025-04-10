@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
-import AnnouncementService from '../service/AnnouncementService';
+import { AnnouncementService } from '../service/AnnouncementService';
+import { injectable, inject } from "tsyringe";
 
-class AnnouncementController {
+@injectable()
+export class AnnouncementController {
+
+  constructor(@inject(AnnouncementService) private announcementService: AnnouncementService) {}
 
   async createAnnouncement(request: Request, response: Response): Promise<Response> {
     try {
@@ -12,7 +16,7 @@ class AnnouncementController {
         text 
       } = request.body;
       
-      const announcement = await AnnouncementService.createAnnouncement(
+      const announcement = await this.announcementService.createAnnouncement(
         clinicId,
         authorId,
         title,
@@ -29,7 +33,7 @@ class AnnouncementController {
       const clinicId = parseInt(request.params.clinicId);
       const announcementdId = parseInt(request.params.announcementdId);
 
-      const announcement = await AnnouncementService.getAnnouncementById(announcementdId, clinicId);
+      const announcement = await this.announcementService.getAnnouncementById(announcementdId, clinicId);
       return !announcement
         ? response.status(404).json({ error: 'Aviso não encontrado' }) 
         : response.status(200).json(announcement);
@@ -42,7 +46,7 @@ class AnnouncementController {
     try {
       const clinicId = parseInt(request.params.clinicId);
       
-      const announcements = await AnnouncementService.getAllAnnouncements(clinicId);
+      const announcements = await this.announcementService.getAllAnnouncements(clinicId);
       return response.status(200).json(announcements);
     } catch (error) {
       return response.status(500).json({ error: 'Erro ao buscar aviso' });
@@ -56,7 +60,7 @@ class AnnouncementController {
 
       const { title, text }  = request.body;
 
-      const announcement = await AnnouncementService.updateAnnouncement(
+      const announcement = await this.announcementService.updateAnnouncement(
         announcementdId, 
         clinicId,
         {
@@ -77,7 +81,7 @@ class AnnouncementController {
       const clinicId = parseInt(request.params.clinicId);
       const announcementdId = parseInt(request.params.announcementdId);
 
-      const success = await AnnouncementService.deleteAnnouncement(announcementdId, clinicId);
+      const success = await this.announcementService.deleteAnnouncement(announcementdId, clinicId);
       return !success
         ? response.status(404).json({ error: 'Aviso não encontrado' })
         : response.status(204).send();
@@ -86,5 +90,3 @@ class AnnouncementController {
     }
   }
 }
-
-export default new AnnouncementController();
