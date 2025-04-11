@@ -26,6 +26,7 @@ describe("Testes de DoctorService", () => {
     jest.clearAllMocks();
   });
 
+  /*
   describe("Testes de sucesso", () => {
     it("deve criar um novo médico com sucesso", async () => {});
 
@@ -51,5 +52,6 @@ describe("Testes de DoctorService", () => {
     it("deve falhar em remover um médico inexistente", async () => {});
 
   });
+  */
 
 });

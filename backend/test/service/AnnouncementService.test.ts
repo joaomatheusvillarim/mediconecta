@@ -26,6 +26,7 @@ describe("Testes de AnnouncementService", () => {
     jest.clearAllMocks();
   });
 
+  /*
   describe("Testes de sucesso", () => {
     it("deve criar um novo aviso com sucesso", async () => {});
 
@@ -51,5 +52,6 @@ describe("Testes de AnnouncementService", () => {
     it("deve falhar em remover um aviso inexistente", async () => {});
 
   });
+  */
 
 });

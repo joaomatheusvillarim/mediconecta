@@ -23,6 +23,7 @@ describe("Testes de RecordService", () => {
     jest.clearAllMocks();
   });
 
+  /*
   describe("Testes de sucesso", () => {
     it("deve criar um novo registro prontuário com sucesso", async () => {});
 
@@ -48,5 +49,6 @@ describe("Testes de RecordService", () => {
     it("deve falhar em remover um registro em prontuário inexistente", async () => {});
 
   });
+  */
 
 });

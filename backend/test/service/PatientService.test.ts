@@ -22,6 +22,7 @@ describe("Testes de PatientService", () => {
     jest.clearAllMocks();
   });
 
+  /*
   describe("Testes de sucesso", () => {
     it("deve criar um novo paciente com sucesso", async () => {});
 
@@ -47,5 +48,6 @@ describe("Testes de PatientService", () => {
     it("deve falhar em remover um paciente inexistente", async () => {});
 
   });
+  */
 
 });

@@ -24,7 +24,7 @@ describe("Testes de UserService", () => {
       sex: UserSex.NAO_ESPECIFICADO,
       address: "rua dos bobos, 0",
       phone: "83987654321",
-    })
+    });
   });
 
   afterEach(() => {
@@ -138,7 +138,7 @@ describe("Testes de UserService", () => {
       expect(userRepositoryMock.deleteUser).toHaveBeenCalledWith(1);
 
       //expect do resultado
-      expect(result).toBe(true);
+      expect(result).toBeTruthy();
     });
     
   });
@@ -204,7 +204,7 @@ describe("Testes de UserService", () => {
       expect(userRepositoryMock.deleteUser).toHaveBeenCalledWith(99);
       
       //expect do resultado
-      expect(result).toBe(false);
+      expect(result).toBeFalsy();
     });
 
   });

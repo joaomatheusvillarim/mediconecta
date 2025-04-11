@@ -27,6 +27,7 @@ describe("Testes de AppointmentService", () => {
     jest.clearAllMocks();
   });
 
+  /*
   describe("Testes de sucesso", () => {
     it("deve criar um novo consulta com sucesso", async () => {});
 
@@ -52,5 +53,6 @@ describe("Testes de AppointmentService", () => {
     it("deve falhar em remover um consulta inexistente", async () => {});
 
   });
+  */
 
 });

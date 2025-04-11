@@ -23,6 +23,7 @@ describe("Testes de SecretaryService", () => {
     jest.clearAllMocks();
   });
 
+  /*
   describe("Testes de sucesso", () => {
     it("deve criar um novo secretário com sucesso", async () => {});
 
@@ -48,5 +49,6 @@ describe("Testes de SecretaryService", () => {
     it("deve falhar em remover um secretário inexistente", async () => {});
 
   });
+  */
 
 });
