@@ -143,45 +143,70 @@ describe("Testes de UserService", () => {
     
   });
     
-  /*
   describe("Testes de falha/exceção", () => {
-
+    
     it("deve falhar em criar um usuário com dados inválidos", async () => {
-      //mock de dependencias
-      //chamada ao userService
-      //expect de dependencias
-      //expect do resultado
+      await expect(
+        userService.createUser(
+          "Test User",
+          "testuseremail",
+          "Password!123",
+          "12345678900",
+          new Date("2000-01-01"),
+          UserSex.NAO_ESPECIFICADO,
+          "rua dos bobos, 0",
+          "83987654321",
+        )
+      ).rejects.toThrow(Error);
     });
-
+      
     it("deve falhar em recuperar um usuário inexistente", async () => {
       //mock de dependencias
-      //chamada ao userService
-      //expect de dependencias
-      //expect do resultado
-    });
+      userRepositoryMock.getUserById.mockResolvedValue(null);
 
+      //chamada ao userService
+      const result = await userService.getUserById(99);
+
+      //expect de dependencias
+      expect(userRepositoryMock.getUserById).toHaveBeenCalledWith(99);
+
+      //expect do resultado
+      expect(result).toBeNull();
+    });
+      
     it("deve falhar em recuperar todos os usuários devido a uma falha no banco de dados", async () => {
       //mock de dependencias
-      //chamada ao userService
-      //expect de dependencias
+      userRepositoryMock.getAllUsers.mockRejectedValue(new Error());
+
       //expect do resultado
+      await expect(userService.getAllUsers).rejects.toThrow(Error);
+    });
+      
+    it("deve falhar em atualizar um usuário com dados inválidos", async () => {
+      await expect(
+        userService.updateUser(1, {
+          name: "Invalid User",
+          email: "user@",
+          password: "123",
+        })
+      ).rejects.toThrow(Error);
     });
 
-    it("deve falhar em atualizar um usuário com dados inválidos", async () => {
-      //mock de dependencias
-      //chamada ao userService
-      //expect de dependencias
-      //expect do resultado
-    });
 
     it("deve falhar em remover um usuário inexistente", async () => {
       //mock de dependencias
+      userRepositoryMock.deleteUser.mockResolvedValue(false);
+      
       //chamada ao userService
+      const result = await userService.deleteUser(99);
+      
       //expect de dependencias
+      expect(userRepositoryMock.deleteUser).toHaveBeenCalledWith(99);
+      
       //expect do resultado
+      expect(result).toBe(false);
     });
 
   });
-  */
 
 });

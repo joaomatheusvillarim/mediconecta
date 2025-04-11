@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1744320919014" clover="3.2.0">
-  <project timestamp="1744320919014" name="All files">
-    <metrics statements="120" coveredstatements="83" conditionals="37" coveredconditionals="8" methods="34" coveredmethods="18" elements="191" coveredelements="109" complexity="0" loc="120" ncloc="120" packages="5" files="7" classes="7"/>
+<coverage generated="1744329702777" clover="3.2.0">
+  <project timestamp="1744329702777" name="All files">
+    <metrics statements="120" coveredstatements="84" conditionals="37" coveredconditionals="9" methods="34" coveredmethods="18" elements="191" coveredelements="111" complexity="0" loc="120" ncloc="120" packages="5" files="7" classes="7"/>
     <package name="config">
       <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="database.ts" path="/home/joaoalmeida/Documentos/github/mediconecta/backend/src/config/database.ts">
@@ -82,9 +82,9 @@
         <line num="4" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="13" count="5" type="cond" truecount="1" falsecount="1"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
+        <line num="13" count="10" type="cond" truecount="1" falsecount="1"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
         <line num="31" count="1" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
@@ -94,10 +94,10 @@
         <line num="39" count="1" type="stmt"/>
         <line num="40" count="1" type="stmt"/>
         <line num="42" count="1" type="stmt"/>
-        <line num="55" count="1" type="stmt"/>
-        <line num="59" count="1" type="stmt"/>
-        <line num="76" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="77" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="55" count="2" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
+        <line num="76" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="77" count="2" type="cond" truecount="1" falsecount="0"/>
         <line num="79" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="80" count="1" type="stmt"/>
         <line num="81" count="1" type="stmt"/>
@@ -107,23 +107,23 @@
         <line num="87" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="88" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="90" count="1" type="stmt"/>
-        <line num="94" count="1" type="stmt"/>
+        <line num="94" count="2" type="stmt"/>
       </file>
     </package>
     <package name="util">
-      <metrics statements="42" coveredstatements="20" conditionals="17" coveredconditionals="0" methods="19" coveredmethods="10"/>
+      <metrics statements="42" coveredstatements="21" conditionals="17" coveredconditionals="1" methods="19" coveredmethods="10"/>
       <file name="Validations.ts" path="/home/joaoalmeida/Documentos/github/mediconecta/backend/src/util/Validations.ts">
-        <metrics statements="42" coveredstatements="20" conditionals="17" coveredconditionals="0" methods="19" coveredmethods="10"/>
+        <metrics statements="42" coveredstatements="21" conditionals="17" coveredconditionals="1" methods="19" coveredmethods="10"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
-        <line num="7" count="3" type="stmt"/>
+        <line num="7" count="5" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
-        <line num="17" count="2" type="cond" truecount="0" falsecount="1"/>
-        <line num="21" count="2" type="stmt"/>
-        <line num="22" count="2" type="cond" truecount="0" falsecount="1"/>
-        <line num="23" count="0" type="stmt"/>
+        <line num="17" count="4" type="cond" truecount="0" falsecount="1"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="22" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="23" count="2" type="stmt"/>
         <line num="28" count="2" type="stmt"/>
         <line num="29" count="2" type="cond" truecount="0" falsecount="1"/>
         <line num="30" count="0" type="stmt"/>
