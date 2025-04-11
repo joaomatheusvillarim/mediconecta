@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for repository/UserRepository.ts</title>
+    <title>Code coverage report for repository/ClinicRepository.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">repository</a> UserRepository.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">repository</a> ClinicRepository.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -122,14 +122,9 @@
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -141,7 +136,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,8 +165,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -189,70 +181,66 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { User, UserSex } from '../model/User'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Clinic } from "../model/Clinic";
 &nbsp;
-export class UserRepository {
-  
-  async <span class="fstat-no" title="function not covered" >createUser(</span>
+export class ClinicRepository {
+&nbsp;
+  async <span class="fstat-no" title="function not covered" >createClinic(</span>
+    adminId: number,
     name: string,
-    email: string,
-    password: string,
-    cpf: string,
-    birthday: Date,
-    sex: UserSex,
     address: string,
-    phone: string
+    workingHours: string,
+    specialties: string,
+    phone: string,
+    email: string
   ) {
-<span class="cstat-no" title="statement not covered" >    return await User.create({</span>
+<span class="cstat-no" title="statement not covered" >    return await Clinic.create({</span>
+      adminId,
       name,
-      email,
-      password,
-      cpf,
-      birthday,
-      sex,
       address,
-      phone
+      workingHours,
+      specialties,
+      phone,
+      email
     });
   }
-&nbsp;
-  async <span class="fstat-no" title="function not covered" >getUserById(</span>id: number) {
-<span class="cstat-no" title="statement not covered" >    return await User.findByPk(id);</span>
+  
+  async <span class="fstat-no" title="function not covered" >getClinicById(</span>id: number) {
+<span class="cstat-no" title="statement not covered" >    return await Clinic.findByPk(id);</span>
   }
-&nbsp;
-  async <span class="fstat-no" title="function not covered" >getAllUsers(</span>) {
-<span class="cstat-no" title="statement not covered" >    return await User.findAll();</span>
+  
+  async <span class="fstat-no" title="function not covered" >getAllClinics(</span>) {
+<span class="cstat-no" title="statement not covered" >    return await Clinic.findAll();</span>
   }
-&nbsp;
-  async <span class="fstat-no" title="function not covered" >updateUser(</span>
+  
+  async <span class="fstat-no" title="function not covered" >updateClinic(</span>
     id: number,
     data: Partial&lt;{
-      name: string;
-      email: string;
-      password: string;
-      cpf: string;
-      birthday: Date;
-      sex: UserSex;
-      address: string;
-      phone: string;
-    }&gt;
-  ) {
-    const user = <span class="cstat-no" title="statement not covered" >await User.findByPk(id);</span>
-<span class="cstat-no" title="statement not covered" >    return user</span>
-      ? await user!.update(data)
+      adminId: number,
+      name: string,
+      address: string,
+      workingHours: string,
+      specialties: string,
+      phone: string,
+      email: string
+    }&gt;) {
+    const clinic = <span class="cstat-no" title="statement not covered" >await Clinic.findByPk(id);</span>
+<span class="cstat-no" title="statement not covered" >    return clinic</span>
+      ? await clinic!.update(data)
       : null;
   }
-&nbsp;
-  async <span class="fstat-no" title="function not covered" >deleteUser(</span>id: number) {
+  
+  async <span class="fstat-no" title="function not covered" >deleteClinic(</span>id: number) {
     let resp = <span class="cstat-no" title="statement not covered" >false;</span>
-    const user = <span class="cstat-no" title="statement not covered" >await User.findByPk(id);</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (user) {</span>
-<span class="cstat-no" title="statement not covered" >      await user!.destroy();</span>
+    const clinic = <span class="cstat-no" title="statement not covered" >await Clinic.findByPk(id);</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (clinic) {</span>
+<span class="cstat-no" title="statement not covered" >      await clinic!.destroy();</span>
 <span class="cstat-no" title="statement not covered" >      resp = true;</span>
     }
 <span class="cstat-no" title="statement not covered" >    return resp;</span>
   }
-&nbsp;
-}</pre></td></tr></table></pre>
+}
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

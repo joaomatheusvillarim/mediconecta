@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for repository/UserRepository.ts</title>
+    <title>Code coverage report for repository/PatientRepository.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">repository</a> UserRepository.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">repository</a> PatientRepository.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.38% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/13</span>
+                <span class='fraction'>2/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.38% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/13</span>
+                <span class='fraction'>2/12</span>
             </div>
         
             
@@ -119,19 +119,22 @@
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L57'></a><a href='#L57'>57</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -151,22 +154,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -183,70 +171,61 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { User, UserSex } from '../model/User'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Patient } from "../model/Patient";
 &nbsp;
-export class UserRepository {
-  
-  async <span class="fstat-no" title="function not covered" >createUser(</span>
-    name: string,
-    email: string,
-    password: string,
-    cpf: string,
-    birthday: Date,
-    sex: UserSex,
-    address: string,
-    phone: string
+export class PatientRepository {
+&nbsp;
+  async <span class="fstat-no" title="function not covered" >createPatient(</span>
+    userId: number,
+    clinicId: number
   ) {
-<span class="cstat-no" title="statement not covered" >    return await User.create({</span>
-      name,
-      email,
-      password,
-      cpf,
-      birthday,
-      sex,
-      address,
-      phone
+<span class="cstat-no" title="statement not covered" >    return await Patient.create({userId, clinicId});</span>
+  }
+  
+  async <span class="fstat-no" title="function not covered" >getPatientById(</span>
+    userId: number,
+    clinicId: number
+  ) {
+<span class="cstat-no" title="statement not covered" >    return await Patient.findOne({</span>
+      where: {
+        userId: userId,
+        clinicId: clinicId,
+      }
+    });
+  }
+  
+  async <span class="fstat-no" title="function not covered" >getAllPatients(</span>clinicId: number) {
+<span class="cstat-no" title="statement not covered" >    return await Patient.findAll({</span>
+      where: {
+        clinicId: clinicId,
+      }
     });
   }
 &nbsp;
-  async <span class="fstat-no" title="function not covered" >getUserById(</span>id: number) {
-<span class="cstat-no" title="statement not covered" >    return await User.findByPk(id);</span>
-  }
-&nbsp;
-  async <span class="fstat-no" title="function not covered" >getAllUsers(</span>) {
-<span class="cstat-no" title="statement not covered" >    return await User.findAll();</span>
-  }
-&nbsp;
-  async <span class="fstat-no" title="function not covered" >updateUser(</span>
-    id: number,
-    data: Partial&lt;{
-      name: string;
-      email: string;
-      password: string;
-      cpf: string;
-      birthday: Date;
-      sex: UserSex;
-      address: string;
-      phone: string;
-    }&gt;
+  async <span class="fstat-no" title="function not covered" >updatePatient(</span>
+    userId: number,
+    clinicId: number
   ) {
-    const user = <span class="cstat-no" title="statement not covered" >await User.findByPk(id);</span>
-<span class="cstat-no" title="statement not covered" >    return user</span>
-      ? await user!.update(data)
-      : null;
+<span class="cstat-no" title="statement not covered" >    return null;</span>
   }
 &nbsp;
-  async <span class="fstat-no" title="function not covered" >deleteUser(</span>id: number) {
+  async <span class="fstat-no" title="function not covered" >deletePatient(</span>
+    userId: number,
+    clinicId: number
+  ) {
     let resp = <span class="cstat-no" title="statement not covered" >false;</span>
-    const user = <span class="cstat-no" title="statement not covered" >await User.findByPk(id);</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (user) {</span>
-<span class="cstat-no" title="statement not covered" >      await user!.destroy();</span>
+    const patient = <span class="cstat-no" title="statement not covered" >await Patient.findOne({</span>
+      where: {
+        userId: userId,
+        clinicId: clinicId,
+      }
+    });
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (patient) {</span>
+<span class="cstat-no" title="statement not covered" >      await patient!.destroy();</span>
 <span class="cstat-no" title="statement not covered" >      resp = true;</span>
     }
 <span class="cstat-no" title="statement not covered" >    return resp;</span>
