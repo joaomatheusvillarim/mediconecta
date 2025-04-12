@@ -13,12 +13,7 @@ export class PatientRepository {
     userId: number,
     clinicId: number
   ) {
-    return await Patient.findOne({
-      where: {
-        userId: userId,
-        clinicId: clinicId,
-      }
-    });
+    return await Patient.findByPk(userId);
   }
   
   async getAllPatients(clinicId: number) {
@@ -41,12 +36,7 @@ export class PatientRepository {
     clinicId: number
   ) {
     let resp = false;
-    const patient = await Patient.findOne({
-      where: {
-        userId: userId,
-        clinicId: clinicId,
-      }
-    });
+    const patient = await Patient.findByPk(userId);
     if (patient) {
       await patient!.destroy();
       resp = true;

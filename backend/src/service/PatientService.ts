@@ -1,12 +1,21 @@
 import { Patient } from '../model/Patient';
 import { PatientRepository } from '../repository/PatientRepository';
-import Validations from '../util/Validations';
+import { UserService } from './UserService';
+import { ClinicService } from './ClinicService';
 
 export class PatientService {
 
   private patientRepository: PatientRepository;
+  private userService: UserService;
+  private clinicService: ClinicService;
 
-  constructor(patientRepository?: PatientRepository) {
+  constructor(
+    userService: UserService,
+    clinicService: ClinicService,
+    patientRepository?: PatientRepository
+  ) {
+    this.userService = userService;
+    this.clinicService = clinicService;
     this.patientRepository = patientRepository || new PatientRepository();
   }
 
@@ -14,6 +23,10 @@ export class PatientService {
     userId: number,
     clinicId: number
   ): Promise<Patient> {
+
+    if (! await this.userService.getUserById(userId)) throw new Error("Usuário inexistente.");
+    if (! await this.clinicService.getClinicById(clinicId)) throw new Error("Consultório inexistente.");
+
     return await this.patientRepository.createPatient(userId, clinicId);
   }
 
