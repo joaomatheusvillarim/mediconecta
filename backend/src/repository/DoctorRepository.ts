@@ -24,12 +24,7 @@ export class DoctorRepository {
     userId: number,
     clinicId: number
   ) {
-    return await Doctor.findOne({
-      where: {
-        userId: userId,
-        clinicId: clinicId,
-      }
-    });
+    return await Doctor.findByPk(userId);
   }
   
   async getAllDoctors(clinicId: number) {
@@ -50,12 +45,7 @@ export class DoctorRepository {
       insurance: string
     }>
   ) {
-    const doctor = await Doctor.findOne({
-      where: {
-        userId: userId,
-        clinicId: clinicId,
-      }
-    });
+    const doctor = await Doctor.findByPk(userId);
     return doctor
       ? await doctor!.update(data)
       : null;
@@ -66,12 +56,7 @@ export class DoctorRepository {
     clinicId: number
   ) {
     let resp = false;
-    const doctor = await Doctor.findOne({
-      where: {
-        userId: userId,
-        clinicId: clinicId,
-      }
-    });
+    const doctor = await Doctor.findByPk(userId);
     if (doctor) {
         await doctor!.destroy();
         resp = true;

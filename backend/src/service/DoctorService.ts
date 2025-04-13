@@ -1,12 +1,22 @@
 import { Doctor } from '../model/Doctor';
 import { DoctorRepository } from '../repository/DoctorRepository';
 import Validations from '../util/Validations';
+import { UserService } from './UserService';
+import { ClinicService } from './ClinicService';
 
 export class DoctorService {
 
   private doctorRepository: DoctorRepository;
+  private userService: UserService;
+  private clinicService: ClinicService;
 
-  constructor(doctorRepository?: DoctorRepository) {
+  constructor(
+    userService: UserService,
+    clinicService: ClinicService,
+    doctorRepository?: DoctorRepository
+  ) {
+    this.userService = userService,
+    this.clinicService = clinicService,
     this.doctorRepository = doctorRepository || new DoctorRepository();
   }
 
@@ -18,6 +28,9 @@ export class DoctorService {
     specialty: string,
     insurance: Partial<string>
   ): Promise<Doctor> {
+
+    if (! await this.userService.getUserById(userId)) throw new Error("Usuário inexistente.");
+    if (! await this.clinicService.getClinicById(clinicId)) throw new Error("Consultório inexistente.");
 
     Validations.validateDoctorCredentials(credentials);
     if (workingHours) Validations.validateWorkingHours(workingHours);
