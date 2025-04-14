@@ -18,12 +18,7 @@ export class SecretaryRepository {
     userId: number, 
     clinicId: number
   ) {
-    return await Secretary.findOne({
-      where: {
-        userId: userId,
-        clinicId: clinicId,
-      },
-    });
+    return await Secretary.findByPk(userId);
   }
 
   async getAllSecretaries(clinicId: number) {
@@ -41,12 +36,7 @@ export class SecretaryRepository {
       workingHours: string 
     }>
   ) {
-    const secretary = await Secretary.findOne({
-      where: { 
-        userId: userId, 
-        clinicId: clinicId 
-      },
-    });
+    const secretary = await Secretary.findByPk(userId);
     return secretary
       ? await secretary!.update(data)
       : null;
@@ -57,12 +47,7 @@ export class SecretaryRepository {
     clinicId: number
   ) {
     let resp = false;
-    const secretary = await Secretary.findOne({
-      where: { 
-        userId: userId, 
-        clinicId: clinicId 
-      }
-    });
+    const secretary = await Secretary.findByPk(userId);
     if (secretary) {
       await secretary!.destroy();
       resp = true;

@@ -1,12 +1,22 @@
 import { Secretary } from '../model/Secretary';
 import { SecretaryRepository } from '../repository/SecretaryRepository';
 import Validations from '../util/Validations';
+import { UserService } from './UserService';
+import { ClinicService } from './ClinicService';
 
 export class SecretaryService {
 
   private secretaryRepository: SecretaryRepository;
+  private userService: UserService;
+  private clinicService: ClinicService;
 
-  constructor(secretaryRepository?: SecretaryRepository) {
+  constructor(
+    userService: UserService,
+    clinicService: ClinicService,
+    secretaryRepository?: SecretaryRepository
+  ) {
+    this.userService = userService,
+    this.clinicService = clinicService,
     this.secretaryRepository = secretaryRepository || new SecretaryRepository();
   }
 
@@ -16,6 +26,9 @@ export class SecretaryService {
     workingHours: Partial<string>
   ): Promise<Secretary> {
     
+    if (! await this.userService.getUserById(userId)) throw new Error("Usuário inexistente.");
+    if (! await this.clinicService.getClinicById(clinicId)) throw new Error("Consultório inexistente.");
+
     if (workingHours) Validations.validateWorkingHours(workingHours);
 
     return await this.secretaryRepository.createSecretary(

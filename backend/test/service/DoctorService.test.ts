@@ -10,7 +10,6 @@ jest.mock("../../src/repository/DoctorRepository");
 jest.mock("../../src/service/UserService");
 jest.mock("../../src/service/ClinicService");
 
-
 describe("Testes de DoctorService", () => {
   let doctorService: DoctorService;
   let doctorRepositoryMock: jest.Mocked<DoctorRepository>;
@@ -150,8 +149,6 @@ describe("Testes de DoctorService", () => {
         insurance: "bobomed e unimed",
       });
 
-      console.log(result);
-
       //expect das dependencias
       expect(doctorRepositoryMock.updateDoctor).toHaveBeenCalledWith(1, 1, {
         credentials: "5678PB",
@@ -169,7 +166,7 @@ describe("Testes de DoctorService", () => {
       doctorRepositoryMock.deleteDoctor.mockResolvedValue(true);
 
       //chamada ao doctorService
-      const result = await doctorRepositoryMock.deleteDoctor(1, 1);
+      const result = await doctorService.deleteDoctor(1, 1);
 
       //expect das dependencias
       expect(doctorRepositoryMock.deleteDoctor).toHaveBeenCalledWith(1, 1);

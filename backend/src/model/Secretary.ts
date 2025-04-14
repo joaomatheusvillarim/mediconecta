@@ -30,7 +30,6 @@ Secretary.init(
       unique: true,
     },
     clinicId: {
-      primaryKey: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
