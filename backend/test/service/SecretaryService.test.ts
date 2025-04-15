@@ -119,6 +119,8 @@ describe("Testes de SecretaryService", () => {
         workingHours: "HORARIO DE TRABALHO NAO INFORMADO",
       });
       secretaryRepositoryMock.updateSecretary.mockResolvedValue(mockUpdatedSecretary);
+      userServiceMock.getUserById.mockResolvedValue(mockUser);
+      clinicServiceMock.getClinicById.mockResolvedValue(mockClinic);
 
       //chamada ao secretaryService
       const result = await secretaryService.updateSecretary(

@@ -56,6 +56,9 @@ export class SecretaryService {
       workingHours: string,
     }>
   ): Promise<Secretary | null> {
+
+    if (! await this.userService.getUserById(userId)) throw new Error("Usuário inexistente.");
+    if (! await this.clinicService.getClinicById(clinicId)) throw new Error("Consultório inexistente.");
         
     if (data.workingHours) Validations.validateWorkingHours(data.workingHours);
     

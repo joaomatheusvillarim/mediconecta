@@ -77,7 +77,7 @@ class Validations {
   }
 
   validateRecordEntryContent(content: string) {
-    if (!this.isEmpty(content)) throw new Error("O conteúdo de um registro no prontuário não pode ser vazio.");
+    if (this.isEmpty(content)) throw new Error("O conteúdo de um registro no prontuário não pode ser vazio.");
   }
 
   validateDoctorCredentials(credentials: string) {

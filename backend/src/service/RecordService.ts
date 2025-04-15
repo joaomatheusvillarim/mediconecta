@@ -1,12 +1,22 @@
 import { Record } from '../model/Record';
 import { RecordRepository } from '../repository/RecordRepository';
 import Validations from '../util/Validations';
+import { UserService } from './UserService';
+import { ClinicService } from './ClinicService';
 
 export class RecordService {
 
   private recordRepository: RecordRepository;
+  private userService: UserService;
+  private clinicService: ClinicService;
 
-  constructor(recordRepository?: RecordRepository) {
+  constructor(
+    userService: UserService,
+    clinicService: ClinicService,
+    recordRepository?: RecordRepository
+  ) {
+    this.userService = userService;
+    this.clinicService = clinicService;
     this.recordRepository = recordRepository || new RecordRepository();
   }
 
@@ -15,6 +25,9 @@ export class RecordService {
     clinicId: number,
     content: string
   ): Promise<Record | null> {
+
+    if (! await this.userService.getUserById(userId)) throw new Error("Usuário inexistente.");
+    if (! await this.clinicService.getClinicById(clinicId)) throw new Error("Consultório inexistente.");
 
     Validations.validateRecordEntryContent(content);
 
@@ -46,6 +59,9 @@ export class RecordService {
     index: number,
     content: string
   ): Promise<Record | null> {
+
+    if (! await this.userService.getUserById(userId)) throw new Error("Usuário inexistente.");
+    if (! await this.clinicService.getClinicById(clinicId)) throw new Error("Consultório inexistente.");
 
     Validations.validateRecordEntryContent(content);
 
